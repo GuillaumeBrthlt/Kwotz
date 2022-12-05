@@ -6,6 +6,9 @@ import {LoginPage} from "./pages/loginPage";
 import {RegisterPage} from "./pages/registerPage";
 import ResetPasswordPage from "./pages/resetPasswordPage";
 import NewPasswordPage from "./pages/newPasswordPage";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "@theme";
 
 
 export const App = observer(() => {
@@ -22,7 +25,9 @@ export const App = observer(() => {
   }
 
   return (
-    <Router>
+    <ThemeProvider theme={theme}>
+      <CssBaseline/>
+      <Router>
       <Nav />
       <main>
         <Routes>
@@ -33,5 +38,6 @@ export const App = observer(() => {
         </Routes>
       </main>
     </Router>
+    </ThemeProvider>
   )
 })
