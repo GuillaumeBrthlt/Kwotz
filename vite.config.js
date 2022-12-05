@@ -7,7 +7,10 @@ import path from "node:path";
 export default defineConfig({
   resolve: {
     alias:{
-      '@theme' : path.resolve(__dirname, './src/assets/theme')
+      '@theme' : path.resolve(__dirname, './src/assets/theme'),
+      '@components': path.resolve(__dirname, '/src/components'),
+      '@pages': path.resolve(__dirname, '/src/pages'),
+      '@contexts': path.resolve(__dirname, '/src/contexts')
     }
   },
   plugins: [react()]
