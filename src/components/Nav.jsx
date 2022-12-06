@@ -11,11 +11,11 @@ const Nav = observer(() => {
     userStore.logoutUser()
   }
 
-  if (userStore.authenticated) {
+  /*if (userStore.authenticated) {
    return (
     <Sidenav />
    )
-  } 
+  } */
 
   if (!userStore.authenticated) {
     return (
