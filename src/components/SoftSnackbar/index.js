@@ -28,7 +28,7 @@ import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 
 // Soft UI Dashboard PRO React base styles
-import typography from "assets/theme/base/typography";
+import typography from "@theme/base/typography";
 
 // Custom styles for the SoftSnackbar
 import SoftSnackbarIconRoot from "@components/SoftSnackbar/SoftSnackbarIconRoot";
