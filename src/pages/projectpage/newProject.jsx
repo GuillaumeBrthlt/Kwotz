@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 // @mui material components
@@ -52,7 +53,7 @@ function NewProject() {
                     <Grid item xs={12} md={6}>
                       <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                         <SoftTypography component="label" variant="caption" fontWeight="bold">
-                          Private Project
+                          Private Project - Status
                         </SoftTypography>
                       </SoftBox>
                       <SoftBox pl={0.5} pb={1.5}>

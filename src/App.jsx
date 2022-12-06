@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useUserStore } from "@contexts/UserContext";
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Nav from "@components/Nav";
 import {LoginPage} from "@pages/authentification/loginPage";
 import {RegisterPage} from "@pages/authentification/registerPage";
@@ -48,7 +48,7 @@ export const App = observer(() => {
           <Route path="/resetpassword" element={<ResetPasswordPage />}/>
           <Route path="/new_password" element={<NewPasswordPage />}/>
           <Route path="/404" element={<Error404/>}/>
-          <Route path="/new_project" element={<NewProject />} />
+          <Route path="/new_project" element={<PrivateRoute component={<NewProject />}/>} />
         </Routes>
       </main>
     </Router>
