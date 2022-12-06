@@ -49,7 +49,6 @@ import {
   useSoftUIController,
   setTransparentNavbar,
   setMiniSidenav,
-  setOpenConfigurator,
 } from "@contexts/SoftUIContext";
 import { useUserStore } from "@contexts/UserContext";
 
@@ -57,7 +56,7 @@ import { useUserStore } from "@contexts/UserContext";
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useSoftUIController();
-  const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
+  const { miniSidenav, transparentNavbar, fixedNavbar } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const userStore = useUserStore()
 
@@ -88,24 +87,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
   }, [dispatch, fixedNavbar]);
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
-  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
-  const handleCloseMenu = () => setOpenMenu(false);
 
-  // Render the notifications menu
-  const renderMenu = () => (
-    <Menu
-      anchorEl={openMenu}
-      anchorReference={null}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
-      }}
-      open={Boolean(openMenu)}
-      onClose={handleCloseMenu}
-      sx={{ mt: 2 }}
-    >
-    </Menu>
-  );
 
   const Logout = () => {
     userStore.logoutUser()
@@ -126,26 +108,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
         {isMini ? null : (
           <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
             <SoftBox color={light ? "white" : "inherit"}>
-                <IconButton 
-                  sx={navbarIconButton} 
-                  size="small"
-                  onClick={Logout}
-                >
-                  <Icon
-                    sx={({ palette: { error } }) => ({
-                      color: error.main,
-                    })}
-                  >
-                    account_circle
-                  </Icon>
-                  <SoftTypography
-                    variant="button"
-                    fontWeight="medium"
-                    color="error"
-                  >
-                    Déconnexion
-                  </SoftTypography>
-                </IconButton>
               <IconButton
                 size="small"
                 color="inherit"
@@ -155,6 +117,26 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 <Icon className={light ? "text-white" : "text-dark"}>
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
+              </IconButton>
+              <IconButton 
+                sx={navbarIconButton} 
+                size="small"
+                onClick={Logout}
+              >
+                <Icon
+                  sx={({ palette: { error } }) => ({
+                    color: error.main,
+                  })}
+                >
+                  account_circle
+                </Icon>
+                <SoftTypography
+                  variant="button"
+                  fontWeight="medium"
+                  color="error"
+                >
+                  Déconnexion
+                </SoftTypography>
               </IconButton>
             </SoftBox>
           </SoftBox>

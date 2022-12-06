@@ -29,7 +29,7 @@ import SoftBox from "@components/SoftBox";
 import { item, itemContent, itemArrow } from "@components/navbars/Sidenav/styles/sidenavItem";
 
 // Soft UI Dashboard PRO React contexts
-import { useSoftUIController } from "@contexts/softUIController";
+import { useSoftUIController } from "@contexts/SoftUIContext";
 
 function SidenavItem({ name, active, nested, children, open, ...rest }) {
   const [controller] = useSoftUIController();
