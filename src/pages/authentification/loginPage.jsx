@@ -18,11 +18,13 @@ import Separator from "@pages/authentification/components/Separator";
 
 import curved9 from "/assets/images/curved-images/curved9.jpg"
 import DefaultNavbar from '@components/navbars/defaultNavbar'
+import { useNavigate } from 'react-router-dom'
 
 export const LoginPage = observer(() => {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const userStore = useUserStore()
+  const navigate = useNavigate()
   
   function handleLogin() {
     const loginData = {
@@ -39,6 +41,11 @@ export const LoginPage = observer(() => {
       handleLogin()
     }
   }
+
+  if (userStore.authenticated) {
+    navigate('/dashboard')
+  }
+  
   
   return (
     <BasicLayout

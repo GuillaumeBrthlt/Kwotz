@@ -22,10 +22,10 @@ import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Soft UI Dashboard PRO React components
-import SoftBox from "components/SoftBox";
+import SoftBox from "@components/SoftBox";
 
 // Soft UI Dashboard PRO React context
-import { useSoftUIController, setLayout } from "context";
+import { useSoftUIController, setLayout } from "@contexts/SoftUIContext";
 
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useSoftUIController();

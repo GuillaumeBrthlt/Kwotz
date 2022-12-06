@@ -3,7 +3,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
-      "@theme/*":["src/assets/theme/*"],
+      "@theme/*":["src/@theme/*"],
       "@components/*":["src/components/*"],
       "@pages/*":["src/pages/*"],
       "@contexts/*":["src/contexts/*"]

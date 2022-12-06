@@ -20,16 +20,16 @@ import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 
 // Soft UI Dashboard PRO React components
-import SoftBox from "components/SoftBox";
-import SoftTypography from "components/SoftTypography";
-import SoftButton from "components/SoftButton";
+import SoftBox from "@components/SoftBox";
+import SoftTypography from "@components/SoftTypography";
+import SoftButton from "@components/SoftButton";
 
 // Soft UI Dashboard PRO React example components
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import PageLayout from "examples/LayoutContainers/PageLayout";
+import DefaultNavbar from "@components/navbars/DefaultNavbar";
+import PageLayout from "@components/LayoutContainers/PageLayout";
 
 // Soft UI Dashboard PRO React base styles
-import typography from "assets/theme/base/typography";
+import typography from "@theme/base/typography";
 
 // Authentication layout components
 import Footer from "layouts/authentication/components/Footer";
@@ -38,7 +38,7 @@ import Footer from "layouts/authentication/components/Footer";
 import pageRoutes from "page.routes";
 
 // Images
-import error500 from "assets/images/illustrations/error-500.png";
+import error500 from "/assets/images/illustrations/error-500.png";
 
 function Error500() {
   const { d1, d3, d4, d5 } = typography;
