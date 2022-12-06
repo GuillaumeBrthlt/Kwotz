@@ -35,6 +35,7 @@ import dataTableData from "@pages/dashboard/data/dataTableData";
 import { useUserStore } from "@contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import Footer from "@components/Footer";
 
 const Dashboard = observer(() => {
   const userStore = useUserStore()
@@ -52,36 +53,31 @@ const Dashboard = observer(() => {
           <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
             <SoftBox lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
-                All Products
+                Mes Projets
               </SoftTypography>
               <SoftTypography variant="button" fontWeight="regular" color="text">
-                A lightweight, extendable, dependency-free javascript HTML table plugin.
+                Retrouvez sur cette page l'ensemble de vos projets
               </SoftTypography>
             </SoftBox>
             <Stack spacing={1} direction="row">
               <Link to="/ecommerce/products/new-product">
                 <SoftButton variant="gradient" color="info" size="small">
-                  + new product
+                  + nouveau projet
                 </SoftButton>
               </Link>
-              <SoftButton variant="outlined" color="info" size="small">
-                import
-              </SoftButton>
-              <SoftButton variant="outlined" color="info" size="small">
-                export
-              </SoftButton>
             </Stack>
           </SoftBox>
           <DataTable
             table={dataTableData}
             entriesPerPage={{
-              defaultValue: 7,
-              entries: [5, 7, 10, 15, 20, 25],
+              defaultValue: 5,
+              entries: [5, 10, 25],
             }}
             canSearch
           />
         </Card>
       </SoftBox>
+      <Footer />
     </DashboardLayout>
   );
 })

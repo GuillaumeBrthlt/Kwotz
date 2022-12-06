@@ -151,14 +151,14 @@ function DataTable({
                 size="small"
               />
               <SoftTypography variant="caption" color="secondary">
-                &nbsp;&nbsp;entries per page
+                &nbsp;&nbsp;quantité par page
               </SoftTypography>
             </SoftBox>
           )}
           {canSearch && (
             <SoftBox width="12rem" ml="auto">
               <SoftInput
-                placeholder="Search..."
+                placeholder="Rechercher..."
                 value={search}
                 onChange={({ currentTarget }) => {
                   setSearch(search);
@@ -218,7 +218,7 @@ function DataTable({
         {showTotalEntries && (
           <SoftBox mb={{ xs: 3, sm: 0 }}>
             <SoftTypography variant="button" color="secondary" fontWeight="regular">
-              Showing {entriesStart} to {entriesEnd} of {rows.length} entries
+              Affichage de {entriesStart} à {entriesEnd} sur {rows.length}
             </SoftTypography>
           </SoftBox>
         )}
