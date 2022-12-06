@@ -6,6 +6,7 @@ import {LoginPage} from "@pages/authentification/loginPage";
 import {RegisterPage} from "@pages/authentification/registerPage";
 import ResetPasswordPage from "@pages/authentification/resetPasswordPage";
 import NewPasswordPage from "@pages/authentification/newPasswordPage";
+import NewUser from "@pages/profile/profileFormPage";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@theme";
@@ -48,6 +49,7 @@ export const App = observer(() => {
           <Route path="/register" element={<RegisterPage />}/>
           <Route path="/resetpassword" element={<ResetPasswordPage />}/>
           <Route path="/new_password" element={<NewPasswordPage />}/>
+          <Route path="/new_profile" element={<NewUser />} />
           <Route path="/404" element={<Error404/>}/>
           <Route path="/new_project" element={<PrivateRoute component={<NewProject />}/>} />
         </Routes>
