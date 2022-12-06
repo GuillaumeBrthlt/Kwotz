@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useUserStore } from "@contexts/UserContext";
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Nav from "@components/Nav";
 import {LoginPage} from "@pages/authentification/loginPage";
 import {RegisterPage} from "@pages/authentification/registerPage";
@@ -11,7 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@theme";
 import Homepage from "@pages/homepage";
 import Error404 from "@pages/authentification/error/404";
-import { Navigate } from "react-router-dom";
+import NewProject from "@pages/projectpage/newProject";
 
 
 export const App = observer(() => {
@@ -40,6 +40,7 @@ export const App = observer(() => {
           <Route path="/resetpassword" element={<ResetPasswordPage />}/>
           <Route path="/new_password" element={<NewPasswordPage />}/>
           <Route path="/404" element={<Error404/>}/>
+          <Route path="/new_project" element={<NewProject />} />
         </Routes>
       </main>
     </Router>
