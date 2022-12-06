@@ -110,7 +110,6 @@ const navbarIconButton = ({ typography: { size }, breakpoints }) => ({
   },
 
   "& .MuiTypography-root": {
-    display: "none",
 
     [breakpoints.up("sm")]: {
       display: "inline-block",

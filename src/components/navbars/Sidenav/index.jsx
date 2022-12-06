@@ -35,16 +35,19 @@ import SoftTypography from "@components/SoftTypography";
 import SidenavCollapse from "@components/navbars/Sidenav/SidenavCollapse";
 import SidenavList from "@components/navbars/Sidenav/SidenavList";
 import SidenavItem from "@components/navbars/Sidenav/SidenavItem";
-import SidenavCard from "@components/navbars/Sidenav/SidenavCard";
 
 // Custom styles for the Sidenav
 import SidenavRoot from "@components/navbars/Sidenav/SidenavRoot";
 import sidenavLogoLabel from "@components/navbars/Sidenav/styles/sidenav";
 
-// Soft UI Dashboard PRO React context
-import { useSoftUIController, setMiniSidenav } from "@contexts/softUIController";
+// Soft Icons
+import Shop from "@theme/Icons/Shop";
 
-function Sidenav({ color, brand, brandName, routes, ...rest }) {
+// Soft UI Dashboard PRO React context
+import { useSoftUIController, setMiniSidenav } from "@contexts/SoftUIContext";
+
+
+function Sidenav({ color, brand, brandName, ...rest }) {
   const [openCollapse, setOpenCollapse] = useState(false);
   const [openNestedCollapse, setOpenNestedCollapse] = useState(false);
   const [controller, dispatch] = useSoftUIController();
@@ -137,6 +140,17 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       }
       return <SidenavList key={key}>{returnValue}</SidenavList>;
     });
+
+  const routes = [
+    {
+      type: "collapse",
+      name: "Dashboard",
+      key: "dashboard",
+      icon: <Shop size="12px" />,
+      route: "/dashboard",
+      noCollapse: true,
+    }
+  ]
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(
@@ -236,7 +250,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
           >
             <SoftTypography component="h6" variant="button" fontWeight="medium">
-              {brandName}
+              Kwot'z
             </SoftTypography>
           </SoftBox>
         </SoftBox>
@@ -245,7 +259,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       <List>{renderRoutes}</List>
 
       <SoftBox pt={2} my={2} mx={2}>
-        <SidenavCard />
       </SoftBox>
     </SidenavRoot>
   );
@@ -261,8 +274,7 @@ Sidenav.defaultProps = {
 Sidenav.propTypes = {
   color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
   brand: PropTypes.string,
-  brandName: PropTypes.string.isRequired,
-  routes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  brandName: PropTypes.string
 };
 
 export default Sidenav;

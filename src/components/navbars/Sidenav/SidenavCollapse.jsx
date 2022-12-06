@@ -36,7 +36,7 @@ import {
 } from "@components/navbars/Sidenav/styles/sidenavCollapse";
 
 // Soft UI Dashboard PRO React context
-import { useSoftUIController } from "@contexts/softUIController";
+import { useSoftUIController } from "@contexts/SoftUIContext";
 
 function SidenavCollapse({ icon, name, children, active, noCollapse, open, ...rest }) {
   const [controller] = useSoftUIController();
