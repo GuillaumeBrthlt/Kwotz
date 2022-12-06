@@ -22,7 +22,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 
 // Soft UI Dashboard PRO React base styles
-import colors from "assets/theme/base/colors";
+import colors from "@theme/base/colors";
 
 // Custom styles for SoftSelect
 import styles from "@components/SoftSelect/styles";
