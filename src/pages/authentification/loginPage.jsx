@@ -17,13 +17,16 @@ import BasicLayout from "@pages/authentification/components/BasicLayout";
 import Separator from "@pages/authentification/components/Separator";
 
 import curved9 from "/assets/images/curved-images/curved9.jpg"
+import DefaultNavbar from '@components/navbars/defaultNavbar'
+import { useNavigate } from 'react-router-dom'
 
 export const LoginPage = observer(() => {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const userStore = useUserStore()
+  const navigate = useNavigate()
   
-  function handleLogin (e) {
+  function handleLogin() {
     const loginData = {
       "user": {
         "email": email,
@@ -32,6 +35,17 @@ export const LoginPage = observer(() => {
     };
     userStore.loginUser(loginData)
   }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      handleLogin()
+    }
+  }
+
+  if (userStore.authenticated) {
+    navigate('/dashboard')
+  }
+  
   
   return (
     <BasicLayout
@@ -49,10 +63,20 @@ export const LoginPage = observer(() => {
         <SoftBox p={3}>
           <SoftBox component="form" role="form">
             <SoftBox mb={2}>
-              <SoftInput type="email" placeholder="Email" onChange={e => setEmail(e.target.value)}/>
+              <SoftInput 
+                type="email" 
+                placeholder="Email" 
+                onChange={e => setEmail(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
             </SoftBox>
             <SoftBox mb={2}>
-              <SoftInput type="password" placeholder="mot de passe" onChange={e => setPassword(e.target.value)}/>
+              <SoftInput 
+                type="password" 
+                placeholder="mot de passe" 
+                onChange={e => setPassword(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
             </SoftBox>
             <SoftTypography 
               component={Link} 
