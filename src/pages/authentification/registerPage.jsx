@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { useState } from 'react'
-import { useUserStore } from '../contexts/UserContext'
+import { useUserStore } from '@contexts/UserContext'
 
 export const RegisterPage = observer(() => {
   const [email, setEmail] = useState(null)
