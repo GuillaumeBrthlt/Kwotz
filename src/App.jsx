@@ -12,6 +12,7 @@ import theme from "@theme";
 import Error404 from "@pages/authentification/error/404";
 import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
+import NewProject from "@pages/projectpage/newProject";
 
 
 export const App = observer(() => {
