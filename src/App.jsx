@@ -10,6 +10,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@theme";
 import Homepage from "@pages/homepage";
+import Error404 from "@pages/authentification/error/404";
+import { Navigate } from "react-router-dom";
 
 
 export const App = observer(() => {
@@ -32,11 +34,12 @@ export const App = observer(() => {
       <Nav />
       <main>
         <Routes>
-          <Route path="/" element={<Homepage />}/>
+          <Route path="/" element={<Navigate to='/login'/>}/>
           <Route path="/login" element={<LoginPage />}/>
           <Route path="/register" element={<RegisterPage />}/>
           <Route path="/resetpassword" element={<ResetPasswordPage />}/>
           <Route path="/new_password" element={<NewPasswordPage />}/>
+          <Route path="/404" element={<Error404/>}/>
         </Routes>
       </main>
     </Router>

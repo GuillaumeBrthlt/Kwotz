@@ -41,6 +41,12 @@ export const RegisterPage = observer(() => {
     }
   }
 
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      handleRegister()
+    }
+  }
+
   return (
     <BasicLayout
       title="Commençons!"
@@ -62,6 +68,7 @@ export const RegisterPage = observer(() => {
                 type="email" 
                 placeholder="Email" 
                 onChange={e => setEmail(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
             </SoftBox>
             <SoftBox mb={2}>
@@ -70,6 +77,7 @@ export const RegisterPage = observer(() => {
                 placeholder="mot de passe" 
                 onChange={e => setPassword(e.target.value)}
                 error={passwordError ? true : false}
+                onKeyDown={handleKeyDown}
               />
             </SoftBox>
             <SoftBox mb={2}>
@@ -78,6 +86,7 @@ export const RegisterPage = observer(() => {
                 placeholder="confirmation du mot de passe" 
                 onChange={e => setPasswordConfirmation(e.target.value)}
                 error={passwordError ? true : false}
+                onKeyDown={handleKeyDown}
               />
             </SoftBox>
             <SoftBox mt={4} mb={1}>
@@ -89,7 +98,7 @@ export const RegisterPage = observer(() => {
             <SoftBox mt={1} mb={3}>
               <SoftButton
                 component={Link}
-                to="/register"
+                to="/login"
                 variant="gradient"
                 color="dark"
                 fullWidth
