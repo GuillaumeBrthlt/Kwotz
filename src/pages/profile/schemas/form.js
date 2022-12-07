@@ -82,9 +82,9 @@ const form = {
     },
     phone_number: {
       name: "phone_number",
-      label: "N° de téléphone",
-      type: "number",
-      placeholder: "0612345678",
+      label: "N° de téléphone précédé de +33",
+      type: "text",
+      placeholder: "+33612345678",
     },
   },
 };
