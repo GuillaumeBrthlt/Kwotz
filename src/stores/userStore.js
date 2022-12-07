@@ -10,7 +10,8 @@ export function createUserStore() {
     user: {
       id: null,
       username: null,
-      email: null
+      email: null,
+      has_profile: false
     },
     loading: false,
     hasErrors: false,
@@ -85,7 +86,8 @@ export function createUserStore() {
           this.user = {
             id: null,
             username: null,
-            email: null
+            email: null,
+            has_profile: null
           };
           this.auth_token = null;
           this.authenticated = false;
@@ -117,6 +119,30 @@ export function createUserStore() {
             this.user = response.data.user;
             this.auth_token = localStorage.getItem('auth_token');
             axios.defaults.headers.common["Authorization"] = this.auth_token
+          })
+        } else {
+          throw new Error(response.statusText)
+        }
+      } catch (error) {
+        runInAction(() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      } 
+    },
+
+    async validateEmail(token) {
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+
+      try {
+        let response = await axios.get(`${BASE_URL}users/confirmation?confirmation_token=${token}`)
+        console.log(response)
+        if (response.statusText === "OK") {
+          runInAction(() => {
+            this.loading = false
           })
         } else {
           throw new Error(response.statusText)
