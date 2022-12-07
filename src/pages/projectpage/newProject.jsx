@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 
 // @mui material components
@@ -16,7 +17,7 @@ import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import Footer from "@components/Footer";
 
-function NewProject() {
+export function NewProject() {
 
 
   return (

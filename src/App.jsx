@@ -15,7 +15,6 @@ import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
 import NewProject from "@pages/projectpage/newProject";
 
-
 export const App = observer(() => {
   const userStore = useUserStore()
 
