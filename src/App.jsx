@@ -13,6 +13,7 @@ import theme from "@theme";
 import Error404 from "@pages/authentification/error/404";
 import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
+import EmailValidation from "@pages/authentification/EmailValidation";
 
 
 export const App = observer(() => {
@@ -50,6 +51,7 @@ export const App = observer(() => {
           <Route path="/new_password" element={<NewPasswordPage />}/>
           <Route path="/new_profile" element={<NewUser />} />
           <Route path="/404" element={<Error404/>}/>
+          <Route path="/confirmation" element={<EmailValidation/>}/>
         </Routes>
       </main>
     </Router>

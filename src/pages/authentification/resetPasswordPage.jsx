@@ -19,7 +19,7 @@ import curved6 from "/assets/images/curved-images/curved6.jpg"
 
 
 export default function ResetPasswordPage() {
-  const BASE_URL = 'http://localhost:3000/'
+  const BASE_URL = import.meta.env.VITE_API_URL
   const [email, setEmail] = useState(null)
   const navigate = useNavigate()
 

@@ -127,6 +127,33 @@ export function createUserStore() {
           this.hasErrors = true
         })
       } 
+    },
+
+    async validateEmail(token) {
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+
+      try {
+        let response = await axios.get(`${BASE_URL}user/confirmation?confirmation_token=${token}`, config)
+        if (response.statusText === "OK") {
+          runInAction(() => {
+            this.loading = false
+            this.authenticated = true
+            this.user = response.data.user;
+            this.auth_token = localStorage.getItem('auth_token');
+            axios.defaults.headers.common["Authorization"] = this.auth_token
+          })
+        } else {
+          throw new Error(response.statusText)
+        }
+      } catch (error) {
+        runInAction(() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      } 
     }
   }
 }
