@@ -28,6 +28,10 @@ import ProfileInfos from "./components/ProfileInfos/profileInfos";
 import validations from "./schemas/validations";
 import form from "./schemas/form";
 import initialValues from "./schemas/initialValues";
+import { useUserStore } from "@contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+
 
 function getSteps() {
   return ["Ma société", "Adresse Livraison", "Mes infos"];
@@ -46,13 +50,15 @@ function getStepContent(stepIndex, formData) {
   }
 }
 
-function NewUser() {
+const NewUser = observer(() => {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
   const { formId, formField } = form;
   const currentValidation = validations[activeStep];
   const isLastStep = activeStep === steps.length - 1;
+  const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
+  const navigate = useNavigate()
 
   const sleep = (ms) =>
     new Promise((resolve) => {
@@ -63,18 +69,11 @@ function NewUser() {
   const submitForm = async (values, actions) => {
     await sleep(1000);
 
-    // eslint-disable-next-line no-alert
-    alert(JSON.stringify(values, null, 2));
-
     userProfileStore.createProfile(values)
-    actions.setSubmitting(false);
-    actions.resetForm();
-
-    setActiveStep(0);
+    navigate('/dashboard')
   };
 
   const handleSubmit = (values, actions) => {
-    console.log(values)
     if (isLastStep) {
       submitForm(values, actions);
     } else {
@@ -83,6 +82,10 @@ function NewUser() {
       actions.setSubmitting(false);
     }
   };
+
+  if (!userStore.authenticated) {
+    navigate('/login')
+  }
 
   return (
     <DashboardLayout>
@@ -142,6 +145,6 @@ function NewUser() {
     <Footer />
   </DashboardLayout>
   );
-}
+})
 
 export default NewUser;

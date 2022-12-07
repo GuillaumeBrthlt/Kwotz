@@ -10,7 +10,8 @@ export function createUserStore() {
     user: {
       id: null,
       username: null,
-      email: null
+      email: null,
+      has_profile: false
     },
     loading: false,
     hasErrors: false,
@@ -85,7 +86,8 @@ export function createUserStore() {
           this.user = {
             id: null,
             username: null,
-            email: null
+            email: null,
+            has_profile: null
           };
           this.auth_token = null;
           this.authenticated = false;
