@@ -47,6 +47,10 @@ export const RegisterPage = observer(() => {
     }
   }
 
+  if (userStore.authenticated) {
+    navigate('/dashboard')
+  }
+
   return (
     <BasicLayout
       title="Commençons!"
