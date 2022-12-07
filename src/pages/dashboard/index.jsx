@@ -36,6 +36,7 @@ import { useUserStore } from "@contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import Footer from "@components/Footer";
+import NewColdRoom from "@components/NewColdRoom";
 
 const Dashboard = observer(() => {
   const userStore = useUserStore()
@@ -60,7 +61,7 @@ const Dashboard = observer(() => {
               </SoftTypography>
             </SoftBox>
             <Stack spacing={1} direction="row">
-              <Link to="/ecommerce/products/new-product">
+              <Link to="/new_project">
                 <SoftButton variant="gradient" color="info" size="small">
                   + nouveau projet
                 </SoftButton>
@@ -77,6 +78,7 @@ const Dashboard = observer(() => {
           />
         </Card>
       </SoftBox>
+      <NewColdRoom/>
       <Footer />
     </DashboardLayout>
   );
