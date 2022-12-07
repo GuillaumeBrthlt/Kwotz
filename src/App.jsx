@@ -13,7 +13,9 @@ import theme from "@theme";
 import Error404 from "@pages/authentification/error/404";
 import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
-import NewProject from "@pages/projectpage/newProject";
+import EmailValidation from "@pages/authentification/EmailValidation";
+import NewProject from "./pages/projectpage/newProject";
+
 
 export const App = observer(() => {
   const userStore = useUserStore()
@@ -31,6 +33,8 @@ export const App = observer(() => {
   function PrivateRoute({ component: Page }) {
     if (!userStore.authenticated) {
       return <Navigate to="/login" />;
+    } else if (userStore.user.has_profile == false) {
+      return <Navigate to="/new_profile" />;
     }
     return Page;
   }
@@ -51,6 +55,7 @@ export const App = observer(() => {
           <Route path="/new_profile" element={<NewUser />} />
           <Route path="/new_project" element={<NewProject />} />
           <Route path="/404" element={<Error404/>}/>
+          <Route path="/confirmation" element={<EmailValidation/>}/>
         </Routes>
       </main>
     </Router>

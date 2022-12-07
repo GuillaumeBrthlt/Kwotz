@@ -30,7 +30,6 @@ export function createUserProfileStore() {
         this.hasErrors = false
       })
       let payload = profileData
-      console.log(payload)
       try {
         let response = await axios.post(`${BASE_URL}user_profiles`, payload);
         if (response.status == 201) {
