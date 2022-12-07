@@ -29,7 +29,6 @@ function FormField({ label, ...rest }) {
           component="label"
           variant="caption"
           fontWeight="bold"
-          textTransform="capitalize"
         >
           {label}
         </SoftTypography>

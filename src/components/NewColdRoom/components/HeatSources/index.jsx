@@ -19,31 +19,30 @@ import Grid from "@mui/material/Grid";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
+import SoftSelect from "@components/SoftSelect";
 
 // NewProduct page components
 import FormField from "@components/NewColdRoom/components/FormField";
 
-function Socials() {
+function HeatSources() {
   return (
     <SoftBox>
-      <SoftTypography variant="h5" fontWeight="bold">
-        Socials
-      </SoftTypography>
-      <SoftBox mt={2}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FormField type="text" label="shoppify handle" placeholder="@soft" />
-          </Grid>
-          <Grid item xs={12}>
-            <FormField type="text" label="facebook account" placeholder="https://..." />
-          </Grid>
-          <Grid item xs={12}>
-            <FormField type="text" label="instagram account" placeholder="https://..." />
-          </Grid>
+      <SoftTypography variant="h5">Autres sources de chaleur</SoftTypography>
+      <Grid container mb={4}>
+        <Grid item xs={12} mt={2}>
+          <FormField 
+            type="text" 
+            label="Description des différentes sources de chaleur" 
+            multiline rows={5}
+            placeholder='ex: four: 5000W (facultatif)'
+          />
         </Grid>
-      </SoftBox>
+        <Grid item xs={12} mt={2}>
+          <FormField type="number" label="Puissance total des sources de chaleur (kW)" placeholder='(facultatif)' />
+        </Grid>
+      </Grid>
     </SoftBox>
   );
 }
 
-export default Socials;
+export default HeatSources;

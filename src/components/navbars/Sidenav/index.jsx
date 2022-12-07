@@ -144,7 +144,7 @@ function Sidenav({ color, brand, brandName, ...rest }) {
   const routes = [
     {
       type: "collapse",
-      name: "Dashboard",
+      name: "Tableau de bord",
       key: "dashboard",
       icon: <Shop size="12px" />,
       route: "/dashboard",

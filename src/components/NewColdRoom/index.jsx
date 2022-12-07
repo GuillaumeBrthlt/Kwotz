@@ -21,31 +21,35 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Card from "@mui/material/Card";
+import { MobileStepper } from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftButton from "@components/SoftButton";
 
 // NewProduct page components
-import ProductInfo from "@components/NewColdRoom/components/ProductInfo";
-import Media from "@components/NewColdRoom/components/Media";
-import Socials from "@components/NewColdRoom/components/Socials";
-import Pricing from "@components/NewColdRoom/components/Pricing";
+import GeneralInfo from "@components/NewColdRoom/components/GeneralInfo";
+import Dimensions from "@components/NewColdRoom/components/Dimensions";
+import Products from "@components/NewColdRoom/components/Products";
+import HeatSources from "@components/NewColdRoom/components/HeatSources";
+import Comments from "@components/NewColdRoom/components/Comments";
 
 function getSteps() {
-  return ["1. Général", "2. Dimensions", "3. stockage", "4. Autres sources", "5. commentaires"];
+  return ["1. Général", "2. Dimensions", "3. Stockage", "4. Autres sources", "5. Commentaires"];
 }
 
 function getStepContent(stepIndex) {
   switch (stepIndex) {
     case 0:
-      return <ProductInfo />;
+      return <GeneralInfo />;
     case 1:
-      return <Media />;
+      return <Dimensions />;
     case 2:
-      return <Socials />;
+      return <Products />;
     case 3:
-      return <Pricing />;
+      return <HeatSources />;
+    case 4:
+      return <Comments />;
     default:
       return null;
   }
@@ -63,13 +67,24 @@ function NewColdRoom() {
       <SoftBox mt={1} mb={20}>
         <Grid container justifyContent="center">
           <Grid item xs={12} lg={8}>
-            <Stepper activeStep={activeStep} alternativeLabel>
+            <Stepper activeStep={activeStep} alternativeLabel sx={{ display: { xs: 'none', sm: 'flex'} }}>
               {steps.map((label) => (
                 <Step key={label}>
                   <StepLabel>{label}</StepLabel>
                 </Step>
               ))}
             </Stepper>
+            <MobileStepper
+              variant="dots"
+              steps={5}
+              position="static"
+              activeStep={activeStep}
+              sx={{ 
+                display: { xs: 'flex', sm: 'none'}, 
+                justifyContent: 'center', 
+                paddingY: 5 
+              }}
+            />
             <Card sx={{ overflow: "visible" }}>
               <SoftBox p={2}>
                 <SoftBox>
