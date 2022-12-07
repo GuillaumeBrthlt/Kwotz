@@ -4,39 +4,26 @@ import axios from 'axios'
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export function createUserProfileStore() {
+export function createProjectStore() {
   return {
     loading: null,
     hasErrors: null,
-    profileDetails: {
-      company: null,
-      address: null,
-      zipcode: null,
-      city: null,
-      role: null,
-      first_name: null,
-      last_name: null,
-      shipping_alias: null,
-      shipping_address: null,
-      shipping_zipcode: null,
-      shipping_city: null,
-      phone_number: null
+    projectDetails: {
+      name: null
     },
-    created: null,
 
-    async createProfile(profileData) {
+    async createProject(projectData) {
 
       runInAction (() => {
         this.loading = true
         this.hasErrors = false
       })
-      let payload = profileData
+      let payload = projectData
       try {
-        let response = await axios.post(`${BASE_URL}user_profiles`, payload);
+        let response = await axios.post(`${BASE_URL}projects`, payload);
         if (response.status == 201) {
           runInAction (() => {
             this.loading = false
-            this.created = true
           })
         } else {
           throw new Error('informations non valides')
