@@ -136,14 +136,11 @@ export function createUserStore() {
       })
 
       try {
-        let response = await axios.get(`${BASE_URL}user/confirmation?confirmation_token=${token}`, config)
+        let response = await axios.get(`${BASE_URL}users/confirmation?confirmation_token=${token}`)
+        console.log(response)
         if (response.statusText === "OK") {
           runInAction(() => {
             this.loading = false
-            this.authenticated = true
-            this.user = response.data.user;
-            this.auth_token = localStorage.getItem('auth_token');
-            axios.defaults.headers.common["Authorization"] = this.auth_token
           })
         } else {
           throw new Error(response.statusText)

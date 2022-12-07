@@ -22,12 +22,10 @@ const EmailValidation = observer(() => {
 
   const token = searchParams.get('confirmation_token')
 
-  console.log(token)
 
   function handleValidation() {
-    console.log(userStore.authenticated)
     userStore.validateEmail(token)
-    navigate('/dashboard')
+    navigate('/login')
   }
 
   if (!token) {
