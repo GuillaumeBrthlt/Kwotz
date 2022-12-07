@@ -35,29 +35,36 @@ export function NewProject() {
                   Créer un nouveau projet
                 </SoftTypography>
                 <Divider />
-                <SoftBox
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="flex-end"
-                  height="100%"
+                <Formik
+                  onSubmit={handleSubmit}
                 >
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Nom du projet
-                    </SoftTypography>
+                  <SoftBox
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="flex-end"
+                    height="100%"
+                  >
+                    <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                      <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Nom du projet
+                      </SoftTypography>
+                    </SoftBox>
+                    <SoftInput placeholder="votre référence chantier" />
                   </SoftBox>
-                  <SoftInput placeholder="votre référence chantier" />
-                </SoftBox>
-                
-            
-                <SoftBox display="flex" justifyContent="flex-end" mt={3}>
-                  <SoftBox mr={1}>
-                    <SoftButton color="light">annuler</SoftButton>
+                  <SoftBox display="flex" justifyContent="flex-end" mt={3}>
+                    <SoftBox mr={1}>
+                      <SoftButton color="light">annuler</SoftButton>
+                    </SoftBox>
+                    <SoftButton 
+                      disabled={isSubmitting}
+                      type="submit"
+                      variant="gradient"
+                      color="info"
+                    >
+                      créer le projet
+                    </SoftButton>
                   </SoftBox>
-                  <SoftButton variant="gradient" color="info">
-                    créer le projet
-                  </SoftButton>
-                </SoftBox>
+                </Formik>
               </SoftBox>
             </Card>
           </Grid>

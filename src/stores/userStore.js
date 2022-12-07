@@ -17,6 +17,10 @@ export function createUserStore() {
     hasErrors: false,
     authenticated: false,
 
+    has_profile() {
+      this.user.has_profile= true
+    },
+
     async register(payload) {
       runInAction (() => {
         this.loading = true

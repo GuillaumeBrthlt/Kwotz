@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserProfileStore } from "@contexts/UserProfileContext";
+import { useUserStore } from "@contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+
 // formik components
 import { Formik, Form } from "formik";
 
@@ -28,10 +32,6 @@ import ProfileInfos from "./components/ProfileInfos/profileInfos";
 import validations from "./schemas/validations";
 import form from "./schemas/form";
 import initialValues from "./schemas/initialValues";
-import { useUserStore } from "@contexts/UserContext";
-import { useNavigate } from "react-router-dom";
-import { observer } from "mobx-react-lite";
-
 
 function getSteps() {
   return ["Ma société", "Adresse Livraison", "Mes infos"];
@@ -60,22 +60,15 @@ const NewUser = observer(() => {
   const userProfileStore = useUserProfileStore()
   const navigate = useNavigate()
 
-  const sleep = (ms) =>
-    new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
   const handleBack = () => setActiveStep(activeStep - 1);
 
   const submitForm = async (values, actions) => {
-    await sleep(1000);
-
     userProfileStore.createProfile(values)
-    navigate('/dashboard')
   };
 
   const handleSubmit = (values, actions) => {
     if (isLastStep) {
-      submitForm(values, actions);
+      submitForm(values);
     } else {
       setActiveStep(activeStep + 1);
       actions.setTouched({});
@@ -83,9 +76,12 @@ const NewUser = observer(() => {
     }
   };
 
-  if (!userStore.authenticated) {
-    navigate('/login')
-  }
+  useEffect(() => {
+    if (userProfileStore.created) {
+      userStore.has_profile()
+      navigate('/dashboard')
+    }
+  }, [userProfileStore.created])
 
   return (
     <DashboardLayout>
