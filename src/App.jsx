@@ -14,6 +14,7 @@ import Error404 from "@pages/authentification/error/404";
 import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
 import EmailValidation from "@pages/authentification/EmailValidation";
+import NewProject from "./pages/projectpage/newProject";
 
 
 export const App = observer(() => {
@@ -52,6 +53,7 @@ export const App = observer(() => {
           <Route path="/resetpassword" element={<ResetPasswordPage />}/>
           <Route path="/new_password" element={<NewPasswordPage />}/>
           <Route path="/new_profile" element={<NewUser />} />
+          <Route path="/new_project" element={<NewProject />} />
           <Route path="/404" element={<Error404/>}/>
           <Route path="/confirmation" element={<EmailValidation/>}/>
         </Routes>
