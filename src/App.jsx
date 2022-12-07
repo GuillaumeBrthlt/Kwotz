@@ -50,8 +50,8 @@ export const App = observer(() => {
           <Route path="/resetpassword" element={<ResetPasswordPage />}/>
           <Route path="/new_password" element={<NewPasswordPage />}/>
           <Route path="/new_profile" element={<NewUser />} />
+          <Route path="/new_project" element={<NewProject />} />
           <Route path="/404" element={<Error404/>}/>
-          <Route path="/new_project" element={<PrivateRoute component={<NewProject />}/>} />
         </Routes>
       </main>
     </Router>
