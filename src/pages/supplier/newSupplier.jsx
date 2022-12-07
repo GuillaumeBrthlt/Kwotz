@@ -17,6 +17,8 @@ import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import Footer from "@components/Footer";
 
+/* // Settings page components
+import FormFieldSupplier from "@components/formFieldSupplier"; */
 export function NewSupplier() {
 
 
@@ -29,10 +31,10 @@ export function NewSupplier() {
             <Card sx={{ overflow: "visible" }}>
               <SoftBox p={2} lineHeight={1}>
                 <SoftTypography variant="h6" fontWeight="medium">
-                  Nouveau Projet
+                  Nouveau Fournisseur
                 </SoftTypography>
                 <SoftTypography variant="button" fontWeight="regular" color="text">
-                  Créer un nouveau projet
+                  Ajouter un nouveau Fournisseur
                 </SoftTypography>
                 <Divider />
                 <SoftBox
@@ -43,13 +45,39 @@ export function NewSupplier() {
                 >
                   <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                     <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Nom du projet
+                      Alias
                     </SoftTypography>
                   </SoftBox>
-                  <SoftInput placeholder="votre référence chantier" />
+                  <SoftInput placeholder="alias fournisseur" />
+                  <Divider />
+                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                      Adresse
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput placeholder="Adresse fournisseur" />
+                  <Divider />
+                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                      Ville
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput placeholder="ville" />
+                  <Divider />
+                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                      Code Postal
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput placeholder="code postal" />
+                  <Divider />                  
+                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                      Ajouter à ma liste de Favoris
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput placeholder="Favoris" />
                 </SoftBox>
-                
-            
                 <SoftBox display="flex" justifyContent="flex-end" mt={3}>
                   <SoftBox mr={1}>
                     <SoftButton color="light">annuler</SoftButton>
@@ -59,6 +87,22 @@ export function NewSupplier() {
                   </SoftButton>
                 </SoftBox>
               </SoftBox>
+              
+              {/* <Grid item xs={12} sm={6}>
+                    <FormFieldSupplier
+                      label="email"
+                      placeholder="example@email.com"
+                      inputProps={{ type: "email" }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormFieldSupplier
+                      label="confirmation email"
+                      placeholder="example@email.com"
+                      inputProps={{ type: "email" }}
+                    />
+                  </Grid> */}
+
             </Card>
           </Grid>
         </Grid>
