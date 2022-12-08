@@ -13,6 +13,8 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+import PropTypes from "prop-types";
+
 // @mui material components
 import Grid from "@mui/material/Grid";
 
@@ -23,27 +25,34 @@ import SoftTypography from "@components/SoftTypography";
 // NewProduct page components
 import FormField from "@components/NewColdRoom/components/FormField";
 
-function Socials() {
+function Comments({ formData }) {
+  const { formField, values } = formData;
+  const {comment} = formField
+  const { 
+    comment: commentV, 
+  } = values;
+
   return (
     <SoftBox>
-      <SoftTypography variant="h5" fontWeight="bold">
-        Socials
-      </SoftTypography>
-      <SoftBox mt={2}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FormField type="text" label="shoppify handle" placeholder="@soft" />
-          </Grid>
-          <Grid item xs={12}>
-            <FormField type="text" label="facebook account" placeholder="https://..." />
-          </Grid>
-          <Grid item xs={12}>
-            <FormField type="text" label="instagram account" placeholder="https://..." />
-          </Grid>
+      <SoftTypography variant="h5">Autres sources de chaleur</SoftTypography>
+      <Grid container mb={4}>
+        <Grid item xs={12} mt={2}>
+          <FormField 
+            name={comment.name}
+            type="text" 
+            label="Description des différentes sources de chaleur" 
+            multiline rows={5}
+            placeholder='(facultatif)'
+            value={commentV}            
+          />
         </Grid>
-      </SoftBox>
+      </Grid>
     </SoftBox>
   );
 }
 
-export default Socials;
+Comments.propTypes = {
+  formData: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
+};
+
+export default Comments;
