@@ -68,12 +68,11 @@ const EditUser = observer(() => {
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const navigate = useNavigate()
-  const {id} = useParams()
+  const userID = userStore.user.id
 
 useEffect(() => {
-  userProfileStore.getProfileDetails(id)
-  console.log(userProfileStore.profileDetails)
-}, [id])
+  userProfileStore.getProfileDetails(userID)
+}, [])
 
 
 const {

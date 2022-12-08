@@ -13,7 +13,7 @@ export function createUserStore() {
       email: null,
       has_profile: false
     },
-    loading: false,
+    loading: true,
     hasErrors: false,
     authenticated: false,
     tokenOutdated: false,
@@ -24,7 +24,6 @@ export function createUserStore() {
 
     async register(payload) {
       runInAction (() => {
-        this.loading = true
         this.hasErrors = false
       })
       
@@ -32,8 +31,8 @@ export function createUserStore() {
         let response = await axios.post(`${BASE_URL}users`, payload);
         if (response.data.user) {
           runInAction (() => {
-            this.loading = false
             this.authenticated = true
+            this.loading = false
             this.auth_token = response.headers.authorization;
             this.user = response.data.user
             axios.defaults.headers.common["Authorization"] = this.auth_token
@@ -50,18 +49,22 @@ export function createUserStore() {
       }
     },
 
+    noLogin() {
+      this.loading = false
+    },
+
     async loginUser(payload) {
       runInAction (() => {
-        this.loading = true
         this.hasErrors = false
+        this.loading = true
       })
 
       try {
         let response = await axios.post(`${BASE_URL}users/sign_in`, payload);
         if (response.data.user) {
           runInAction (() => {
-            this.loading = false
             this.authenticated = true
+            this.loading = false
             this.auth_token = response.headers.authorization;
             this.user = response.data.user
             axios.defaults.headers.common["Authorization"] = this.auth_token
@@ -106,7 +109,6 @@ export function createUserStore() {
 
     async loginUserWithToken(payload) {
       runInAction (() => {
-        this.loading = true
         this.hasErrors = false
       })
       const config = {
@@ -119,8 +121,8 @@ export function createUserStore() {
         let response = await axios.get(`${BASE_URL}member-data`, config)
         if (response.statusText === "OK" && response.data.user) {
           runInAction(() => {
-            this.loading = false
             this.authenticated = true
+            this.loading = false
             this.tokenOutdated = false
             this.user = response.data.user;
             this.auth_token = localStorage.getItem('auth_token');
@@ -139,7 +141,6 @@ export function createUserStore() {
 
     async validateEmail(token) {
       runInAction (() => {
-        this.loading = true
         this.hasErrors = false
       })
 

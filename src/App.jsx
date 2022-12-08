@@ -16,20 +16,35 @@ import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
 import EmailValidation from "@pages/authentification/EmailValidation";
 import NewProject from "./pages/projectpage/newProject";
+import { ProjectOverview } from "@pages/projectpage/editProject";
+import { useEffect } from "react";
 
 
 export const App = observer(() => {
   const userStore = useUserStore()
 
-  let localAuthToken = localStorage.auth_token;
-  let cookieExists = localAuthToken !== 'undefined' && localAuthToken !== null
-  if (cookieExists) {
-    const auth_token = localStorage.getItem('auth_token');
-    const authTokenExists = auth_token !== undefined && auth_token !== null
-    if (authTokenExists) {
-      userStore.loginUserWithToken(auth_token)
+  useEffect(() =>{
+    if (!userStore.authenticated) {
+      let localAuthToken = localStorage.auth_token;
+      let cookieExists = localAuthToken !== 'undefined' && localAuthToken !== null
+      if (cookieExists) {
+        userStore.loginUserWithToken(localAuthToken)
+      } else {
+        userStore.noLogin()
+      }
     }
+  })
+
+  
+  if (userStore.loading) {
+    return (
+      <div>
+        ...Loading
+      </div>
+    )
+    
   }
+
 
   function PrivateRoute({ component: Page }) {
     if (!userStore.authenticated) {
@@ -47,6 +62,7 @@ export const App = observer(() => {
       <Nav />
       <main>
         <Routes>
+          <Route path="/project-edit/:id" element={<PrivateRoute component={<ProjectOverview />}/>}/>
           <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
           <Route path="/" element={<Navigate to='/login'/>}/>
           <Route path="/login" element={<LoginPage />}/>
@@ -54,7 +70,7 @@ export const App = observer(() => {
           <Route path="/resetpassword" element={<ResetPasswordPage />}/>
           <Route path="/new_password" element={<NewPasswordPage />}/>
           <Route path="/new_profile" element={<NewUser />} />
-          <Route path="/edit_profile/:id" element={<EditUser />} />
+          <Route path="/edit_profile" element={<EditUser />} />
           <Route path="/new_project" element={<NewProject />} />
           <Route path="/404" element={<Error404/>}/>
           <Route path="/confirmation" element={<EmailValidation/>}/>
