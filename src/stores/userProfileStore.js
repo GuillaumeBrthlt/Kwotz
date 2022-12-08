@@ -22,6 +22,7 @@ export function createUserProfileStore() {
       shipping_city: null,
       phone_number: null,
     },
+    created: null,
 
     async createProfile(profileData) {
 
@@ -35,6 +36,7 @@ export function createUserProfileStore() {
         if (response.status == 201) {
           runInAction (() => {
             this.loading = false
+            this.created = true
           })
         } else {
           throw new Error('informations non valides')

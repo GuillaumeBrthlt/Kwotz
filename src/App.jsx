@@ -34,7 +34,7 @@ export const App = observer(() => {
   function PrivateRoute({ component: Page }) {
     if (!userStore.authenticated) {
       return <Navigate to="/login" />;
-    } else if (userStore.user.has_profile == false) {
+    } else if (!userStore.user.has_profile) {
       return <Navigate to="/new_profile" />;
     }
     return Page;
