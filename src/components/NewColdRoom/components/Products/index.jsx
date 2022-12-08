@@ -14,6 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -26,7 +27,14 @@ import SoftSelect from "@components/SoftSelect";
 // NewProduct page components
 import FormField from "@components/NewColdRoom/components/FormField";
 
-function Products() {
+function Products({ formData }) {
+  const { formField, values, errors, touched } = formData;
+  const { product_types, entries_frequency, entries_quantity} = formField
+  const { 
+    product_types: product_typesV, 
+    entries_frequency: entries_frequencyV, 
+    entries_quantity: entries_quantityV, 
+  } = values;
 
   return (
     <SoftBox>
@@ -34,7 +42,14 @@ function Products() {
       <SoftBox mt={3}>
         <Grid container >
           <Grid item xs={12}>
-            <FormField type="text" label="type de denrées" placeholder="ex: fruits et légumes" />
+            <FormField 
+              name={product_types.name}
+              type="text" 
+              label="type de denrées" 
+              placeholder="ex: fruits et légumes" 
+              value={product_typesV}
+              error={errors.product_types && touched.product_types}
+            />
           </Grid>
         </Grid>
       </SoftBox>
@@ -62,12 +77,22 @@ function Products() {
             </SoftBox>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormField type="number" label="Quantité par entrée (kg)" placeholder="ex: 1500" />
+            <FormField 
+              name={entries_quantity.name}
+              type="number" 
+              label="Quantité par entrée (kg)" 
+              placeholder="ex: 1500" 
+              value={entries_quantityV}
+            />
           </Grid>
         </Grid>
       </SoftBox>
     </SoftBox>
   );
 }
+
+Products.propTypes = {
+  formData: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
+};
 
 export default Products;

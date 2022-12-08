@@ -42,6 +42,7 @@ import sidenavLogoLabel from "@components/navbars/Sidenav/styles/sidenav";
 
 // Soft Icons
 import Shop from "@theme/Icons/Shop";
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 // Soft UI Dashboard PRO React context
 import { useSoftUIController, setMiniSidenav } from "@contexts/SoftUIContext";
@@ -152,6 +153,10 @@ function Sidenav({ color, brand, brandName, ...rest }) {
     }
   ]
 
+  function Logout() {
+    console.log('logout')
+  }
+
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(
     ({ type, name, icon, title, collapse, noCollapse, key, href, route }) => {
@@ -257,9 +262,6 @@ function Sidenav({ color, brand, brandName, ...rest }) {
       </SoftBox>
       <Divider />
       <List>{renderRoutes}</List>
-
-      <SoftBox pt={2} my={2} mx={2}>
-      </SoftBox>
     </SidenavRoot>
   );
 }

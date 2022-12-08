@@ -15,6 +15,8 @@ Coded by www.creative-tim.com
 
 import { useState } from "react";
 
+import { Formik, Form } from "formik";
+
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Stepper from "@mui/material/Stepper";
@@ -34,34 +36,54 @@ import Products from "@components/NewColdRoom/components/Products";
 import HeatSources from "@components/NewColdRoom/components/HeatSources";
 import Comments from "@components/NewColdRoom/components/Comments";
 
+
+import validations from "@components/NewColdRoom/schemas/validations";
+import initialValues from "@components/NewColdRoom/schemas/initialValues";
+import form from "@components/NewColdRoom/schemas/form"
+
 function getSteps() {
   return ["1. Général", "2. Dimensions", "3. Stockage", "4. Autres sources", "5. Commentaires"];
 }
 
-function getStepContent(stepIndex) {
+function getStepContent(stepIndex, formData) {
   switch (stepIndex) {
     case 0:
-      return <GeneralInfo />;
+      return <GeneralInfo formData={formData} />;
     case 1:
-      return <Dimensions />;
+      return <Dimensions formData={formData} />;
     case 2:
-      return <Products />;
+      return <Products formData={formData} />;
     case 3:
-      return <HeatSources />;
+      return <HeatSources formData={formData} />;
     case 4:
-      return <Comments />;
+      return <Comments formData={formData} />;
     default:
       return null;
   }
 }
 
+
+
 function NewColdRoom() {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
+  const { formId, formField } = form;
   const isLastStep = activeStep === steps.length - 1;
+  const currentValidation = validations[activeStep];
+
 
   const handleNext = () => setActiveStep(activeStep + 1);
   const handleBack = () => setActiveStep(activeStep - 1);
+
+  function handleSubmit(values, actions) {
+    if (isLastStep) {
+      console.log(values)
+    } else {
+      setActiveStep(activeStep + 1);
+      actions.setTouched({});
+      actions.setSubmitting(false);
+    }
+  }
 
   return (
       <SoftBox mt={1} mb={20}>
@@ -85,29 +107,45 @@ function NewColdRoom() {
                 paddingY: 5 
               }}
             />
-            <Card sx={{ overflow: "visible" }}>
-              <SoftBox p={2}>
-                <SoftBox>
-                  {getStepContent(activeStep)}
-                  <SoftBox mt={3} width="100%" display="flex" justifyContent="space-between">
-                    {activeStep === 0 ? (
-                      <SoftBox />
-                    ) : (
-                      <SoftButton variant="gradient" color="secondary" onClick={handleBack}>
-                       Retour
-                      </SoftButton>
-                    )}
-                    <SoftButton
-                      variant="gradient"
-                      color="dark"
-                      onClick={!isLastStep ? handleNext : undefined}
-                    >
-                      {isLastStep ? "Ajouter" : "suivant"}
-                    </SoftButton>
-                  </SoftBox>
-                </SoftBox>
-              </SoftBox>
-            </Card>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={currentValidation}
+              onSubmit={handleSubmit}
+            >
+              {({ values, errors, touched, isSubmitting }) => (
+                <Form id={formId} autoComplete="off">
+                  <Card sx={{ overflow: "visible" }}>
+                    <SoftBox p={2}>
+                      <SoftBox>
+                        {getStepContent(activeStep, {
+                          values,
+                          touched,
+                          formField,
+                          errors,
+                        })}
+                        <SoftBox mt={3} width="100%" display="flex" justifyContent="space-between">
+                          {activeStep === 0 ? (
+                            <SoftBox />
+                          ) : (
+                            <SoftButton variant="gradient" color="secondary" onClick={handleBack}>
+                            Retour
+                            </SoftButton>
+                          )}
+                          <SoftButton
+                            disable={isSubmitting}
+                            variant="gradient"
+                            color="dark"
+                            type='submit'
+                          >
+                            {isLastStep ? "Ajouter" : "suivant"}
+                          </SoftButton>
+                        </SoftBox>
+                      </SoftBox>
+                    </SoftBox>
+                  </Card>
+                </Form>
+              )}
+            </Formik>
           </Grid>
         </Grid>
       </SoftBox>

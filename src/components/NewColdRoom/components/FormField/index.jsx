@@ -15,13 +15,14 @@ Coded by www.creative-tim.com
 
 // prop-type is a library for typechecking of props
 import PropTypes from "prop-types";
+import { Field, ErrorMessage } from "formik";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import SoftInput from "@components/SoftInput";
 
-function FormField({ label, ...rest }) {
+function FormField({ name, label, ...rest }) {
   return (
     <>
       <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
@@ -33,7 +34,10 @@ function FormField({ label, ...rest }) {
           {label}
         </SoftTypography>
       </SoftBox>
-      <SoftInput {...rest} />
+      <Field name={name} as={SoftInput} {...rest}/>
+      <SoftTypography component="div" variant="caption" color="error">
+        <ErrorMessage name={name} />
+      </SoftTypography>
     </>
   );
 }
@@ -41,6 +45,7 @@ function FormField({ label, ...rest }) {
 // typechecking props for FormField
 FormField.propTypes = {
   label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 export default FormField;

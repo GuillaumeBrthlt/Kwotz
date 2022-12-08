@@ -14,6 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -21,12 +22,27 @@ import Grid from "@mui/material/Grid";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-import SoftSelect from "@components/SoftSelect";
+import SoftInput from "@components/SoftInput"
 
 // NewProduct page components
 import FormField from "@components/NewColdRoom/components/FormField";
+import { Field, ErrorMessage } from "formik";
+import { Select } from "@mui/material";
+import {MenuItem} from "@mui/material";
 
-function GeneralInfo() {
+
+function GeneralInfo({ formData }) {
+  const { formField, values, errors, touched } = formData;
+  const {CFname, temperature, condensing_unit, prod_outside, refrigerant_type} = formField
+  const { 
+    CFname: CFnameV, 
+    temperature: temperatureV, 
+    condensing_unit: condensing_unitV, 
+    prod_outside: prod_outsideV, 
+    refrigerant_type: refrigerant_typeV 
+  } = values;
+
+
 
   return (
     <SoftBox>
@@ -34,10 +50,24 @@ function GeneralInfo() {
       <SoftBox mt={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-            <FormField type="text" label="Nom de la chambre froide" placeholder="ex: CF fruits et légumes" />
+            <FormField 
+              name={CFname.name}
+              type={CFname.type}
+              label={CFname.label}
+              placeholder={CFname.placeholder}
+              value={CFnameV}
+              error={errors.CFname && touched.CFname}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormField type="number" label="Température (°C)" placeholder="ex: 6" />
+            <FormField 
+              name={temperature.name}
+              type={temperature.type}
+              label={temperature.label}
+              placeholder={temperature.placeholder}
+              value={temperatureV}
+              error={errors.temperature && touched.temperature}
+            />
           </Grid>
         </Grid>
       </SoftBox>
@@ -51,16 +81,23 @@ function GeneralInfo() {
                   variant="caption"
                   fontWeight="bold"
                 >
-                  Production
+                  {condensing_unit.label}
                 </SoftTypography>
               </SoftBox>
-              <SoftSelect
-                defaultValue={{ value: "sur groupe indépendant", label: "sur groupe indépendant" }}
-                options={[
-                  { value: "sur groupe indépendant", label: "sur groupe indépendant" },
-                  { value: "sur centrale", label: "sur centrale" },
-                ]}
-              />
+              <Field 
+                name={condensing_unit.name}
+                as={Select}
+                input={<SoftInput type="text"/>}
+                value={condensing_unitV} 
+                error={errors.condensing_unit && touched.condensing_unit}
+              >
+                <MenuItem value="independant">Groupe de production indépendant</MenuItem>
+                <MenuItem value="compressor_rack">Sur centrale de production</MenuItem>
+                <MenuItem value="without">Ne pas chiffrer la production</MenuItem>
+              </Field>
+              <SoftTypography component="div" variant="caption" color="error">
+                <ErrorMessage name={condensing_unit.name} />
+              </SoftTypography>
             </SoftBox>
             <SoftBox mb={3}>
               <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
@@ -72,22 +109,40 @@ function GeneralInfo() {
                   Emplacement de la production
                 </SoftTypography>
               </SoftBox>
-              <SoftSelect
-                defaultValue={{ value: "à l'extérieur", label: "à l'extérieur" }}
-                options={[
-                  { value: "à l'extérieur", label: "à l'extérieur" },
-                  { value: "en salle des machines", label: "en salle des machines" },
-                ]}
-              />
+              <Field 
+                name={prod_outside.name}
+                as={Select}
+                input={<SoftInput type="text"/>}
+                value={prod_outsideV} 
+                error={errors.prod_outside && touched.prod_outside}
+              >
+                <MenuItem value="outside">A l'extérieur</MenuItem>
+                <MenuItem value="inside">En salle des machines</MenuItem>
+                <MenuItem value="without">Ne pas chiffrer la production</MenuItem>
+              </Field>
+              <SoftTypography component="div" variant="caption" color="error">
+                <ErrorMessage name={condensing_unit.name} />
+              </SoftTypography>
             </SoftBox>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormField type="text" label="Fluide réfrigérant" placeholder="ex: R134a" />
+            <FormField 
+              name={refrigerant_type.name}
+              type={refrigerant_type.type}
+              label={refrigerant_type.label}
+              placeholder={refrigerant_type.placeholder}
+              value={refrigerant_typeV}
+              error={errors.refrigerant_type && touched.refrigerant_type}
+            />
           </Grid>
         </Grid>
       </SoftBox>
     </SoftBox>
   );
 }
+
+GeneralInfo.propTypes = {
+  formData: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
+};
 
 export default GeneralInfo;

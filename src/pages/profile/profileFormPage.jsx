@@ -117,7 +117,7 @@ const NewUser = observer(() => {
                             <SoftBox />
                           ) : (
                             <SoftButton variant="gradient" color="light" onClick={handleBack}>
-                              back
+                              Retour
                             </SoftButton>
                           )}
                           <SoftButton

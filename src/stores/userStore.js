@@ -16,6 +16,7 @@ export function createUserStore() {
     loading: false,
     hasErrors: false,
     authenticated: false,
+    tokenOutdated: false,
 
     has_profile() {
       this.user.has_profile= true
@@ -116,10 +117,11 @@ export function createUserStore() {
 
       try {
         let response = await axios.get(`${BASE_URL}member-data`, config)
-        if (response.statusText === "OK") {
+        if (response.statusText === "OK" && response.data.user) {
           runInAction(() => {
             this.loading = false
             this.authenticated = true
+            this.tokenOutdated = false
             this.user = response.data.user;
             this.auth_token = localStorage.getItem('auth_token');
             axios.defaults.headers.common["Authorization"] = this.auth_token
@@ -130,7 +132,7 @@ export function createUserStore() {
       } catch (error) {
         runInAction(() => {
           this.loading = false
-          this.hasErrors = true
+          this.tokenOutdated = true
         })
       } 
     },
@@ -143,10 +145,10 @@ export function createUserStore() {
 
       try {
         let response = await axios.get(`${BASE_URL}users/confirmation?confirmation_token=${token}`)
-        console.log(response)
         if (response.statusText === "OK") {
           runInAction(() => {
             this.loading = false
+            this.hasErrors = false
           })
         } else {
           throw new Error(response.statusText)

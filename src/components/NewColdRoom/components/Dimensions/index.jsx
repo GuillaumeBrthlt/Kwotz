@@ -12,6 +12,8 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import PropTypes from "prop-types";
+
 import { Grid } from "@mui/material";
 import {Divider} from "@mui/material";
 // Soft UI Dashboard PRO React components
@@ -19,7 +21,16 @@ import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import FormField from "@components/NewColdRoom/components/FormField";
 
-function Dimensions() {
+function Dimensions({formData}) {
+  const { formField, values } = formData;
+  const {width, length, height, volume} = formField
+  const { 
+    width: widthV, 
+    length: lengthV,
+    height: heightV,
+    volume: volumeV
+  } = values;
+
   return (
     <SoftBox>
       <SoftTypography variant="h5" fontWeight="bold">
@@ -28,13 +39,28 @@ function Dimensions() {
       <SoftBox mt={2}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <FormField type="number" label="Longueur (m)"/>
+            <FormField 
+              name={length.name}
+              type="number" 
+              label="Longueur (m)"
+              value={lengthV}
+            />
           </Grid>
           <Grid item xs={12}>
-            <FormField type="text" label="Largeur (m)"/>
+            <FormField 
+              name={width.name}
+              type="text" 
+              label="Largeur (m)"
+              value={widthV}
+            />
           </Grid>
           <Grid item xs={12}>
-            <FormField type="text" label="Hauteur (m)"/>
+            <FormField 
+              name={height.name}
+              type="text" 
+              label="Hauteur (m)"
+              value={heightV}
+            />
           </Grid>
         </Grid>
       </SoftBox>
@@ -57,12 +83,21 @@ function Dimensions() {
       <SoftBox>
         <Grid container mb={4}>
           <Grid item xs={12}>
-            <FormField type="number" label="Volume (m³)"/>
+            <FormField 
+              name={volume.name}
+              type="number" 
+              label="Volume (m³)"
+              value={volumeV}
+            />
           </Grid>
         </Grid>
       </SoftBox>
     </SoftBox>
   );
 }
+
+Dimensions.propTypes = {
+  formData: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
+};
 
 export default Dimensions;
