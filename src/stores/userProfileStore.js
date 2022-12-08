@@ -53,7 +53,7 @@ export function createUserProfileStore() {
         this.hasErrors = false
       })
       try {
-        let response = await axios(`${BASE_URL}user_profiles/${id}`)
+        let response = await axios.get(`${BASE_URL}user_profiles/${id}`)
         let data = await response.data
         if (data) {
           runInAction(() => {
@@ -90,24 +90,4 @@ export function createUserProfileStore() {
       }
     },
 
-    async setProfileDetails(page_id) {
-      runInAction(() => {
-        this.loading = true
-        this.hasErrors = false
-      })
-      try {
-        await this.getProfileDetails()
-        let thisProfileDetails = this.profileDetails.filter(detail => detail.id == page_id)[0]
-        runInAction(() => {
-          this.loading = false
-          this.profileDetails = thisProfileDetails
-          })
-      } catch(error) {
-        console.error(error)
-        runInAction(() => {
-          this.hasErrors = true
-        })
-      }
-    },
-  }
-}
+}}

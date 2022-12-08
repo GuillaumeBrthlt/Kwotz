@@ -13,7 +13,11 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 
+//import css file for load spinner
+import '@pages/profile/editProfileFormPage.css'
+
 // Soft UI Dashboard PRO React components
+import SoftAlert from '@components/SoftAlert'
 import SoftBox from "@components/SoftBox";
 import SoftButton from "@components/SoftButton";
 
@@ -55,6 +59,8 @@ function getStepContent(stepIndex, formData) {
 
 const EditUser = observer(() => {
   const [activeStep, setActiveStep] = useState(0);
+  const [update, setUpdate] = useState(false)
+  const [loading, setLoading] = useState(false)
   const steps = getSteps();
   const { formId, formField } = form;
   const currentValidation = validations[activeStep];
@@ -64,11 +70,11 @@ const EditUser = observer(() => {
   const navigate = useNavigate()
   const {id} = useParams()
 
-
- 
 useEffect(() => {
   userProfileStore.getProfileDetails(id)
+  console.log(userProfileStore.profileDetails)
 }, [id])
+
 
 const {
   formField: {
@@ -88,13 +94,13 @@ const {
 } = checkout;
 const e = userProfileStore.profileDetails
 
-const Values = {
+const initialValues = {
   [company.name]: e.company,
   [address.name]: e.address,
   [zipcode.name]: e.zipcode,
   [city.name]: e.city,
   [role.name]: e.role,
-  [first_name.name]: e.name,
+  [first_name.name]: e.first_name,
   [last_name.name]: e.last_name,
   [shipping_alias.name]: e.shipping_alias,
   [shipping_address.name]: e.shipping_address,
@@ -102,8 +108,6 @@ const Values = {
   [shipping_city.name]: e.shipping_city,
   [phone_number.name]: e.phone_number,
 };
-
-
 
 const sleep = (ms) =>
 new Promise((resolve) => {
@@ -116,8 +120,11 @@ const handleBack = () => setActiveStep(activeStep - 1);
     await sleep(1000);
 
     userProfileStore.editProfile(values, id)
-    //navigate('/dashboard')
+    setUpdate(true)
+    await sleep(1000)
+    setLoading(true)
   };
+
 
   const handleSubmit = (values, actions) => {
     if (isLastStep) {
@@ -132,18 +139,21 @@ const handleBack = () => setActiveStep(activeStep - 1);
   if (!userStore.authenticated) {
     navigate('/login')
   }
-  if (!userProfileStore.profileDetails.id) {
-    return (
-      <div>
-    <>
-        <PropagateLoader color="#36d7b7"/>
-    </>
-    </div>
-    )
-  } 
+
+  if (loading == true) {
+    navigate('/dashboard')
+    setLoading(false)
+  }
+  
   return (
+  <div>
+    {!userProfileStore.profileDetails.id ? (
+      <div className="sweet-loading">
+        <PropagateLoader color="#36d7b7"/>
+      </div>) : (
     <DashboardLayout>
       <DashboardNavbar />
+      <SoftAlert color='success' style={ update == true ? '' : {display: 'none'}}>Votre profil a bien été mis à jour </SoftAlert>
       <SoftBox py={3} mb={20}>
         <Grid container justifyContent="center" sx={{ height: "100%" }}>
           <Grid item xs={12} lg={8}>
@@ -155,7 +165,7 @@ const handleBack = () => setActiveStep(activeStep - 1);
               ))}
             </Stepper>
             <Formik
-              initialValues={Values}
+              initialValues={initialValues}
               validationSchema={currentValidation}
               onSubmit={handleSubmit}
             >
@@ -197,8 +207,10 @@ const handleBack = () => setActiveStep(activeStep - 1);
         </Grid>
       </SoftBox>
     <Footer />
-  </DashboardLayout>
-  );
-})
+  </DashboardLayout>  
+)}
+</div>
+)
+});
 
 export default EditUser;
