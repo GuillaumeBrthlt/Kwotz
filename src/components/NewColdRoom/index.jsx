@@ -151,7 +151,7 @@ function NewColdRoom() {
                             </SoftButton>
                           )}
                           <SoftButton
-                            disable={isSubmitting}
+                            disabled={isSubmitting}
                             variant="gradient"
                             color="dark"
                             type='submit'
