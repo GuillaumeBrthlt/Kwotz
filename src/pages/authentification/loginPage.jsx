@@ -54,6 +54,7 @@ export const LoginPage = observer(() => {
       image={curved9}
     >
       <SoftAlert color='error' style={!userStore.hasErrors ? {display: 'none'} : ''}>Identifiants de connexion incorrects</SoftAlert>
+      <SoftAlert color='warning' style={!userStore.tokenOutdated ? {display: 'none'} : ''}>Vous devez vous reconnecter pour continuer</SoftAlert>
       <Card>
         <SoftBox p={3} mb={1} textAlign="center">
           <SoftTypography variant="h5" fontWeight="medium">

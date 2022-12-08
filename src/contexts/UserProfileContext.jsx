@@ -1,5 +1,5 @@
 import React from 'react'
-import { createUserProfileStore } from '../stores/userProfileStore'
+import { createUserProfileStore } from '@stores/userProfileStore'
 import { useLocalObservable } from 'mobx-react'
 
 const UserProfileContext = React.createContext(null)

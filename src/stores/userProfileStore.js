@@ -20,7 +20,7 @@ export function createUserProfileStore() {
       shipping_address: null,
       shipping_zipcode: null,
       shipping_city: null,
-      phone_number: null
+      phone_number: null,
     },
     created: null,
 
@@ -48,5 +48,47 @@ export function createUserProfileStore() {
         })
       }
     },
-  }
-}
+
+    async getProfileDetails(id) {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.get(`${BASE_URL}user_profiles/${id}`)
+        let data = await response.data
+        if (data) {
+          runInAction(() => {
+            this.loading = false
+            this.profileDetails = data
+          })
+        }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+    async editProfile(profileData, id) {
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      let payload = profileData
+      
+      try {
+        let response = await axios.put(`${BASE_URL}user_profiles/${id}`, payload);
+        if (response.status == 200) {
+          runInAction (() => {
+            this.loading = false
+          })
+        } else {
+          throw new Error('informations non valides')
+        }  
+      } catch (error) {
+        runInAction (() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      }
+    },
+}}
