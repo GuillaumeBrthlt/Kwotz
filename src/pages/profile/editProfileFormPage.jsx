@@ -3,6 +3,9 @@ import { useUserProfileStore } from "@contexts/UserProfileContext";
 // formik components
 import { Formik, Form } from "formik";
 
+//import react-spinner animation loading
+import {PropagateLoader} from 'react-spinners'
+
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -26,8 +29,8 @@ import ProfileInfos from "./components/ProfileInfos/profileInfos";
 
 // NewUser layout schemas for form and form feilds
 import validations from "./schemas/validations";
+import checkout from "./editschemas/form";
 import form from "./editschemas/form";
-import initialValues from "./editschemas/initialValues";
 import { useUserStore } from "@contexts/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -61,15 +64,53 @@ const EditUser = observer(() => {
   const navigate = useNavigate()
   const {id} = useParams()
 
-  const sleep = (ms) =>
-    new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
-  const handleBack = () => setActiveStep(activeStep - 1);
 
-  useEffect(() => {
-    userProfileStore.getProfileDetails(id)
-  }, [id])
+ 
+useEffect(() => {
+  userProfileStore.getProfileDetails(id)
+}, [id])
+
+const {
+  formField: {
+    company,
+    address,
+    zipcode,
+    city,
+    role,
+    first_name,
+    last_name,
+    shipping_alias,
+    shipping_address,
+    shipping_zipcode,
+    shipping_city,
+    phone_number,
+  },
+} = checkout;
+const e = userProfileStore.profileDetails
+
+const Values = {
+  [company.name]: e.company,
+  [address.name]: e.address,
+  [zipcode.name]: e.zipcode,
+  [city.name]: e.city,
+  [role.name]: e.role,
+  [first_name.name]: e.name,
+  [last_name.name]: e.last_name,
+  [shipping_alias.name]: e.shipping_alias,
+  [shipping_address.name]: e.shipping_address,
+  [shipping_zipcode.name]: e.shipping_zipcode,
+  [shipping_city.name]: e.shipping_city,
+  [phone_number.name]: e.phone_number,
+};
+
+
+
+const sleep = (ms) =>
+new Promise((resolve) => {
+  setTimeout(resolve, ms);
+});
+const handleBack = () => setActiveStep(activeStep - 1);
+
 
   const submitForm = async (values, actions) => {
     await sleep(1000);
@@ -91,6 +132,15 @@ const EditUser = observer(() => {
   if (!userStore.authenticated) {
     navigate('/login')
   }
+  if (!userProfileStore.profileDetails.id) {
+    return (
+      <div>
+    <>
+        <PropagateLoader color="#36d7b7"/>
+    </>
+    </div>
+    )
+  } 
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -105,7 +155,7 @@ const EditUser = observer(() => {
               ))}
             </Stepper>
             <Formik
-              initialValues={initialValues}
+              initialValues={Values}
               validationSchema={currentValidation}
               onSubmit={handleSubmit}
             >

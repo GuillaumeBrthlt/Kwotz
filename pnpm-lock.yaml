@@ -47,6 +47,7 @@ specifiers:
   react-router-dom: 6.3.0
   react-scripts: 5.0.1
   react-select: 5.3.2
+  react-spinners: ^0.13.7
   react-table: 7.8.0
   stylis: 4.1.1
   stylis-plugin-rtl: 2.1.1
@@ -101,6 +102,7 @@ dependencies:
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   react-scripts: 5.0.1_react@18.2.0
   react-select: 5.3.2_2zx2umvpluuhvlq44va5bta2da
+  react-spinners: 0.13.7_biqbaboplfbrettd7655fr4n2y
   react-table: 7.8.0_react@18.2.0
   stylis: 4.1.1
   stylis-plugin-rtl: 2.1.1_stylis@4.1.1
@@ -9653,6 +9655,16 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - '@types/react'
+    dev: false
+
+  /react-spinners/0.13.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-mRamn56bfxWbGcacif5RT3UbeJaXi2AttjtPwSmomuv2IcxjpbfETCzdTvaQpNDk0E33ENJsStsQeKAZFuJcpA==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-table/7.8.0_react@18.2.0:

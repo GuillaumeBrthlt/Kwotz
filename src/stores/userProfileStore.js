@@ -55,7 +55,6 @@ export function createUserProfileStore() {
       try {
         let response = await axios(`${BASE_URL}user_profiles/${id}`)
         let data = await response.data
-        console.log(data)
         if (data) {
           runInAction(() => {
             this.loading = false
