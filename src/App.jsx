@@ -15,7 +15,7 @@ import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
 import EmailValidation from "@pages/authentification/EmailValidation";
 import NewProject from "./pages/projectpage/newProject";
-import NewSupplier from "./pages/supplier/newSupplier";
+import { NewSupplier } from "./pages/supplier/newSupplier";
 
 
 export const App = observer(() => {

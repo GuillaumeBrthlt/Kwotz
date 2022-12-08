@@ -5,13 +5,12 @@ import { useLocalObservable } from 'mobx-react'
 const SupplierContext = React.createContext(null)
 
 export const SupplierProvider = ({children}) => {
-  const SupplierStore = useLocalObservable(() => new createUserStore())
+  const supplierStore = useLocalObservable(() => new createSupplierStore())
 
   return (   
-      <SupplierContext.Provider value={SupplierStore}>
-        {children}
-      </SupplierContext.Provider>
-
+    <SupplierContext.Provider value={supplierStore}>
+      {children}
+    </SupplierContext.Provider>
   )
 }
 

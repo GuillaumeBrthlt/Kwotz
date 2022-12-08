@@ -1,5 +1,6 @@
-
 import { useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useSupplierStore } from "../../contexts/SupplierContext";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -19,8 +20,36 @@ import Footer from "@components/Footer";
 
 /* // Settings page components
 import FormFieldSupplier from "@components/formFieldSupplier"; */
-export function NewSupplier() {
 
+export const NewSupplier = observer(() => {
+  const [alias, setAlias] = useState(null)
+  const [address, setAddress] = useState(null)
+  const [city, setCity] = useState(null)
+  const [zipcode, setZipcode] = useState(null)
+  const [favorite, setfavorite] = useState(null)
+
+  const supplierStore = useSupplierStore()
+
+    const supplierData = {
+      "supplier": {
+        "alias": alias,
+        "address": address,
+        "city": city,
+        "zipcode": zipcode,
+        "favorite": true
+      }
+    }
+    
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      handleSupplier()
+    }
+  }
+
+  const handleSubmit = () => {
+      supplierStore.createSupplier(supplierData)
+      console.log(supplierData)
+  }
 
   return (
     <DashboardLayout>
@@ -48,61 +77,84 @@ export function NewSupplier() {
                       Alias
                     </SoftTypography>
                   </SoftBox>
-                  <SoftInput placeholder="alias fournisseur" />
+                  <SoftInput 
+                    type="text"
+                    placeholder="alias fournisseur" 
+                    onChange={e => setAlias(e.target.value)}
+                    onSubmit={handleKeyDown}
+                    />
                   <Divider />
                   <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                     <SoftTypography component="label" variant="caption" fontWeight="bold">
                       Adresse
                     </SoftTypography>
                   </SoftBox>
-                  <SoftInput placeholder="Adresse fournisseur" />
+                  <SoftInput 
+                    type="text"
+                    placeholder="Adresse fournisseur" 
+                    onChange={e => setAddress(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    />
                   <Divider />
                   <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                     <SoftTypography component="label" variant="caption" fontWeight="bold">
                       Ville
                     </SoftTypography>
                   </SoftBox>
-                  <SoftInput placeholder="ville" />
+                  <SoftInput 
+                    type="text"
+                    placeholder="ville" 
+                    onChange={e => setCity(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    />
                   <Divider />
                   <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                     <SoftTypography component="label" variant="caption" fontWeight="bold">
                       Code Postal
                     </SoftTypography>
                   </SoftBox>
-                  <SoftInput placeholder="code postal" />
+                  <SoftInput 
+                    type="text"
+                    placeholder="code postal" 
+                    onChange={e => setZipcode(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    />
                   <Divider />                  
                   <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                     <SoftTypography component="label" variant="caption" fontWeight="bold">
                       Ajouter à ma liste de Favoris
                     </SoftTypography>
+
+                    <SoftButton 
+                      variant="outlined" 
+                      color="dark" 
+                      size="small"
+
+                    >
+                      Ajouter
+                    </SoftButton>
+
+                    <SoftBox display="flex" justifyContent="flex-end" mt={3}>
+                      <SoftBox mr={1}>
+                        <SoftButton 
+                          
+                          color="light"
+
+                        >
+                          Annuler
+                        </SoftButton>
+                      </SoftBox>
+                      <SoftButton 
+                        variant="gradient" 
+                        color="info"
+                        onClick={handleSubmit}
+                      >
+                        Valider
+                      </SoftButton>
+                    </SoftBox>
                   </SoftBox>
-                  <SoftInput placeholder="Favoris" />
-                </SoftBox>
-                <SoftBox display="flex" justifyContent="flex-end" mt={3}>
-                  <SoftBox mr={1}>
-                    <SoftButton color="light">annuler</SoftButton>
-                  </SoftBox>
-                  <SoftButton variant="gradient" color="info">
-                    créer le projet
-                  </SoftButton>
                 </SoftBox>
               </SoftBox>
-              
-              {/* <Grid item xs={12} sm={6}>
-                    <FormFieldSupplier
-                      label="email"
-                      placeholder="example@email.com"
-                      inputProps={{ type: "email" }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FormFieldSupplier
-                      label="confirmation email"
-                      placeholder="example@email.com"
-                      inputProps={{ type: "email" }}
-                    />
-                  </Grid> */}
-
             </Card>
           </Grid>
         </Grid>
@@ -110,6 +162,4 @@ export function NewSupplier() {
       <Footer />
     </DashboardLayout>
   );
-}
-
-export default NewSupplier;
+})
