@@ -1,5 +1,7 @@
 
 import { useState } from "react";
+import { useProjectStore } from "../../contexts/ProjectContext"; 
+import { Formik, Form } from "formik";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -18,7 +20,26 @@ import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import Footer from "@components/Footer";
 
 export function NewProject() {
+  const projectStore = useProjectStore()
+  const [name, setName] = useState(null)
+  const initialValues = {
+    name: ""
+  } 
 
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      handleSubmit()
+    }
+  }
+
+  function handleSubmit() {
+    const projectData = {
+      "project": {
+        "name": name
+      }
+    };
+    projectStore.createProject(projectData)
+  }
 
   return (
     <DashboardLayout>
@@ -36,34 +57,42 @@ export function NewProject() {
                 </SoftTypography>
                 <Divider />
                 <Formik
+                  initialValues={initialValues}
                   onSubmit={handleSubmit}
                 >
-                  <SoftBox
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="flex-end"
-                    height="100%"
-                  >
-                    <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                      <SoftTypography component="label" variant="caption" fontWeight="bold">
-                        Nom du projet
-                      </SoftTypography>
-                    </SoftBox>
-                    <SoftInput placeholder="votre référence chantier" />
-                  </SoftBox>
-                  <SoftBox display="flex" justifyContent="flex-end" mt={3}>
-                    <SoftBox mr={1}>
-                      <SoftButton color="light">annuler</SoftButton>
-                    </SoftBox>
-                    <SoftButton 
-                      disabled={isSubmitting}
-                      type="submit"
-                      variant="gradient"
-                      color="info"
+                  <Form>
+                    <SoftBox
+                      display="flex"
+                      flexDirection="column"
+                      justifyContent="flex-end"
+                      height="100%"
                     >
-                      créer le projet
-                    </SoftButton>
-                  </SoftBox>
+                      <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                        <SoftTypography component="label" variant="caption" fontWeight="bold">
+                          Nom du projet
+                        </SoftTypography>
+                      </SoftBox>
+                      <SoftInput 
+                        type="text"
+                        placeholder="votre référence chantier" 
+                        onChange={e => setName(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                      />
+                    </SoftBox>
+                    <SoftBox display="flex" justifyContent="flex-end" mt={3}>
+                      <SoftBox mr={1}>
+                        <SoftButton color="light">annuler</SoftButton>
+                      </SoftBox>
+                      <SoftButton 
+                        type="submit"
+                        variant="gradient"
+                        color="info"
+                        onClick={handleSubmit}
+                      >
+                        créer le projet
+                      </SoftButton>
+                    </SoftBox>
+                  </Form>
                 </Formik>
               </SoftBox>
             </Card>
