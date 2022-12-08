@@ -10,7 +10,8 @@ export default defineConfig({
       '@theme' : path.resolve(__dirname, './src/assets/theme'),
       '@components': path.resolve(__dirname, '/src/components'),
       '@pages': path.resolve(__dirname, '/src/pages'),
-      '@contexts': path.resolve(__dirname, '/src/contexts')
+      '@contexts': path.resolve(__dirname, '/src/contexts'),
+      '@stores': path.resolve(__dirname, '/src/stores')
     }
   },
   plugins: [react()]

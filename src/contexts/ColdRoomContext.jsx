@@ -1,5 +1,5 @@
 import React from 'react'
-import { createColdRoomStore } from '../stores/ColdRoomStore'
+import { createColdRoomStore } from '@stores/coldRoomStore'
 import { useLocalObservable } from 'mobx-react'
 
 const ColdRoomContext = React.createContext(null)
