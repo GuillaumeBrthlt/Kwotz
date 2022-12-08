@@ -151,66 +151,66 @@ const handleBack = () => setActiveStep(activeStep - 1);
       <div className="sweet-loading">
         <PropagateLoader color="#36d7b7"/>
       </div>) : (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <SoftAlert color='success' style={ update == true ? '' : {display: 'none'}}>Votre profil a bien été mis à jour </SoftAlert>
-      <SoftBox py={3} mb={20}>
-        <Grid container justifyContent="center" sx={{ height: "100%" }}>
-          <Grid item xs={12} lg={8}>
-            <Stepper activeStep={activeStep} alternativeLabel>
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={currentValidation}
-              onSubmit={handleSubmit}
-            >
-              {({ values, errors, touched, isSubmitting }) => (
-                <Form id={formId} autoComplete="off">
-                  <Card sx={{ height: "100%" }}>
-                    <SoftBox p={2}>
-                      <SoftBox>
-                        {getStepContent(activeStep, {
-                          values,
-                          touched,
-                          formField,
-                          errors,
-                        })}
-                        <SoftBox mt={2} width="100%" display="flex" justifyContent="space-between">
-                          {activeStep === 0 ? (
-                            <SoftBox />
-                          ) : (
-                            <SoftButton variant="gradient" color="light" onClick={handleBack}>
-                              back
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SoftAlert color='success' style={ update == true ? '' : {display: 'none'}}>Votre profil a bien été mis à jour </SoftAlert>
+        <SoftBox py={3} mb={20}>
+          <Grid container justifyContent="center" sx={{ height: "100%" }}>
+            <Grid item xs={12} lg={8}>
+              <Stepper activeStep={activeStep} alternativeLabel>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={currentValidation}
+                onSubmit={handleSubmit}
+              >
+                {({ values, errors, touched, isSubmitting }) => (
+                  <Form id={formId} autoComplete="off">
+                    <Card sx={{ height: "100%" }}>
+                      <SoftBox p={2}>
+                        <SoftBox>
+                          {getStepContent(activeStep, {
+                            values,
+                            touched,
+                            formField,
+                            errors,
+                          })}
+                          <SoftBox mt={2} width="100%" display="flex" justifyContent="space-between">
+                            {activeStep === 0 ? (
+                              <SoftBox />
+                            ) : (
+                              <SoftButton variant="gradient" color="light" onClick={handleBack}>
+                                back
+                              </SoftButton>
+                            )}
+                            <SoftButton
+                              disabled={isSubmitting}
+                              type="submit"
+                              variant="gradient"
+                              color="dark"
+                            >
+                              {isLastStep ? "send" : "next"}
                             </SoftButton>
-                          )}
-                          <SoftButton
-                            disabled={isSubmitting}
-                            type="submit"
-                            variant="gradient"
-                            color="dark"
-                          >
-                            {isLastStep ? "send" : "next"}
-                          </SoftButton>
+                          </SoftBox>
                         </SoftBox>
                       </SoftBox>
-                    </SoftBox>
-                  </Card>
-                </Form>
-              )}
-            </Formik>
+                    </Card>
+                  </Form>
+                )}
+              </Formik>
+            </Grid>
           </Grid>
-        </Grid>
-      </SoftBox>
-    <Footer />
-  </DashboardLayout>  
-)}
-</div>
-)
+        </SoftBox>
+        <Footer />
+      </DashboardLayout>  
+    )}
+  </div>
+  )
 });
 
 export default EditUser;
