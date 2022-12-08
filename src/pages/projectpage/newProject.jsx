@@ -87,7 +87,6 @@ export function NewProject() {
                         type="submit"
                         variant="gradient"
                         color="info"
-                        onClick={handleSubmit}
                       >
                         créer le projet
                       </SoftButton>
