@@ -8,9 +8,11 @@ export function createProjectStore() {
   return {
     loading: null,
     hasErrors: null,
+    projects: [],
     projectDetails: {
       name: null
     },
+    names: null,
 
     async createProject(projectData) {
 
@@ -33,6 +35,29 @@ export function createProjectStore() {
           this.loading = false
           this.hasErrors = true
         })
+      }
+    },
+
+    async getProjects() {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios(`${BASE_URL}projects`)
+        let data = await response.data
+        if (data) {
+          runInAction(() => {
+            this.loading = false
+            this.projects = data
+            let names = []
+            data.map(project => names.push(project.name))
+            let uniqueNames = [...new Set(names)]
+            this.names = uniqueNames
+          })
+        }    
+      } catch(error) {
+        console.error(error)
       }
     },
   }

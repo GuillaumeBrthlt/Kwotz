@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import {App} from './App'
 import { UserProvider } from '@contexts/UserContext'
 import { UserProfileProvider } from '@contexts/UserProfileContext'
+import { ProjectProvider } from '@contexts/ProjectContext'
 import { SoftUIControllerProvider } from '@contexts/SoftUIContext'
 import { ColdRoomProvider } from './contexts/ColdRoomContext'
 
@@ -11,9 +12,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <SoftUIControllerProvider>
       <UserProvider>
         <UserProfileProvider>
-          <ColdRoomProvider>
-            <App />
-          </ColdRoomProvider>
+          <ProjectProvider>
+            <ColdRoomProvider>
+              <App />
+            </ColdRoomProvider>
+          </ProjectProvider>
         </UserProfileProvider>
       </UserProvider>
     </SoftUIControllerProvider>
