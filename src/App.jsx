@@ -7,6 +7,7 @@ import {RegisterPage} from "@pages/authentification/registerPage";
 import ResetPasswordPage from "@pages/authentification/resetPasswordPage";
 import NewPasswordPage from "@pages/authentification/newPasswordPage";
 import NewUser from "@pages/profile/profileFormPage";
+import EditUser from "@pages/profile/editProfileFormPage";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@theme";
@@ -43,22 +44,23 @@ export const App = observer(() => {
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <Router>
-        <Nav />
-        <main>
-          <Routes>
-            <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
-            <Route path="/" element={<Navigate to='/login'/>}/>
-            <Route path="/login" element={<LoginPage />}/>
-            <Route path="/register" element={<RegisterPage />}/>
-            <Route path="/resetpassword" element={<ResetPasswordPage />}/>
-            <Route path="/new_password" element={<NewPasswordPage />}/>
-            <Route path="/new_profile" element={<NewUser />} />
-            <Route path="/new_project" element={<NewProject />} />
-            <Route path="/404" element={<Error404/>}/>
-            <Route path="/confirmation" element={<EmailValidation/>}/>
-          </Routes>
-        </main>
-      </Router>
+      <Nav />
+      <main>
+        <Routes>
+          <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
+          <Route path="/" element={<Navigate to='/login'/>}/>
+          <Route path="/login" element={<LoginPage />}/>
+          <Route path="/register" element={<RegisterPage />}/>
+          <Route path="/resetpassword" element={<ResetPasswordPage />}/>
+          <Route path="/new_password" element={<NewPasswordPage />}/>
+          <Route path="/new_profile" element={<NewUser />} />
+          <Route path="/edit_profile/:id" element={<EditUser />} />
+          <Route path="/new_project" element={<NewProject />} />
+          <Route path="/404" element={<Error404/>}/>
+          <Route path="/confirmation" element={<EmailValidation/>}/>
+        </Routes>
+      </main>
+    </Router>
     </ThemeProvider>
   )
 })
