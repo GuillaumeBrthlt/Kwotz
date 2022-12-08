@@ -33,7 +33,7 @@ export const App = observer(() => {
   function PrivateRoute({ component: Page }) {
     if (!userStore.authenticated) {
       return <Navigate to="/login" />;
-    } else if (userStore.user.has_profile == false) {
+    } else if (!userStore.user.has_profile) {
       return <Navigate to="/new_profile" />;
     }
     return Page;
@@ -43,22 +43,22 @@ export const App = observer(() => {
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <Router>
-      <Nav />
-      <main>
-        <Routes>
-          <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
-          <Route path="/" element={<Navigate to='/login'/>}/>
-          <Route path="/login" element={<LoginPage />}/>
-          <Route path="/register" element={<RegisterPage />}/>
-          <Route path="/resetpassword" element={<ResetPasswordPage />}/>
-          <Route path="/new_password" element={<NewPasswordPage />}/>
-          <Route path="/new_profile" element={<NewUser />} />
-          <Route path="/new_project" element={<NewProject />} />
-          <Route path="/404" element={<Error404/>}/>
-          <Route path="/confirmation" element={<EmailValidation/>}/>
-        </Routes>
-      </main>
-    </Router>
+        <Nav />
+        <main>
+          <Routes>
+            <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
+            <Route path="/" element={<Navigate to='/login'/>}/>
+            <Route path="/login" element={<LoginPage />}/>
+            <Route path="/register" element={<RegisterPage />}/>
+            <Route path="/resetpassword" element={<ResetPasswordPage />}/>
+            <Route path="/new_password" element={<NewPasswordPage />}/>
+            <Route path="/new_profile" element={<NewUser />} />
+            <Route path="/new_project" element={<NewProject />} />
+            <Route path="/404" element={<Error404/>}/>
+            <Route path="/confirmation" element={<EmailValidation/>}/>
+          </Routes>
+        </main>
+      </Router>
     </ThemeProvider>
   )
 })

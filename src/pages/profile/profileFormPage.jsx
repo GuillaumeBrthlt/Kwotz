@@ -89,7 +89,7 @@ const NewUser = observer(() => {
       <SoftBox py={3} mb={20}>
         <Grid container justifyContent="center" sx={{ height: "100%" }}>
           <Grid item xs={12} lg={8}>
-            <Stepper activeStep={activeStep} alternativeLabel>
+            <Stepper activeStep={activeStep} alternativeLabel >
               {steps.map((label) => (
                 <Step key={label}>
                   <StepLabel>{label}</StepLabel>
@@ -117,7 +117,7 @@ const NewUser = observer(() => {
                             <SoftBox />
                           ) : (
                             <SoftButton variant="gradient" color="light" onClick={handleBack}>
-                              back
+                              Retour
                             </SoftButton>
                           )}
                           <SoftButton
