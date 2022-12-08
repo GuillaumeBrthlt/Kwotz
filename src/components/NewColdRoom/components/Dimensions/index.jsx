@@ -23,10 +23,10 @@ import FormField from "@components/NewColdRoom/components/FormField";
 
 function Dimensions({formData}) {
   const { formField, values } = formData;
-  const {width, length, height, volume} = formField
+  const {width, CFlength, height, volume} = formField
   const { 
     width: widthV, 
-    length: lengthV,
+    CFlength: CFlengthV,
     height: heightV,
     volume: volumeV
   } = values;
@@ -40,25 +40,25 @@ function Dimensions({formData}) {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <FormField 
-              name={length.name}
-              type="number" 
-              label="Longueur (m)"
-              value={lengthV}
+              name={CFlength.name}
+              type={CFlength.type}
+              label={CFlength.label}
+              value={CFlengthV}
             />
           </Grid>
           <Grid item xs={12}>
             <FormField 
               name={width.name}
-              type="text" 
-              label="Largeur (m)"
+              type={width.type}
+              label={width.label}
               value={widthV}
             />
           </Grid>
           <Grid item xs={12}>
             <FormField 
               name={height.name}
-              type="text" 
-              label="Hauteur (m)"
+              type={height.type}
+              label={height.label}
               value={heightV}
             />
           </Grid>
@@ -85,8 +85,8 @@ function Dimensions({formData}) {
           <Grid item xs={12}>
             <FormField 
               name={volume.name}
-              type="number" 
-              label="Volume (m³)"
+              type={volume.type}
+              label={volume.label}
               value={volumeV}
             />
           </Grid>

@@ -13,7 +13,6 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
 import PropTypes from "prop-types";
 
 // @mui material components
@@ -22,7 +21,9 @@ import Grid from "@mui/material/Grid";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-import SoftSelect from "@components/SoftSelect";
+import { Field} from "formik";
+import { Select, MenuItem } from "@mui/material";
+import SoftInput from '@components/SoftInput'
 
 // NewProduct page components
 import FormField from "@components/NewColdRoom/components/FormField";
@@ -63,17 +64,19 @@ function Products({ formData }) {
                   variant="caption"
                   fontWeight="bold"
                 >
-                  Fréquence d'entrée des denrées (optionnel)
+                  {entries_frequency.label}
                 </SoftTypography>
               </SoftBox>
-              <SoftSelect
-                defaultValue={{ value: "jour", label: "jour" }}
-                options={[
-                  { value: "jour", label: "jour" },
-                  { value: "semaine", label: "semaine" },
-                  { value: "mois", label: "mois" }
-                ]}
-              />
+              <Field 
+                name={entries_frequency.name}
+                as={Select}
+                input={<SoftInput type="text"/>}
+                value={entries_frequencyV} 
+              >
+                <MenuItem value="daily">tous les jours</MenuItem>
+                <MenuItem value="weekly">toutes les semaines</MenuItem>
+                <MenuItem value="monthly">tous les mois</MenuItem>
+              </Field>
             </SoftBox>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -81,7 +84,7 @@ function Products({ formData }) {
               name={entries_quantity.name}
               type="number" 
               label="Quantité par entrée (kg)" 
-              placeholder="ex: 1500" 
+              placeholder="ex: 1500 (facultatif)" 
               value={entries_quantityV}
             />
           </Grid>

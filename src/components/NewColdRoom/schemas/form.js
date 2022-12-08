@@ -32,17 +32,25 @@ const form = {
       placeholder:"ex: R134a",
       errorMsg: "Ce champ est obligatoire",
     },
-    length: {
-      name: "length",
+    CFlength: {
+      name: "CFlength",
+      type:"number",
+      label:"Longueur (m)",
     },
     width: {
       name: "width",
+      type:"number",
+      label:"Largeur (m)",
     },
     height: {
       name: "height",
+      type:"number",
+      label:"Hauteur (m)",
     },
     volume: {
       name: "volume",
+      type:"number",
+      label:"Volume (m³)",
     },
     product_types: {
       name: "product_types",
@@ -50,6 +58,8 @@ const form = {
     },
     entries_frequency: {
       name: "entries_frequency",
+      type: 'text',
+      label: 'text'
     },
     entries_quantity: {
       name: "entries_quantity",
