@@ -8,7 +8,7 @@ const {
     condensing_unit,
     prod_outside,
     refrigerant_type,
-    length,
+    CFlength,
     width,
     height,
     volume,
@@ -30,14 +30,14 @@ const validations = [
     [refrigerant_type.name]: Yup.string().required(refrigerant_type.errorMsg),
   }),
   Yup.object().shape({
-    [length.name]: Yup.number(),
+    [CFlength.name]: Yup.number(),
     [width.name]: Yup.number(),
     [height.name]: Yup.number(),
     [volume.name]: Yup.number(),
   }),
   Yup.object().shape({
     [product_types.name]: Yup.string().required(product_types.errorMsg),
-    [entries_frequency.name]: Yup.number(),
+    [entries_frequency.name]: Yup.string(),
     [entries_quantity.name]: Yup.number(),
   }),
   Yup.object().shape({

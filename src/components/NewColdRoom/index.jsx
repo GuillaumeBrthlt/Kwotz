@@ -77,7 +77,26 @@ function NewColdRoom() {
 
   function handleSubmit(values, actions) {
     if (isLastStep) {
-      console.log(values)
+      payload = {
+        coldRoom: {
+          name: values.CFname,
+          temperature: values.temperature,
+          condensing_unit: values.condensing_unit,
+          prod_outside: values.prod_outside,
+          refrigerant_type: values.refrigerant_type,
+          length: values.CFlength,
+          width: values.width,
+          height: values.height,
+          volume: values.volume,
+          product_types: values.product_types,
+          entries_frequency: values.entries_frequency,
+          entries_quantity: values.entries_quantity,
+          heat_sources_power: values.heat_sources_power,
+          heat_sources: values.heat_sources,
+          comment: values.comment,
+        },
+      }
+      console.log(payload)
     } else {
       setActiveStep(activeStep + 1);
       actions.setTouched({});
@@ -132,7 +151,7 @@ function NewColdRoom() {
                             </SoftButton>
                           )}
                           <SoftButton
-                            disable={isSubmitting}
+                            disabled={isSubmitting}
                             variant="gradient"
                             color="dark"
                             type='submit'

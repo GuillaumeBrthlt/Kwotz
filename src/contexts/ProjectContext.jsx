@@ -1,5 +1,5 @@
 import React from 'react'
-import { createProjectStore } from '../stores/projectStore'
+import { createProjectStore } from '@stores/projectStore'
 import { useLocalObservable } from 'mobx-react'
 
 const ProjectContext = React.createContext(null)
