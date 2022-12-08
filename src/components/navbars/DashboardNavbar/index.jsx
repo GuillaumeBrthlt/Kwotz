@@ -23,8 +23,8 @@ import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
+import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -51,6 +51,7 @@ import {
   setMiniSidenav,
 } from "@contexts/SoftUIContext";
 import { useUserStore } from "@contexts/UserContext";
+import { Grid } from "@mui/material";
 
 
 function DashboardNavbar({ absolute, light, isMini }) {
@@ -107,9 +108,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </SoftBox>
         {isMini ? null : (
           <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <SoftBox color={light ? "white" : "inherit"}>
               <IconButton
-                size="small"
+                size="medium"
                 color="inherit"
                 sx={navbarMobileMenu}
                 onClick={handleMiniSidenav}
@@ -123,22 +123,18 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 size="small"
                 onClick={Logout}
               >
-                <Icon
-                  sx={({ palette: { error } }) => ({
-                    color: error.main,
-                  })}
-                >
-                  account_circle
-                </Icon>
+                <PowerSettingsNewOutlinedIcon
+                  color="error"
+                />
                 <SoftTypography
                   variant="button"
                   fontWeight="medium"
                   color="error"
+                  marginLeft={1}
                 >
                   Déconnexion
                 </SoftTypography>
               </IconButton>
-            </SoftBox>
           </SoftBox>
         )}
       </Toolbar>

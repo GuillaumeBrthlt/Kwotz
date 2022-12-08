@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { useState } from 'react'
 import { useUserStore } from '@contexts/UserContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Card } from '@mui/material'
 
 // Soft UI Dashboard PRO React components
@@ -24,6 +24,7 @@ export const RegisterPage = observer(() => {
   const [passwordConfirmation, setPasswordConfirmation] = useState(null)
   const userStore = useUserStore()
   const [passwordError, setPasswordError] = useState(false)
+  const navigate = useNavigate()
   
   function handleRegister () {
     if (password === passwordConfirmation) {
@@ -32,7 +33,7 @@ export const RegisterPage = observer(() => {
         "user": {
           "email": email,
           "password": password,
-          "password_confirmation": passwordConfirmation
+          "password_confirmation": passwordConfirmation,
         }
       };
       userStore.register(registerData)
@@ -54,7 +55,7 @@ export const RegisterPage = observer(() => {
   return (
     <BasicLayout
       title="Commençons!"
-      description="Choisissez vos identifiants de connexion pour créer à votre nouvel espace dédié"
+      description="Choisissez vos identifiants de connexion pour créer votre nouvel espace dédié"
       image={curved8}
     >
       <SoftAlert color='error' style={!userStore.hasErrors ? {display: 'none'} : ''}>Identifiants incorrects</SoftAlert>
@@ -62,7 +63,7 @@ export const RegisterPage = observer(() => {
       <Card>
         <SoftBox p={3} mb={1} textAlign="center">
           <SoftTypography variant="h5" fontWeight="medium">
-            Se connecter
+            S'inscrire
           </SoftTypography>
         </SoftBox>
         <SoftBox p={3}>
