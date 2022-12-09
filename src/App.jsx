@@ -20,6 +20,7 @@ import { ProjectOverview } from "@pages/projectpage/editProject";
 import { useEffect } from "react";
 import { Grid } from "@mui/material";
 import { BarLoader } from "react-spinners";
+import { NewSupplier } from "@pages/supplier/newSupplier";
 
 
 export const App = observer(() => {
@@ -70,8 +71,9 @@ export const App = observer(() => {
           <Route path="/resetpassword" element={<ResetPasswordPage />}/>
           <Route path="/new_password" element={<NewPasswordPage />}/>
           <Route path="/new_profile" element={<NewUser />} />
-          <Route path="/edit_profile" element={<EditUser />} />
           <Route path="/new_project" element={<NewProject />} />
+          <Route path="/new_supplier" element={<NewSupplier />} />
+          <Route path="/edit_profile" element={<EditUser />} />
           <Route path="/404" element={<Error404/>}/>
           <Route path="/confirmation" element={<EmailValidation/>}/>
         </Routes>

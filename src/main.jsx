@@ -6,6 +6,7 @@ import { UserProfileProvider } from '@contexts/UserProfileContext'
 import { ProjectProvider } from '@contexts/ProjectContext'
 import { SoftUIControllerProvider } from '@contexts/SoftUIContext'
 import { ColdRoomProvider } from './contexts/ColdRoomContext'
+import { SupplierProvider } from './contexts/SupplierContext'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <UserProfileProvider>
           <ProjectProvider>
             <ColdRoomProvider>
-              <App />
+              <SupplierProvider>
+                <App />
+              </SupplierProvider>
             </ColdRoomProvider>
           </ProjectProvider>
         </UserProfileProvider>
