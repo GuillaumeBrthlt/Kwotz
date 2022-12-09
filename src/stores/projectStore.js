@@ -11,6 +11,7 @@ export function createProjectStore() {
     projects: [],
     projectDetails: null,
     names: null,
+    sent: false,
     latestProject: null,
     created: null,
 
@@ -37,6 +38,25 @@ export function createProjectStore() {
           this.loading = false
           this.hasErrors = true
         })
+      }
+    },
+
+    async sendProject(payload) {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.post(`${BASE_URL}quote_requests`, payload)
+        let data = await response.data
+        console.log(data)
+        if (data) {
+          runInAction(() => {
+            this.sent = true
+          })
+        }    
+      } catch(error) {
+        console.error(error)
       }
     },
 
