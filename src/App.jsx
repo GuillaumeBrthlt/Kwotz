@@ -16,21 +16,36 @@ import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
 import EmailValidation from "@pages/authentification/EmailValidation";
 import NewProject from "./pages/projectpage/newProject";
-import { NewSupplier } from "./pages/supplier/newSupplier";
+import { ProjectOverview } from "@pages/projectpage/editProject";
+import { useEffect } from "react";
+import { Grid } from "@mui/material";
+import { BarLoader } from "react-spinners";
+import { NewSupplier } from "@pages/supplier/newSupplier";
 
 
 export const App = observer(() => {
   const userStore = useUserStore()
 
-  let localAuthToken = localStorage.auth_token;
-  let cookieExists = localAuthToken !== 'undefined' && localAuthToken !== null
-  if (cookieExists) {
-    const auth_token = localStorage.getItem('auth_token');
-    const authTokenExists = auth_token !== undefined && auth_token !== null
-    if (authTokenExists) {
-      userStore.loginUserWithToken(auth_token)
+  useEffect(() =>{
+    if (!userStore.authenticated) {
+      let localAuthToken = localStorage.auth_token;
+      if (localAuthToken) {
+        userStore.loginUserWithToken(localAuthToken)
+      } else {
+        userStore.noLogin()
+      }
     }
+  })
+
+  
+  if (userStore.loading) {
+    return (
+      <Grid display='flex' height='100vh' justifyContent='center' alignItems='center'>
+        <BarLoader color="#17c1e8" />
+      </Grid>
+    )
   }
+
 
   function PrivateRoute({ component: Page }) {
     if (!userStore.authenticated) {
@@ -48,6 +63,7 @@ export const App = observer(() => {
       <Nav />
       <main>
         <Routes>
+          <Route path="/project-edit/:id" element={<PrivateRoute component={<ProjectOverview />}/>}/>
           <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
           <Route path="/" element={<Navigate to='/login'/>}/>
           <Route path="/login" element={<LoginPage />}/>
@@ -57,7 +73,7 @@ export const App = observer(() => {
           <Route path="/new_profile" element={<NewUser />} />
           <Route path="/new_project" element={<NewProject />} />
           <Route path="/new_supplier" element={<NewSupplier />} />
-          <Route path="/edit_profile/:id" element={<EditUser />} />
+          <Route path="/edit_profile" element={<EditUser />} />
           <Route path="/404" element={<Error404/>}/>
           <Route path="/confirmation" element={<EmailValidation/>}/>
         </Routes>

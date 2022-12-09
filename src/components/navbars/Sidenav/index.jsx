@@ -153,9 +153,6 @@ function Sidenav({ color, brand, brandName, ...rest }) {
     }
   ]
 
-  function Logout() {
-    console.log('logout')
-  }
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(

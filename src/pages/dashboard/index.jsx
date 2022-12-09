@@ -36,7 +36,6 @@ import { useUserStore } from "@contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import Footer from "@components/Footer";
-import NewColdRoom from "@components/NewColdRoom";
 import { useProjectStore } from "../../contexts/ProjectContext";
 import { useEffect, useState } from "react";
 
@@ -44,7 +43,6 @@ const Dashboard = observer(() => {
   const userStore = useUserStore()
   const navigate = useNavigate()
   const projectStore = useProjectStore()
-  const [ project, setProject] = useState(null)
   
   useEffect(() => {
     projectStore.getProjects()
@@ -54,9 +52,16 @@ const Dashboard = observer(() => {
     navigate('/login')
   }
 
-  const button = <SoftButton variant="gradient" color="dark" size="small">
-                    Voir details
-                 </SoftButton>
+  function Button({ id }) {
+    const link = `/project-edit/${id}`
+    return (
+      <Link to={link}>
+        <SoftButton variant="gradient" color="dark" size="small">
+          Voir details
+        </SoftButton>
+      </Link>
+    )
+  } 
   
   const dataTableData = {
     columns: [
@@ -70,7 +75,7 @@ const Dashboard = observer(() => {
       ({
       name: project.name,
       created_at: new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
-      button: button
+      button: <Button id={project.id}/>
       })
     ),
   };
@@ -107,7 +112,6 @@ const Dashboard = observer(() => {
           />
         </Card>
       </SoftBox>
-      <NewColdRoom/>
       <Footer />
     </DashboardLayout>
   );

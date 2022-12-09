@@ -55,12 +55,12 @@ export function createUserProfileStore() {
         this.hasErrors = false
       })
       try {
-        let response = await axios.get(`${BASE_URL}user_profiles/${id}`)
-        let data = await response.data
-        if (data) {
+        let response = await axios.get(`${BASE_URL}user_profiles`)
+        if (response.data) {
           runInAction(() => {
             this.loading = false
-            this.profileDetails = data
+            let myProfile = response.data.filter(profile => profile.user_id == id)[0]
+            this.profileDetails = myProfile
           })
         }    
       } catch(error) {

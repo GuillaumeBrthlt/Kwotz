@@ -1,0 +1,106 @@
+import SoftTypography from '@components/SoftTypography'
+import { Grid } from '@mui/material'
+import Separator from '@pages/projectpage/components/Separator'
+import React from 'react'
+
+export default function ColdRoomDetails({ coldRoom }) {
+
+  function CondensingUnit() {
+    switch (coldRoom.condensing_unit) {
+      case 'independant':
+        return 'groupe de condensation indépendant'
+      case 'compressor_rack':
+        return 'sur centrale frigorifique'
+    }
+  }
+
+  function ProdLocation() {
+    switch (coldRoom.prod_outside) {
+      case true:
+        return "A l'extérieur"
+      case false:
+        return 'en salle des machines'
+    }
+  }
+
+  function Frequency() {
+    switch (coldRoom.entries_frequency) {
+      case 'daily':
+        return "jour"
+      case 'weekly':
+        return 'semaine'
+      case 'monthly':
+        return 'mois'
+    }
+  }
+
+  return (
+    <Grid>
+      <SoftTypography variant='h4' mt={5}>
+        {coldRoom.name}
+      </SoftTypography>
+      <Separator />
+      <SoftTypography variant='h5' color="primary">
+        Informations générales
+      </SoftTypography>
+      <SoftTypography variant='body2'>
+        Fuide frigorigène: {coldRoom.refrigerant_type}
+      </SoftTypography>
+      <SoftTypography variant='body2' sx={coldRoom.condensing_unit == 'without' ? {display: 'none'} : {}}>
+        Production: {CondensingUnit()}
+      </SoftTypography>
+      <SoftTypography variant='body2' sx={coldRoom.condensing_unit == 'without' ? {display: 'none'} : {}}>
+        Emplacement de la production: {ProdLocation()}
+      </SoftTypography>
+      <SoftTypography variant='body2' sx={coldRoom.condensing_unit != 'without' ? {display: 'none'} : {}}>
+        Ne pas chiffrer la production
+      </SoftTypography>
+      <SoftTypography variant='h5' color="primary" mt={2}>
+        Dimensions
+      </SoftTypography>
+      <SoftTypography variant='body2' sx={!coldRoom.length ? {display: 'none'} : {}}>
+        Longueur: {coldRoom.length} m
+      </SoftTypography>
+      <SoftTypography variant='body2' sx={!coldRoom.width ? {display: 'none'} : {}}>
+        Largeur: {coldRoom.width} m
+      </SoftTypography>
+      <SoftTypography variant='body2' sx={!coldRoom.height ? {display: 'none'} : {}}>
+        Hauteur: {coldRoom.height} m
+      </SoftTypography>
+      <SoftTypography variant='body2' sx={!coldRoom.volume ? {display: 'none'} : {}}>
+        Volume: {coldRoom.volume} m³ 
+      </SoftTypography>
+      <SoftTypography variant='h5' color="primary" mt={2}>
+        Denrées
+      </SoftTypography>
+      <SoftTypography variant='body2'>
+        Denrées stockées: {coldRoom.product_types}
+      </SoftTypography>
+      <SoftTypography variant='body2' sx={!coldRoom.entries_quantity ? {display: 'none'} : {}}>
+        Entrée des denrées: {coldRoom.entries_quantity} kg / {Frequency()}
+      </SoftTypography>
+      <Grid sx={coldRoom.heat_sources || coldRoom.heat_sources_power ? {} : {display: 'none'}}>
+        <SoftTypography variant='h5' color="primary" mt={2}>
+          Autres apports de chaleur
+        </SoftTypography>
+        <SoftTypography fontWeight='medium' variant='body2'>
+          description:
+        </SoftTypography>
+        <SoftTypography variant='body2'>
+          {coldRoom.heat_sources}
+        </SoftTypography>
+        <SoftTypography variant='body2' mt={2}>
+          Puissance totale: {coldRoom.heat_sources_power} kW
+        </SoftTypography>
+      </Grid>
+      <Grid sx={coldRoom.comment ? {} : {display: 'none'}}>
+        <SoftTypography variant='h5' color="primary" mt={2}>
+          Commentaires
+        </SoftTypography>
+        <SoftTypography variant='body2'>
+          {coldRoom.comment}
+        </SoftTypography>
+      </Grid>
+    </Grid>
+  )
+}

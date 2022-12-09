@@ -9,9 +9,7 @@ export function createProjectStore() {
     loading: null,
     hasErrors: null,
     projects: [],
-    projectDetails: {
-      name: null
-    },
+    projectDetails: null,
     names: null,
 
     async createProject(projectData) {
@@ -56,6 +54,20 @@ export function createProjectStore() {
             this.names = uniqueNames
           })
         }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+    async getDetails(id) {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        await this.getProjects()
+        let findProject = this.projects.filter(project => project.id == id)[0]
+        this.projectDetails = findProject
       } catch(error) {
         console.error(error)
       }
