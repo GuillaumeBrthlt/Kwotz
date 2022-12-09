@@ -108,7 +108,6 @@ const Dashboard = observer(() => {
               defaultValue: 5,
               entries: [5, 10, 25],
             }}
-            canSearch
           />
         </Card>
       </SoftBox>

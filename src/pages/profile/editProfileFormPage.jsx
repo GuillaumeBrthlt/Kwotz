@@ -12,9 +12,11 @@ import Card from "@mui/material/Card";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
+import { MobileStepper } from "@mui/material";
 
 //import css file for load spinner
 import '@pages/profile/editProfileFormPage.css'
+
 
 // Soft UI Dashboard PRO React components
 import SoftAlert from '@components/SoftAlert'
@@ -115,10 +117,10 @@ new Promise((resolve) => {
 const handleBack = () => setActiveStep(activeStep - 1);
 
 
-  const submitForm = async (values, actions) => {
+  const submitForm = async (values) => {
     await sleep(1000);
 
-    userProfileStore.editProfile(values, id)
+    userProfileStore.editProfile(values, userID)
     setUpdate(true)
     await sleep(1000)
     setLoading(true)
