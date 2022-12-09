@@ -51,6 +51,10 @@ const NewProject = observer(() => {
     projectStore.createProject(projectData)
     await sleep(1000)
   }
+  
+  function getBack() {
+    navigate('/dashboard')
+  }
 
   useEffect(()=> {
     sleep(1000)
@@ -108,7 +112,7 @@ const NewProject = observer(() => {
                     </SoftBox>
                     <SoftBox display="flex" justifyContent="flex-end" mt={3}>
                       <SoftBox mr={1}>
-                        <SoftButton color="light">annuler</SoftButton>
+                        <SoftButton color="light" onClick={getBack}>annuler</SoftButton>
                       </SoftBox>
                       <SoftButton 
                         type="submit"

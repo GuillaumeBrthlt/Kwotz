@@ -12,6 +12,7 @@ import Card from "@mui/material/Card";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
+import { MobileStepper } from "@mui/material";
 
 //import css file for load spinner
 import '@pages/profile/editProfileFormPage.css'
