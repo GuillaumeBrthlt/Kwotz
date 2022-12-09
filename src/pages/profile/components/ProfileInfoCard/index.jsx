@@ -29,15 +29,11 @@ import Icon from "@mui/material/Icon";
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 
-// Soft UI Dashboard PRO React base styles
-import colors from "@assets/theme/base/colors";
-import typography from "@assets/theme/base/typography";
 
-function ProfileInfoCard({ title, description, info, social, action }) {
+function ProfileInfoCard({ title, info }) {
   const labels = [];
   const values = [];
-  const { socialMediaColors } = colors;
-  const { size } = typography;
+
 
   // Convert this form `objectKey` of the object key in to this `object key`
   Object.keys(info).forEach((el) => {
@@ -66,23 +62,6 @@ function ProfileInfoCard({ title, description, info, social, action }) {
     </SoftBox>
   ));
 
-  // Render the card social media icons
-  const renderSocial = social.map(({ link, icon, color }) => (
-    <SoftBox
-      key={color}
-      component="a"
-      href={link}
-      target="_blank"
-      rel="noreferrer"
-      fontSize={size.lg}
-      color={socialMediaColors[color].main}
-      pr={1}
-      pl={0.5}
-      lineHeight={1}
-    >
-      {icon}
-    </SoftBox>
-  ));
 
   return (
     <Card sx={{ height: "100%" }}>
@@ -90,16 +69,10 @@ function ProfileInfoCard({ title, description, info, social, action }) {
         <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
           {title}
         </SoftTypography>
-        <SoftTypography component={Link} to={action.route} variant="body2" color="secondary">
-          <Tooltip title={action.tooltip} placement="top">
-            <Icon>edit</Icon>
-          </Tooltip>
-        </SoftTypography>
       </SoftBox>
       <SoftBox p={2}>
         <SoftBox mb={2} lineHeight={1}>
           <SoftTypography variant="button" color="text" fontWeight="regular">
-            {description}
           </SoftTypography>
         </SoftBox>
         <SoftBox opacity={0.3}>
@@ -107,12 +80,6 @@ function ProfileInfoCard({ title, description, info, social, action }) {
         </SoftBox>
         <SoftBox>
           {renderItems}
-          <SoftBox display="flex" py={1} pr={2}>
-            <SoftTypography variant="button" fontWeight="bold" textTransform="capitalize">
-              social: &nbsp;
-            </SoftTypography>
-            {renderSocial}
-          </SoftBox>
         </SoftBox>
       </SoftBox>
     </Card>
@@ -122,13 +89,7 @@ function ProfileInfoCard({ title, description, info, social, action }) {
 // Typechecking props for the ProfileInfoCard
 ProfileInfoCard.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
   info: PropTypes.objectOf(PropTypes.string).isRequired,
-  social: PropTypes.arrayOf(PropTypes.object).isRequired,
-  action: PropTypes.shape({
-    route: PropTypes.string.isRequired,
-    tooltip: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default ProfileInfoCard;

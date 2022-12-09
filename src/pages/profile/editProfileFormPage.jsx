@@ -115,10 +115,10 @@ new Promise((resolve) => {
 const handleBack = () => setActiveStep(activeStep - 1);
 
 
-  const submitForm = async (values, actions) => {
+  const submitForm = async (values) => {
     await sleep(1000);
 
-    userProfileStore.editProfile(values, id)
+    userProfileStore.editProfile(values, userID)
     setUpdate(true)
     await sleep(1000)
     setLoading(true)

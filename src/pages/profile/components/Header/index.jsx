@@ -41,10 +41,22 @@ import breakpoints from "@assets/theme/base/breakpoints";
 // Images
 import burceMars from "@assets/images/bruce-mars.jpg";
 import curved0 from "@assets/images/curved-images/curved0.jpg";
+import { useUserStore } from "@contexts/UserContext";
+import { useUserProfileStore } from "@contexts/UserProfileContext";
+
 
 function Header() {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState(0);  
+  const userProfileStore = useUserProfileStore()
+  const userStore = useUserStore()
+  const userID = userStore.user.id
+
+useEffect(() => {
+  userProfileStore.getProfileDetails(userID)
+}, [])
+
+const e = userProfileStore.profileDetails
 
   useEffect(() => {
     // A function that sets the orientation state of the tabs.
@@ -65,8 +77,6 @@ function Header() {
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleTabsOrientation);
   }, [tabsOrientation]);
-
-  const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
   return (
     <SoftBox position="relative">
@@ -100,39 +110,16 @@ function Header() {
           px: 2,
         }}
       >
-        <Grid container spacing={3} alignItems="center">
-          <Grid item>
-            <SoftAvatar
-              src={burceMars}
-              alt="profile-image"
-              variant="rounded"
-              size="xl"
-              shadow="sm"
-            />
-          </Grid>
-          <Grid item>
+        <Grid container spacing={3} alignItems="center" justifyContent="center">
+          <Grid item >
             <SoftBox height="100%" mt={0.5} lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
-                Alex Thompson
+                {e.first_name}
               </SoftTypography>
               <SoftTypography variant="button" color="text" fontWeight="medium">
-                CEO / Co-Founder
+                {e.role}
               </SoftTypography>
             </SoftBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
-            <AppBar position="static">
-              <Tabs
-                orientation={tabsOrientation}
-                value={tabValue}
-                onChange={handleSetTabValue}
-                sx={{ background: "transparent" }}
-              >
-                <Tab label="App" icon={<Cube />} />
-                <Tab label="Message" icon={<Document />} />
-                <Tab label="Settings" icon={<Settings />} />
-              </Tabs>
-            </AppBar>
           </Grid>
         </Grid>
       </Card>

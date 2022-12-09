@@ -74,6 +74,7 @@ export const App = observer(() => {
           <Route path="/new_profile" element={<NewUser />} />
           <Route path="/new_project" element={<NewProject />} />
           <Route path="/new_supplier" element={<NewSupplier />} />
+          <Route path="/profile" element={<ProfileOverview />} />
           <Route path="/edit_profile" element={<EditUser />} />
           <Route path="/404" element={<Error404/>}/>
           <Route path="/confirmation" element={<EmailValidation/>}/>
