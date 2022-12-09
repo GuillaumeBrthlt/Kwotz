@@ -11,6 +11,9 @@ export function createProjectStore() {
     projects: [],
     projectDetails: null,
     names: null,
+    sent: false,
+    latestProject: null,
+    created: null,
 
     async createProject(projectData) {
 
@@ -23,7 +26,9 @@ export function createProjectStore() {
         let response = await axios.post(`${BASE_URL}projects`, payload);
         if (response.status == 201) {
           runInAction (() => {
+            this.latestProject = response.data
             this.loading = false
+            this.created = true
           })
         } else {
           throw new Error('informations non valides')
@@ -33,6 +38,25 @@ export function createProjectStore() {
           this.loading = false
           this.hasErrors = true
         })
+      }
+    },
+
+    async sendProject(payload) {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.post(`${BASE_URL}quote_requests`, payload)
+        let data = await response.data
+        console.log(data)
+        if (data) {
+          runInAction(() => {
+            this.sent = true
+          })
+        }    
+      } catch(error) {
+        console.error(error)
       }
     },
 
