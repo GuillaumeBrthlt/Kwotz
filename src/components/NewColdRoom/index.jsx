@@ -40,6 +40,7 @@ import Comments from "@components/NewColdRoom/components/Comments";
 import validations from "@components/NewColdRoom/schemas/validations";
 import initialValues from "@components/NewColdRoom/schemas/initialValues";
 import form from "@components/NewColdRoom/schemas/form"
+import { useColdRoomStore } from "@contexts/ColdRoomContext";
 
 function getSteps() {
   return ["1. Général", "2. Dimensions", "3. Stockage", "4. Autres sources", "5. Commentaires"];
@@ -64,12 +65,13 @@ function getStepContent(stepIndex, formData) {
 
 
 
-function NewColdRoom() {
+function NewColdRoom({project, setNewColdRoom}) {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
   const { formId, formField } = form;
   const isLastStep = activeStep === steps.length - 1;
   const currentValidation = validations[activeStep];
+  const coldRoomStore = useColdRoomStore()
 
 
   const handleNext = () => setActiveStep(activeStep + 1);
@@ -77,8 +79,8 @@ function NewColdRoom() {
 
   function handleSubmit(values, actions) {
     if (isLastStep) {
-      payload = {
-        coldRoom: {
+      const payload = {
+        cold_room: {
           name: values.CFname,
           temperature: values.temperature,
           condensing_unit: values.condensing_unit,
@@ -87,16 +89,18 @@ function NewColdRoom() {
           length: values.CFlength,
           width: values.width,
           height: values.height,
-          volume: values.volume,
+          volume: values.volume ? values.volume : values.CFlength * values.width * values.height,
           product_types: values.product_types,
           entries_frequency: values.entries_frequency,
           entries_quantity: values.entries_quantity,
           heat_sources_power: values.heat_sources_power,
           heat_sources: values.heat_sources,
           comment: values.comment,
+          project_id: project
         },
       }
-      console.log(payload)
+      coldRoomStore.createColdRoom(payload)
+      setNewColdRoom(false)
     } else {
       setActiveStep(activeStep + 1);
       actions.setTouched({});
@@ -105,7 +109,7 @@ function NewColdRoom() {
   }
 
   return (
-      <SoftBox mt={1} mb={20}>
+      <SoftBox mt={1} mb={5}>
         <Grid container justifyContent="center">
           <Grid item xs={12} lg={8}>
             <Stepper activeStep={activeStep} alternativeLabel sx={{ display: { xs: 'none', sm: 'flex'} }}>
@@ -151,7 +155,6 @@ function NewColdRoom() {
                             </SoftButton>
                           )}
                           <SoftButton
-                            disable={isSubmitting}
                             variant="gradient"
                             color="dark"
                             type='submit'

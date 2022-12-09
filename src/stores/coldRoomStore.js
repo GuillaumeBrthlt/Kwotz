@@ -8,7 +8,24 @@ export function createColdRoomStore() {
     loading: null,
     hasErrors: null,
     coldRooms: [],
-    created: null,
+
+    async getColdRooms() {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios(`${BASE_URL}cold_rooms`)
+        if (response.data) {
+          runInAction(() => {
+            this.loading = false
+            this.coldRooms = response.data
+          })
+        }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
 
     async createColdRoom(payload) {
 
@@ -22,7 +39,7 @@ export function createColdRoomStore() {
         if (response.status == 201) {
           runInAction (() => {
             this.loading = false
-            this.created = true
+            this.getColdRooms()
           })
         } else {
           throw new Error('informations non valides')
