@@ -22,9 +22,6 @@ import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import Footer from "@components/Footer";
 
-/* // Settings page components
-import FormFieldSupplier from "@components/formFieldSupplier"; */
-
 export const NewSupplier = observer(() => {
   const [alias, setAlias] = useState(null)
   const [address, setAddress] = useState(null)
@@ -124,30 +121,23 @@ export const NewSupplier = observer(() => {
                     onKeyDown={handleKeyDown}
                     />
                   <Divider />     
-
-
                   <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                     <SoftTypography component="label" variant="caption" fontWeight="bold">
                       Ajouter le fournisseur à ma liste de Favoris
                     </SoftTypography>
-
                     <SoftBox ml={0.5} mb={0.25}>
                       <Switch onChange={() => {setFavorite(true)}} />
                     </SoftBox>
-
-
                     <SoftBox display="flex" justifyContent="flex-end" mt={3}>
                       <SoftBox mr={1}>
                         <SoftButton 
                           component={Link}
                           to="/profile"
                           color="light"
-
                         >
                           Annuler / Retour
                         </SoftButton>
                       </SoftBox>
-
                           <SoftButton
                             component={Link}
                             to="/profile"
@@ -157,7 +147,6 @@ export const NewSupplier = observer(() => {
                           >
                             Valider
                           </SoftButton>
-
                     </SoftBox>
                   </SoftBox>
                 </SoftBox>
