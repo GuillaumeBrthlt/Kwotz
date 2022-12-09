@@ -70,10 +70,10 @@ export const App = observer(() => {
           <Route path="/register" element={<RegisterPage />}/>
           <Route path="/resetpassword" element={<ResetPasswordPage />}/>
           <Route path="/new_password" element={<NewPasswordPage />}/>
-          <Route path="/new_profile" element={<NewUser />} />
-          <Route path="/new_project" element={<NewProject />} />
-          <Route path="/new_supplier" element={<NewSupplier />} />
-          <Route path="/edit_profile" element={<EditUser />} />
+          <Route path="/new_profile" element={<PrivateRoute component={<NewUser />}/>}/>
+          <Route path="/new_project" element={<PrivateRoute component={<NewProject />}/>}/>
+          <Route path="/new_supplier" element={<PrivateRoute component={<NewSupplier />}/>}/>
+          <Route path="/edit_profile" element={<PrivateRoute component={<EditUser />}/>}/>
           <Route path="/404" element={<Error404/>}/>
           <Route path="/confirmation" element={<EmailValidation/>}/>
         </Routes>

@@ -2,10 +2,14 @@ import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useSupplierStore } from "../../contexts/SupplierContext";
 
+// react-router-dom components
+import { Link } from "react-router-dom";
+
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
+import { Switch } from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -26,7 +30,7 @@ export const NewSupplier = observer(() => {
   const [address, setAddress] = useState(null)
   const [city, setCity] = useState(null)
   const [zipcode, setZipcode] = useState(null)
-  const [favorite, setfavorite] = useState(null)
+  const [favorite, setFavorite] = useState(false)
 
   const supplierStore = useSupplierStore()
 
@@ -36,7 +40,7 @@ export const NewSupplier = observer(() => {
         "address": address,
         "city": city,
         "zipcode": zipcode,
-        "favorite": true
+        "favorite": favorite
       }
     }
     
@@ -47,8 +51,8 @@ export const NewSupplier = observer(() => {
   }
 
   const handleSubmit = () => {
-      supplierStore.createSupplier(supplierData)
-      console.log(supplierData)
+    supplierStore.createSupplier(supplierData)
+    console.log(supplierData)
   }
 
   return (
@@ -119,38 +123,41 @@ export const NewSupplier = observer(() => {
                     onChange={e => setZipcode(e.target.value)}
                     onKeyDown={handleKeyDown}
                     />
-                  <Divider />                  
+                  <Divider />     
+
+
                   <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                     <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Ajouter à ma liste de Favoris
+                      Ajouter le fournisseur à ma liste de Favoris
                     </SoftTypography>
 
-                    <SoftButton 
-                      variant="outlined" 
-                      color="dark" 
-                      size="small"
+                    <SoftBox ml={0.5} mb={0.25}>
+                      <Switch onChange={() => {setFavorite(true)}} />
+                    </SoftBox>
 
-                    >
-                      Ajouter
-                    </SoftButton>
 
                     <SoftBox display="flex" justifyContent="flex-end" mt={3}>
                       <SoftBox mr={1}>
                         <SoftButton 
-                          
+                          component={Link}
+                          to="/profile"
                           color="light"
 
                         >
-                          Annuler
+                          Annuler / Retour
                         </SoftButton>
                       </SoftBox>
-                      <SoftButton 
-                        variant="gradient" 
-                        color="info"
-                        onClick={handleSubmit}
-                      >
-                        Valider
-                      </SoftButton>
+
+                          <SoftButton
+                            component={Link}
+                            to="/profile"
+                            variant="gradient" 
+                            color="info"
+                            onClick={handleSubmit}
+                          >
+                            Valider
+                          </SoftButton>
+
                     </SoftBox>
                   </SoftBox>
                 </SoftBox>
