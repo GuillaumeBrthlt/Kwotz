@@ -7,8 +7,10 @@ import Sidenav from '@components/navbars/Sidenav'
 const Nav = observer(() => {
   const userStore = useUserStore()
 
-  const Logout = () => {
-    userStore.logoutUser()
+  if (userStore.loading) {
+    return (
+      <></>
+    )
   }
 
   if (userStore.authenticated) {

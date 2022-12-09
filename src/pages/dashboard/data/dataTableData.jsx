@@ -20,7 +20,8 @@ import SoftBadge from "@components/SoftBadge";
 // ProductsList page components
 import ProductCell from "@pages/dashboard/components/ProductCell";
 import ActionCell from "@pages/dashboard/components/ActionCell";
-
+import { useProjectStore } from "../../../contexts/ProjectContext";
+import {useEffect } from 'react'
 // Badges
 const created = (
   <SoftBadge variant="contained" color="secondary" size="xs" badgeContent="Sauvegardé" container />
@@ -30,30 +31,14 @@ const sent = (
 );
 
 const dataTableData = {
+
   columns: [
-    {
-      Header: "projet",
-      accessor: "product",
-      width: "40%",
-      Cell: ({ value: [name, data] }) => (
-        <ProductCell image={data.image} name={name} checked={data.checked} />
-      ),
-    },
-    { Header: "Date de création", accessor: "created_at" },
-    { Header: "Fournisseurs", accessor: "suppliers" },
-    { Header: "nombre de CF", accessor: "coldRoomsQty" },
-    { Header: "Date d'envoie", accessor: "sent_at" },
-    {
-      Header: "status",
-      accessor: "status",
-      Cell: ({ value }) => (value === "sent" ? sent : created),
-    },
-    { Header: "actions", accessor: "action" },
+    { Header: "name", accessor: "name",}
   ],
 
   rows: [
-    
   ],
+  
 };
 
 export default dataTableData;

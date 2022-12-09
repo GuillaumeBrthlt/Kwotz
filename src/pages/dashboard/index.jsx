@@ -31,20 +31,54 @@ import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import DataTable from "@components/Tables/DataTable";
 
 // Data
-import dataTableData from "@pages/dashboard/data/dataTableData";
+// import dataTableData from "@pages/dashboard/data/dataTableData";
 import { useUserStore } from "@contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import Footer from "@components/Footer";
-import NewColdRoom from "@components/NewColdRoom";
+import { useProjectStore } from "../../contexts/ProjectContext";
+import { useEffect, useState } from "react";
 
 const Dashboard = observer(() => {
   const userStore = useUserStore()
   const navigate = useNavigate()
-
+  const projectStore = useProjectStore()
+  
+  useEffect(() => {
+    projectStore.getProjects()
+  }, [])
+ 
   if (!userStore.authenticated) {
     navigate('/login')
   }
+
+  function Button({ id }) {
+    const link = `/project-edit/${id}`
+    return (
+      <Link to={link}>
+        <SoftButton variant="gradient" color="dark" size="small">
+          Voir details
+        </SoftButton>
+      </Link>
+    )
+  } 
+  
+  const dataTableData = {
+    columns: [
+      { Header: "name", accessor: "name" },
+      { Header: "Date de creation", accessor: "created_at" },
+      { Header: "Action", accessor: "button" }
+    ],
+  
+    rows: 
+    projectStore.projects.map((project) => 
+      ({
+      name: project.name,
+      created_at: new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
+      button: <Button id={project.id}/>
+      })
+    ),
+  };
 
   return (
     <DashboardLayout>
@@ -78,7 +112,6 @@ const Dashboard = observer(() => {
           />
         </Card>
       </SoftBox>
-      <NewColdRoom/>
       <Footer />
     </DashboardLayout>
   );
