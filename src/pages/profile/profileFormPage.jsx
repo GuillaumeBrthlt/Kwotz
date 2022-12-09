@@ -84,6 +84,12 @@ const NewUser = observer(() => {
     }
   }, [userProfileStore.created])
 
+  useEffect(() =>{
+    if (!userStore.authenticated) {
+      navigate('/login')
+    }
+  }, [userStore.authenticated])
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
