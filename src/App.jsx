@@ -8,6 +8,7 @@ import ResetPasswordPage from "@pages/authentification/resetPasswordPage";
 import NewPasswordPage from "@pages/authentification/newPasswordPage";
 import NewUser from "@pages/profile/profileFormPage";
 import EditUser from "@pages/profile/editProfileFormPage";
+import ProfileOverview from "@pages/profile/detailsProfilePage";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@theme";
@@ -73,6 +74,7 @@ export const App = observer(() => {
           <Route path="/new_profile" element={<NewUser />} />
           <Route path="/new_project" element={<NewProject />} />
           <Route path="/new_supplier" element={<NewSupplier />} />
+          <Route path="/profile" element={<ProfileOverview />} />
           <Route path="/edit_profile" element={<EditUser />} />
           <Route path="/404" element={<Error404/>}/>
           <Route path="/confirmation" element={<EmailValidation/>}/>
