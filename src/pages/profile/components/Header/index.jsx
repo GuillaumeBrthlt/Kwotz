@@ -40,7 +40,6 @@ import Settings from "@assets/theme/Icons/Settings";
 import breakpoints from "@assets/theme/base/breakpoints";
 
 // Images
-import burceMars from "@assets/images/bruce-mars.jpg";
 import curved0 from "@assets/images/curved-images/curved0.jpg";
 import { useUserStore } from "@contexts/UserContext";
 import { useUserProfileStore } from "@contexts/UserProfileContext";
