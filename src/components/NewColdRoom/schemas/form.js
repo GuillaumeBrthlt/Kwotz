@@ -59,7 +59,7 @@ const form = {
     entries_frequency: {
       name: "entries_frequency",
       type: 'text',
-      label: 'text'
+      label: "Fréquence d'entrée des denrées"
     },
     entries_quantity: {
       name: "entries_quantity",

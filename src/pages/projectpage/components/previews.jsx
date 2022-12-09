@@ -22,21 +22,11 @@ import {useReactToPrint} from "react-to-print";
 
 // Images
 import { observer } from "mobx-react-lite";
-import { useUserStore } from "@contexts/UserContext";
-import { useUserProfileStore } from "@contexts/UserProfileContext";
-import { useEffect } from "react";
 import ColdRoomDetails from "@pages/projectpage/components/ColdRoomDetails";
 import { useRef } from "react";
 
-export const Previews = observer(({ project, coldRooms }) => {
-  const userStore = useUserStore()
-  const userProfileStore = useUserProfileStore()
-  const userId = userStore.user.id
+export const Previews = observer(({profile, project, coldRooms, user}) => {
   const componentRef = useRef()
-
-  useEffect(() => {
-    userProfileStore.getProfileDetails(userId)
-  }, [userId])
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current
@@ -54,20 +44,20 @@ export const Previews = observer(({ project, coldRooms }) => {
                 <Grid container justifyContent="space-between">
                   <Grid item xs={12} md={4}>
                     <SoftTypography variant="h6" fontWeight="medium">
-                      {userProfileStore.profileDetails.first_name} {userProfileStore.profileDetails.last_name}
+                      {profile.first_name} {profile.last_name}
                     </SoftTypography>
                     <SoftTypography variant="h6" fontWeight="medium">
-                      {userProfileStore.profileDetails.company}
+                      {profile.company}
                     </SoftTypography>
                     <SoftTypography variant="h6" fontWeight="medium">
-                      {userProfileStore.profileDetails.address}
+                      {profile.address}
                     </SoftTypography>
                     <SoftTypography variant="h6" fontWeight="medium">
-                      {userProfileStore.profileDetails.zipcode} {userProfileStore.profileDetails.city}
+                      {profile.zipcode} {profile.city}
                     </SoftTypography>
                     <SoftBox mt={1} mb={2}>
                       <SoftTypography display="block" variant="body2" color="secondary">
-                        tel: {userProfileStore.profileDetails.phone_number}
+                        tel: {profile.phone_number}
                       </SoftTypography>
                     </SoftBox>
                   </Grid>

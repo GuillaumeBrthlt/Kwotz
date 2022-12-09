@@ -18,6 +18,8 @@ import SoftInput from "@components/SoftInput"
 import { Card } from "@mui/material"
 import SoftTypography from "@components/SoftTypography"
 import CloseIcon from '@mui/icons-material/Close';
+import { useUserStore } from "@contexts/UserContext"
+import { useUserProfileStore } from "@contexts/UserProfileContext"
 
 export const ProjectOverview = observer(() => {
   const {id} = useParams()
@@ -27,6 +29,9 @@ export const ProjectOverview = observer(() => {
   const [coldRooms, setColdRooms] = useState([])
   const [send, setSend] = useState(false)
   const [email, setEmail] = useState(null)
+  const userStore = useUserStore()
+  const userProfileStore = useUserProfileStore()
+  const userId = userStore.user.id
 
   useEffect(() => {
     projectStore.getDetails(id)
@@ -35,6 +40,10 @@ export const ProjectOverview = observer(() => {
   useEffect(() => {
     coldRoomStore.getColdRooms()
   }, [])
+
+  useEffect(() => {
+    userProfileStore.getProfileDetails(userId)
+  }, [userId])
 
   useEffect(() => {
     return async() => {
@@ -126,7 +135,7 @@ export const ProjectOverview = observer(() => {
             <ColdRoomsList coldRooms={coldRooms}/>
           </Grid>
           <Grid item sm={12} md={8}>
-            <Previews project={project} coldRooms={coldRooms}/> 
+            <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails}/> 
           </Grid>
         </Grid>
         
