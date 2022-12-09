@@ -18,6 +18,8 @@ import EmailValidation from "@pages/authentification/EmailValidation";
 import NewProject from "./pages/projectpage/newProject";
 import { ProjectOverview } from "@pages/projectpage/editProject";
 import { useEffect } from "react";
+import { Grid } from "@mui/material";
+import { BarLoader } from "react-spinners";
 
 
 export const App = observer(() => {
@@ -26,8 +28,7 @@ export const App = observer(() => {
   useEffect(() =>{
     if (!userStore.authenticated) {
       let localAuthToken = localStorage.auth_token;
-      let cookieExists = localAuthToken !== 'undefined' && localAuthToken !== null
-      if (cookieExists) {
+      if (localAuthToken) {
         userStore.loginUserWithToken(localAuthToken)
       } else {
         userStore.noLogin()
@@ -38,11 +39,10 @@ export const App = observer(() => {
   
   if (userStore.loading) {
     return (
-      <div>
-        ...Loading
-      </div>
+      <Grid display='flex' height='100vh' justifyContent='center' alignItems='center'>
+        <BarLoader color="#17c1e8" />
+      </Grid>
     )
-    
   }
 
 

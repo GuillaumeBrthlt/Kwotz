@@ -24,6 +24,7 @@ export function createUserStore() {
 
     async register(payload) {
       runInAction (() => {
+        this.loading = true
         this.hasErrors = false
       })
       
@@ -55,8 +56,9 @@ export function createUserStore() {
 
     async loginUser(payload) {
       runInAction (() => {
-        this.hasErrors = false
         this.loading = true
+        this.tokenOutdated = false
+        this.hasErrors = false
       })
 
       try {
@@ -64,11 +66,11 @@ export function createUserStore() {
         if (response.data.user) {
           runInAction (() => {
             this.authenticated = true
-            this.loading = false
             this.auth_token = response.headers.authorization;
             this.user = response.data.user
             axios.defaults.headers.common["Authorization"] = this.auth_token
             localStorage.setItem('auth_token', this.auth_token)
+            this.loading = false
           })
         } else {
           throw new Error('invalid password or email')
@@ -97,6 +99,7 @@ export function createUserStore() {
             email: null,
             has_profile: null
           };
+          this.tokenOutdated = false
           this.auth_token = null;
           this.authenticated = false;
           localStorage.removeItem("auth_token");
@@ -141,6 +144,7 @@ export function createUserStore() {
 
     async validateEmail(token) {
       runInAction (() => {
+        this.loading = true
         this.hasErrors = false
       })
 
@@ -148,16 +152,16 @@ export function createUserStore() {
         let response = await axios.get(`${BASE_URL}users/confirmation?confirmation_token=${token}`)
         if (response.statusText === "OK") {
           runInAction(() => {
-            this.loading = false
             this.hasErrors = false
+            this.loading = false
           })
         } else {
           throw new Error(response.statusText)
         }
       } catch (error) {
         runInAction(() => {
-          this.loading = false
           this.hasErrors = true
+          this.loading = false
         })
       } 
     }
