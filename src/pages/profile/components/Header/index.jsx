@@ -19,28 +19,21 @@ import { useState, useEffect } from "react";
 // @mui material components
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
-import AppBar from "@mui/material/AppBar";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-import SoftAvatar from "@components/SoftAvatar";
 
 // Soft UI Dashboard PRO React example components
 import DashboardNavbar from "@components/navbars/DashboardNavbar";
 
 // Soft UI Dashboard PRO React icons
- import Cube from "@assets/theme/Icons/Cube";
-import Document from "@assets/theme/Icons/Document";
-import Settings from "@assets/theme/Icons/Settings";
 
 // Soft UI Dashboard PRO React base styles
 import breakpoints from "@assets/theme/base/breakpoints";
 
 // Images
-import curved0 from "@assets/images/curved-images/curved0.jpg";
+import curved0 from "/assets/images/curved-images/curved0.jpg";
 import { useUserStore } from "@contexts/UserContext";
 import { useUserProfileStore } from "@contexts/UserProfileContext";
 
