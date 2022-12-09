@@ -11,6 +11,8 @@ export function createProjectStore() {
     projects: [],
     projectDetails: null,
     names: null,
+    latestProject: null,
+    created: null,
 
     async createProject(projectData) {
 
@@ -23,7 +25,9 @@ export function createProjectStore() {
         let response = await axios.post(`${BASE_URL}projects`, payload);
         if (response.status == 201) {
           runInAction (() => {
+            this.latestProject = response.data
             this.loading = false
+            this.created = true
           })
         } else {
           throw new Error('informations non valides')
