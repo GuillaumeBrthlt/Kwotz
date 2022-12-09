@@ -12,9 +12,11 @@ import Card from "@mui/material/Card";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
+import { MobileStepper } from "@mui/material";
 
 //import css file for load spinner
 import '@pages/profile/editProfileFormPage.css'
+
 
 // Soft UI Dashboard PRO React components
 import SoftAlert from '@components/SoftAlert'
@@ -115,10 +117,10 @@ new Promise((resolve) => {
 const handleBack = () => setActiveStep(activeStep - 1);
 
 
-  const submitForm = async (values, actions) => {
+  const submitForm = async (values) => {
     await sleep(1000);
 
-    userProfileStore.editProfile(values, id)
+    userProfileStore.editProfile(values, userID)
     setUpdate(true)
     await sleep(1000)
     setLoading(true)
@@ -156,13 +158,24 @@ const handleBack = () => setActiveStep(activeStep - 1);
         <SoftBox py={3} mb={20}>
           <Grid container justifyContent="center" sx={{ height: "100%" }}>
             <Grid item xs={12} lg={8}>
-              <Stepper activeStep={activeStep} alternativeLabel>
+              <Stepper activeStep={activeStep} alternativeLabel sx={{ display: { xs: 'none', sm: 'flex'} }}>
                 {steps.map((label) => (
                   <Step key={label}>
                     <StepLabel>{label}</StepLabel>
                   </Step>
                 ))}
               </Stepper>
+              <MobileStepper
+                variant="dots"
+                steps={5}
+                position="static"
+                activeStep={activeStep}
+                sx={{ 
+                  display: { xs: 'flex', sm: 'none'}, 
+                  justifyContent: 'center', 
+                  paddingY: 5 
+                }}
+              />
               <Formik
                 initialValues={initialValues}
                 validationSchema={currentValidation}

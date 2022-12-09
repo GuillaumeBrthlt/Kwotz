@@ -1,7 +1,9 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useProjectStore } from "../../contexts/ProjectContext"; 
 import { Formik, Form } from "formik";
+import { observer } from "mobx-react-lite";
+import { BarLoader } from "react-spinners";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -18,13 +20,21 @@ import SoftButton from "@components/SoftButton";
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import Footer from "@components/Footer";
+import { useNavigate } from "react-router-dom";
 
-export function NewProject() {
+const NewProject = observer(() => {
   const projectStore = useProjectStore()
   const [name, setName] = useState(null)
+  const navigate = useNavigate()
+
   const initialValues = {
     name: ""
   } 
+
+  const sleep = (ms) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 
   function handleKeyDown(e) {
     if (e.key === 'Enter') {
@@ -32,13 +42,34 @@ export function NewProject() {
     }
   }
 
-  function handleSubmit() {
+  const handleSubmit = async () => {
     const projectData = {
       "project": {
         "name": name
       }
     };
     projectStore.createProject(projectData)
+    await sleep(1000)
+  }
+  
+  function getBack() {
+    navigate('/dashboard')
+  }
+
+  useEffect(()=> {
+    sleep(1000)
+    if (projectStore.created) {
+      navigate(`/project-edit/${projectStore.latestProject.id}`)
+      projectStore.created = false
+    }
+  },[projectStore.created])
+
+  if (projectStore.loading) {
+    return (
+      <Grid display='flex' height='100vh' justifyContent='center' alignItems='center'>
+        <BarLoader color="#17c1e8" />
+      </Grid>
+    )
   }
 
   return (
@@ -81,7 +112,7 @@ export function NewProject() {
                     </SoftBox>
                     <SoftBox display="flex" justifyContent="flex-end" mt={3}>
                       <SoftBox mr={1}>
-                        <SoftButton color="light">annuler</SoftButton>
+                        <SoftButton color="light" onClick={getBack}>annuler</SoftButton>
                       </SoftBox>
                       <SoftButton 
                         type="submit"
@@ -101,6 +132,6 @@ export function NewProject() {
       <Footer />
     </DashboardLayout>
   );
-}
+})
 
 export default NewProject;

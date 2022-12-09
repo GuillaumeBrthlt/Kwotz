@@ -18,8 +18,10 @@ import { useEffect, useState } from "react";
 // react-router-dom components
 import { useLocation, NavLink } from "react-router-dom";
 
+
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
+
 
 // @mui material components
 import List from "@mui/material/List";
@@ -41,6 +43,7 @@ import SidenavRoot from "@components/navbars/Sidenav/SidenavRoot";
 import sidenavLogoLabel from "@components/navbars/Sidenav/styles/sidenav";
 
 // Soft Icons
+import Office from "@theme/Icons/Office";
 import Shop from "@theme/Icons/Shop";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
@@ -149,6 +152,14 @@ function Sidenav({ color, brand, brandName, ...rest }) {
       key: "dashboard",
       icon: <Shop size="12px" />,
       route: "/dashboard",
+      noCollapse: true,
+    }, 
+    {
+      type: "collapse",
+      name: "Profile",
+      key: "profile",
+      icon: <Office size="12px" />,
+      route: "/profile",
       noCollapse: true,
     }
   ]
