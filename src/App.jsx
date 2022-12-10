@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useUserStore } from "@contexts/UserContext";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Nav from "@components/Nav";
 import {LoginPage} from "@pages/authentification/loginPage";
 import {RegisterPage} from "@pages/authentification/registerPage";
 import ResetPasswordPage from "@pages/authentification/resetPasswordPage";
@@ -49,40 +48,39 @@ export const App = observer(() => {
   }
 
 
-  function PrivateRoute({ component: Page }) {
+  function PrivateRoute({ component }) {
     if (!userStore.authenticated) {
       return <Navigate to="/login" />;
     } else if (!userStore.user.has_profile) {
       return <Navigate to="/new_profile" />;
     }
-    return Page;
+    return component;
   }
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <Router>
-      <Nav />
-      <main>
-        <Routes>
-          <Route path="/project-edit/:id" element={<PrivateRoute component={<ProjectOverview />}/>}/>
-          <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
-          <Route path="/consultation/:id" element={<ConsultationPage />}/>
-          <Route path="/" element={<Navigate to='/login'/>}/>
-          <Route path="/login" element={<LoginPage />}/>
-          <Route path="/register" element={<RegisterPage />}/>
-          <Route path="/resetpassword" element={<ResetPasswordPage />}/>
-          <Route path="/new_password" element={<NewPasswordPage />}/>
-          <Route path="/new_profile" element={<NewUser/>} />
-          <Route path="/new_project" element={<PrivateRoute component={<NewProject />}/>}/>
-          <Route path="/new_supplier" element={<PrivateRoute component={<NewSupplier />}/>}/>
-          <Route path="/profile" element={<ProfileOverview />} />
-          <Route path="/edit_profile" element={<PrivateRoute component={<EditUser />}/>}/>
-          <Route path="/404" element={<Error404/>}/>
-          <Route path="/confirmation" element={<EmailValidation/>}/>
-        </Routes>
-      </main>
-    </Router>
+        <main>
+          <Routes>
+            <Route path="/project-edit/:id" element={<PrivateRoute component={<ProjectOverview />}/>}/>
+            <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
+            <Route path="/consultation/:id" element={<ConsultationPage />}/>
+            <Route path="/" element={<Navigate to='/login'/>}/>
+            <Route path="/login" element={<LoginPage />}/>
+            <Route path="/register" element={<RegisterPage />}/>
+            <Route path="/resetpassword" element={<ResetPasswordPage />}/>
+            <Route path="/new_password" element={<NewPasswordPage />}/>
+            <Route path="/new_profile" element={<NewUser/>} />
+            <Route path="/new_project" element={<PrivateRoute component={<NewProject />}/>}/>
+            <Route path="/new_supplier" element={<PrivateRoute component={<NewSupplier />}/>}/>
+            <Route path="/profile" element={<ProfileOverview />} />
+            <Route path="/edit_profile" element={<PrivateRoute component={<EditUser />}/>}/>
+            <Route path="/404" element={<Error404/>}/>
+            <Route path="/confirmation" element={<EmailValidation/>}/>
+          </Routes>
+        </main>
+      </Router>
     </ThemeProvider>
   )
 })

@@ -21,6 +21,7 @@ import SoftButton from "@components/SoftButton";
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import Footer from "@components/Footer";
+import Sidenav from "@components/navbars/Sidenav";
 
 export const NewSupplier = observer(() => {
   const [alias, setAlias] = useState(null)
@@ -53,109 +54,112 @@ export const NewSupplier = observer(() => {
   }
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <SoftBox mt={3} mb={4}>
-        <Grid container spacing={3} justifyContent="center">
-          <Grid item xs={12} lg={9}>
-            <Card sx={{ overflow: "visible" }}>
-              <SoftBox p={2} lineHeight={1}>
-                <SoftTypography variant="h6" fontWeight="medium">
-                  Nouveau Fournisseur
-                </SoftTypography>
-                <SoftTypography variant="button" fontWeight="regular" color="text">
-                  Ajouter un nouveau Fournisseur
-                </SoftTypography>
-                <Divider />
-                <SoftBox
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="flex-end"
-                  height="100%"
-                >
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Alias
-                    </SoftTypography>
-                  </SoftBox>
-                  <SoftInput 
-                    type="text"
-                    placeholder="alias fournisseur" 
-                    onChange={e => setAlias(e.target.value)}
-                    onSubmit={handleKeyDown}
-                    />
+    <>
+      <Sidenav />
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SoftBox mt={3} mb={4}>
+          <Grid container spacing={3} justifyContent="center">
+            <Grid item xs={12} lg={9}>
+              <Card sx={{ overflow: "visible" }}>
+                <SoftBox p={2} lineHeight={1}>
+                  <SoftTypography variant="h6" fontWeight="medium">
+                    Nouveau Fournisseur
+                  </SoftTypography>
+                  <SoftTypography variant="button" fontWeight="regular" color="text">
+                    Ajouter un nouveau Fournisseur
+                  </SoftTypography>
                   <Divider />
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Adresse
-                    </SoftTypography>
-                  </SoftBox>
-                  <SoftInput 
-                    type="text"
-                    placeholder="Adresse fournisseur" 
-                    onChange={e => setAddress(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    />
-                  <Divider />
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Ville
-                    </SoftTypography>
-                  </SoftBox>
-                  <SoftInput 
-                    type="text"
-                    placeholder="ville" 
-                    onChange={e => setCity(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    />
-                  <Divider />
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Code Postal
-                    </SoftTypography>
-                  </SoftBox>
-                  <SoftInput 
-                    type="text"
-                    placeholder="code postal" 
-                    onChange={e => setZipcode(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    />
-                  <Divider />     
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Ajouter le fournisseur à ma liste de Favoris
-                    </SoftTypography>
-                    <SoftBox ml={0.5} mb={0.25}>
-                      <Switch onChange={() => {setFavorite(true)}} />
+                  <SoftBox
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="flex-end"
+                    height="100%"
+                  >
+                    <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                      <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Alias
+                      </SoftTypography>
                     </SoftBox>
-                    <SoftBox display="flex" justifyContent="flex-end" mt={3}>
-                      <SoftBox mr={1}>
-                        <SoftButton 
-                          component={Link}
-                          to="/profile"
-                          color="light"
-                        >
-                          Annuler / Retour
-                        </SoftButton>
+                    <SoftInput 
+                      type="text"
+                      placeholder="alias fournisseur" 
+                      onChange={e => setAlias(e.target.value)}
+                      onSubmit={handleKeyDown}
+                      />
+                    <Divider />
+                    <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                      <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Adresse
+                      </SoftTypography>
+                    </SoftBox>
+                    <SoftInput 
+                      type="text"
+                      placeholder="Adresse fournisseur" 
+                      onChange={e => setAddress(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      />
+                    <Divider />
+                    <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                      <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Ville
+                      </SoftTypography>
+                    </SoftBox>
+                    <SoftInput 
+                      type="text"
+                      placeholder="ville" 
+                      onChange={e => setCity(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      />
+                    <Divider />
+                    <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                      <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Code Postal
+                      </SoftTypography>
+                    </SoftBox>
+                    <SoftInput 
+                      type="text"
+                      placeholder="code postal" 
+                      onChange={e => setZipcode(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      />
+                    <Divider />     
+                    <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                      <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Ajouter le fournisseur à ma liste de Favoris
+                      </SoftTypography>
+                      <SoftBox ml={0.5} mb={0.25}>
+                        <Switch onChange={() => {setFavorite(true)}} />
                       </SoftBox>
-                          <SoftButton
+                      <SoftBox display="flex" justifyContent="flex-end" mt={3}>
+                        <SoftBox mr={1}>
+                          <SoftButton 
                             component={Link}
                             to="/profile"
-                            variant="gradient" 
-                            color="info"
-                            onClick={handleSubmit}
+                            color="light"
                           >
-                            Valider
+                            Annuler / Retour
                           </SoftButton>
+                        </SoftBox>
+                            <SoftButton
+                              component={Link}
+                              to="/profile"
+                              variant="gradient" 
+                              color="info"
+                              onClick={handleSubmit}
+                            >
+                              Valider
+                            </SoftButton>
+                      </SoftBox>
                     </SoftBox>
                   </SoftBox>
                 </SoftBox>
-              </SoftBox>
-            </Card>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </SoftBox>
-      <Footer />
-    </DashboardLayout>
+        </SoftBox>
+        <Footer />
+      </DashboardLayout>
+    </>
   );
 })
