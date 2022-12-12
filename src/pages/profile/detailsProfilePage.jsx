@@ -39,6 +39,7 @@ import Header from "@pages/profile/components/Header";
 import Sidenav from '@components/navbars/Sidenav';
 import DashboardNavbar from '@components/navbars/DashboardNavbar';
 import { useNavigate } from 'react-router-dom';
+import { DetailsSharp } from '@mui/icons-material';
 
 
 const ProfileOverview = observer(() => {
@@ -50,7 +51,7 @@ const ProfileOverview = observer(() => {
     userProfileStore.getProfileDetails(userID)
   }, [])
 
-  const e = userProfileStore.profileDetails
+  const details = userProfileStore.profileDetails
 
   if(!userProfileStore.profileDetails.id ) {
     return (
@@ -78,16 +79,17 @@ const ProfileOverview = observer(() => {
           </Grid>
         </Grid>
         <SoftBox mt={5} mb={3}>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12} md={6} xl={4}>
               <ProfileInfoCard
                 title="informations personnelles"
                 info={{
-                  nomComplet: e.first_name + ' ' + e.last_name,
-                  adresse: e.address,
-                  ville: e.city,
-                  codePostal: e.zipcode,
-                  telephone: e.phone_number,
+                  société: details.company,
+                  nomComplet: details.first_name + ' ' + details.last_name,
+                  adresse: details.address,
+                  ville: details.city,
+                  codePostal: details.zipcode,
+                  telephone: details.phone_number,
                 }}
               />
             </Grid>
@@ -95,10 +97,10 @@ const ProfileOverview = observer(() => {
               <ProfileInfoCard
                 title="informations de mon adresse de livraison"
                 info={{
-                  intitulé: e.shipping_alias,
-                  adresse: e.shipping_address,
-                  ville: e.shipping_city,
-                  codePostal: e.shipping_zipcode,
+                  intitulé: details.shipping_alias,
+                  adresse: details.shipping_address,
+                  ville: details.shipping_city,
+                  codePostal: details.shipping_zipcode,
                 }}
               />
             </Grid>
