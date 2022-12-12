@@ -24,7 +24,7 @@ import { BarLoader } from "react-spinners";
 import { NewSupplier } from "@pages/supplier/newSupplier";
 import ConsultationPage from "@pages/consultation/ConsultationPage";
 import Cookies from "js-cookie";
-
+import { Suppliers } from "@pages/suppliers_list/suppliersList";
 
 export const App = observer(() => {
   const userStore = useUserStore()
@@ -81,6 +81,7 @@ export const App = observer(() => {
             <Route path="/edit_shipping" element={<PrivateRoute component={<EditShipping />}/>}/>
             <Route path="/404" element={<Error404/>}/>
             <Route path="/confirmation" element={<EmailValidation/>}/>
+            <Route path="/suppliers" element={<PrivateRoute component={<Suppliers/>}/>}/>
           </Routes>
         </main>
       </Router>
