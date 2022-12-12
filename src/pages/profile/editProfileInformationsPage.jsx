@@ -26,7 +26,6 @@ import Footer from "@components/Footer";
 
 // NewUser page components
 import CompanyInfos from "./components/CompanyInfos/companyInfos";
-import ShippingInfos from "./components/ShippingInfos/shippingInfos";
 import ProfileInfos from "./components/ProfileInfos/profileInfos";
 
 // NewUser layout schemas for form and form feilds
@@ -34,13 +33,13 @@ import validations from "./schemas/validations";
 import checkout from "./editschemas/form";
 import form from "./editschemas/form";
 import { useUserStore } from "@contexts/UserContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import Sidenav from "@components/navbars/Sidenav";
 
 
 function getSteps() {
-  return ["Ma société", "Adresse Livraison", "Mes infos"];
+  return ["Ma société", "Mes infos"];
 }
 
 function getStepContent(stepIndex, formData) {
@@ -48,15 +47,13 @@ function getStepContent(stepIndex, formData) {
     case 0:
       return <CompanyInfos formData={formData} />;
     case 1:
-      return <ShippingInfos formData={formData} />;
-    case 2:
       return <ProfileInfos formData={formData} />;
     default:
       return null;
   }
 }
 
-const EditUser = observer(() => {
+const EditInformations = observer(() => {
   const [activeStep, setActiveStep] = useState(0);
   const [update, setUpdate] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -192,7 +189,7 @@ const handleBack = () => setActiveStep(activeStep - 1);
                                 <SoftBox />
                               ) : (
                                 <SoftButton variant="gradient" color="light" onClick={handleBack}>
-                                  back
+                                  retour
                                 </SoftButton>
                               )}
                               <SoftButton
@@ -201,7 +198,7 @@ const handleBack = () => setActiveStep(activeStep - 1);
                                 variant="gradient"
                                 color="dark"
                               >
-                                {isLastStep ? "send" : "next"}
+                                {isLastStep ? "envoyer" : "suivant"}
                               </SoftButton>
                             </SoftBox>
                           </SoftBox>
@@ -221,4 +218,4 @@ const handleBack = () => setActiveStep(activeStep - 1);
   )
 });
 
-export default EditUser;
+export default EditInformations;
