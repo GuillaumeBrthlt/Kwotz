@@ -122,7 +122,8 @@ export function createUserStore() {
 
       try {
         let response = await axios.get(`${BASE_URL}member-data`, config)
-        if (response.statusText === "OK" && response.data.user) {
+        console.log(response)
+        if (response.data.user) {
           runInAction(() => {
             this.authenticated = true
             this.loading = false
