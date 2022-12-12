@@ -24,7 +24,7 @@ const initialValues = {
   [CFname.name]: "",
   [temperature.name]: "",
   [condensing_unit.name]: "without",
-  [prod_outside.name]: "without",
+  [prod_outside.name]: "true",
   [refrigerant_type.name]: "",
   [CFlength.name]: "",
   [width.name]: "",
