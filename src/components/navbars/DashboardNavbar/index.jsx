@@ -40,7 +40,6 @@ import {
   navbarContainer,
   navbarRow,
   navbarIconButton,
-  navbarDesktopMenu,
   navbarMobileMenu,
 } from "@components/navbars/DashboardNavbar/styles";
 
@@ -58,7 +57,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar } = controller;
-  const [openMenu, setOpenMenu] = useState(false);
   const userStore = useUserStore()
 
   useEffect(() => {
@@ -73,7 +71,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
     function handleTransparentNavbar() {
       setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
     }
-
     /** 
      The event listener that's calling the handleTransparentNavbar function when 
      scrolling the window.
@@ -101,17 +98,12 @@ function DashboardNavbar({ absolute, light, isMini }) {
       sx={(theme) => navbar(theme, { transparentNavbar, absolute, light })}
     >
       <Toolbar sx={(theme) => navbarContainer(theme)}>
-        <SoftBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-          <Icon fontSize="medium" sx={navbarDesktopMenu} onClick={handleMiniSidenav}>
-            {miniSidenav ? "menu_open" : "menu"}
-          </Icon>
-        </SoftBox>
         {isMini ? null : (
           <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
               <IconButton
                 size="medium"
                 color="inherit"
-                sx={navbarMobileMenu}
+                sx={userStore.user.has_profile ? {navbarMobileMenu} :{ display: 'none'}}
                 onClick={handleMiniSidenav}
               >
                 <Icon className={light ? "text-white" : "text-dark"}>
