@@ -15,7 +15,6 @@ Coded by www.creative-tim.com
 //import react-spinner animation loading
 import {PropagateLoader} from 'react-spinners'
 
-import {useParams} from 'react-router-dom'
 import {useEffect} from 'react'
 import {observer} from 'mobx-react-lite';
 import { useUserStore } from "@contexts/UserContext";
@@ -46,7 +45,6 @@ const ProfileOverview = observer(() => {
   const userProfileStore = useUserProfileStore()
   const userStore = useUserStore()
   const userID = userStore.user.id
-  const navigate = useNavigate()
 
   useEffect(() => {
     userProfileStore.getProfileDetails(userID)
