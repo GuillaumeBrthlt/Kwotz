@@ -26,7 +26,7 @@ const validations = [
     [CFname.name]: Yup.string().required(CFname.errorMsg),
     [temperature.name]: Yup.number().required(temperature.errorMsg),
     [condensing_unit.name]: Yup.string().required(condensing_unit.errorMsg),
-    [prod_outside.name]: Yup.string().required(prod_outside.errorMsg),
+    [prod_outside.name]: Yup.boolean(),
     [refrigerant_type.name]: Yup.string().required(refrigerant_type.errorMsg),
   }),
   Yup.object().shape({

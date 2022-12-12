@@ -84,7 +84,7 @@ function NewColdRoom({project, setNewColdRoom}) {
           name: values.CFname,
           temperature: values.temperature,
           condensing_unit: values.condensing_unit,
-          prod_outside: values.prod_outside,
+          prod_outside: values.prod_outside == "false" ? false : true,
           refrigerant_type: values.refrigerant_type,
           length: values.CFlength,
           width: values.width,
