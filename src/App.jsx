@@ -22,6 +22,7 @@ import { Grid } from "@mui/material";
 import { BarLoader } from "react-spinners";
 import { NewSupplier } from "@pages/supplier/newSupplier";
 import ConsultationPage from "@pages/consultation/ConsultationPage";
+import Cookies from "js-cookie";
 
 
 export const App = observer(() => {
@@ -29,9 +30,9 @@ export const App = observer(() => {
 
   useEffect(() =>{
     if (!userStore.authenticated) {
-      let localAuthToken = localStorage.auth_token;
-      if (localAuthToken) {
-        userStore.loginUserWithToken(localAuthToken)
+      let cookieAuthToken = Cookies.get('authToken');
+      if (cookieAuthToken) {
+        userStore.loginUserWithToken(cookieAuthToken)
       } else {
         userStore.noLogin()
       }
