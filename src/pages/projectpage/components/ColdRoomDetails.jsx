@@ -2,7 +2,6 @@ import SoftTypography from '@components/SoftTypography'
 import { Grid } from '@mui/material'
 import Separator from '@pages/projectpage/components/Separator'
 import React from 'react'
-import { comment } from 'stylis'
 
 export default function ColdRoomDetails({ coldRoom }) {
 
