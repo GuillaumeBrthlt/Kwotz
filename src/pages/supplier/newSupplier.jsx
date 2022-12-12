@@ -42,8 +42,8 @@ export const NewSupplier = observer(() => {
       }
     }
     
-  function handleKeyDown(e) {
-    if (e.key === 'Enter') {
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
       handleSupplier()
     }
   }
@@ -84,7 +84,7 @@ export const NewSupplier = observer(() => {
                     <SoftInput 
                       type="text"
                       placeholder="alias fournisseur" 
-                      onChange={e => setAlias(e.target.value)}
+                      onChange={e => setAlias(event.target.value)}
                       onSubmit={handleKeyDown}
                       />
                     <Divider />
@@ -96,7 +96,7 @@ export const NewSupplier = observer(() => {
                     <SoftInput 
                       type="text"
                       placeholder="Adresse fournisseur" 
-                      onChange={e => setAddress(e.target.value)}
+                      onChange={e => setAddress(event.target.value)}
                       onKeyDown={handleKeyDown}
                       />
                     <Divider />
@@ -108,7 +108,7 @@ export const NewSupplier = observer(() => {
                     <SoftInput 
                       type="text"
                       placeholder="ville" 
-                      onChange={e => setCity(e.target.value)}
+                      onChange={e => setCity(event.target.value)}
                       onKeyDown={handleKeyDown}
                       />
                     <Divider />
@@ -120,7 +120,7 @@ export const NewSupplier = observer(() => {
                     <SoftInput 
                       type="text"
                       placeholder="code postal" 
-                      onChange={e => setZipcode(e.target.value)}
+                      onChange={e => setZipcode(event.target.value)}
                       onKeyDown={handleKeyDown}
                       />
                     <Divider />     
