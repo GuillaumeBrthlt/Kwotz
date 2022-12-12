@@ -50,7 +50,6 @@ export function createProjectStore() {
       try {
         let response = await axios.post(`${BASE_URL}quote_requests`, payload)
         let data = await response.data
-        console.log(data)
         if (data) {
           runInAction(() => {
             this.sent = true
