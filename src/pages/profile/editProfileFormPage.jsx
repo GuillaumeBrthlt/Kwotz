@@ -14,10 +14,6 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { MobileStepper } from "@mui/material";
 
-//import css file for load spinner
-import '@pages/profile/editProfileFormPage.css'
-
-
 // Soft UI Dashboard PRO React components
 import SoftAlert from '@components/SoftAlert'
 import SoftBox from "@components/SoftBox";
@@ -94,21 +90,21 @@ const {
     phone_number,
   },
 } = checkout;
-const e = userProfileStore.profileDetails
+const details = userProfileStore.profileDetails
 
 const initialValues = {
-  [company.name]: e.company,
-  [address.name]: e.address,
-  [zipcode.name]: e.zipcode,
-  [city.name]: e.city,
-  [role.name]: e.role,
-  [first_name.name]: e.first_name,
-  [last_name.name]: e.last_name,
-  [shipping_alias.name]: e.shipping_alias,
-  [shipping_address.name]: e.shipping_address,
-  [shipping_zipcode.name]: e.shipping_zipcode,
-  [shipping_city.name]: e.shipping_city,
-  [phone_number.name]: e.phone_number,
+  [company.name]: details.company,
+  [address.name]: details.address,
+  [zipcode.name]: details.zipcode,
+  [city.name]: details.city,
+  [role.name]: details.role,
+  [first_name.name]: details.first_name,
+  [last_name.name]: details.last_name,
+  [shipping_alias.name]: details.shipping_alias,
+  [shipping_address.name]: details.shipping_address,
+  [shipping_zipcode.name]: details.shipping_zipcode,
+  [shipping_city.name]: details.shipping_city,
+  [phone_number.name]: details.phone_number,
 };
 
 const sleep = (ms) =>
@@ -121,7 +117,7 @@ const handleBack = () => setActiveStep(activeStep - 1);
   const submitForm = async (values) => {
     await sleep(1000);
 
-    userProfileStore.editProfile(values, e.id)
+    userProfileStore.editProfile(values, details.id)
     setUpdate(true)
     await sleep(1000)
     setLoading(true)
@@ -138,10 +134,6 @@ const handleBack = () => setActiveStep(activeStep - 1);
     }
   };
 
-  if (!userStore.authenticated) {
-    navigate('/login')
-  }
-
   if (loading == true) {
     navigate('/dashboard')
     setLoading(false)
@@ -150,9 +142,9 @@ const handleBack = () => setActiveStep(activeStep - 1);
   return (
   <div>
     {!userProfileStore.profileDetails.id ? (
-      <div className="sweet-loading">
+      <Grid display='flex' height='100vh' justifyContent='center' alignItems='center'>
         <PropagateLoader color="#36d7b7"/>
-      </div>) : (
+      </Grid>) : (
       <>
         <Sidenav />
         <DashboardLayout>
