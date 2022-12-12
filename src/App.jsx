@@ -24,6 +24,8 @@ import { BarLoader } from "react-spinners";
 import { NewSupplier } from "@pages/supplier/newSupplier";
 import ConsultationPage from "@pages/consultation/ConsultationPage";
 import Cookies from "js-cookie";
+import { EditPasswordPage } from "@pages/profile/editPasswordPage";
+
 import { Suppliers } from "@pages/suppliers_list/suppliersList";
 
 export const App = observer(() => {
@@ -81,6 +83,7 @@ export const App = observer(() => {
             <Route path="/edit_shipping" element={<PrivateRoute component={<EditShipping />}/>}/>
             <Route path="/404" element={<Error404/>}/>
             <Route path="/confirmation" element={<EmailValidation/>}/>
+            <Route path="/edit_account" element={<EditPasswordPage/>}/>
             <Route path="/suppliers" element={<PrivateRoute component={<Suppliers/>}/>}/>
           </Routes>
         </main>

@@ -168,7 +168,7 @@ function Sidenav({ color, brand, brandName, ...rest }) {
         {
           name: "Mon compte",
           key: "login",
-          route: "/login"
+          route: "/edit_account"
         },
       ]
     }
