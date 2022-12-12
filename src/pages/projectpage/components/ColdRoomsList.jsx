@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-
+import { useColdRoomStore } from "@contexts/ColdRoomContext";
+import DeleteIcon from '@mui/icons-material/Delete';
 // @mui material components
 import Card from "@mui/material/Card";
 
@@ -15,16 +15,17 @@ import DataTable from "@components/Tables/DataTable";
 // import dataTableData from "@pages/dashboard/data/dataTableData";
 
 function ColdRoomsList ({ coldRooms }) {
+  const coldRoomStore = useColdRoomStore()
 
+  function handleClick(id) {
+    coldRoomStore.deleteColdRoom(id)
+  }
 
-  function Button({ id }) {
-    const link = `/project-edit/${id}`
+  function Button({id}) {
     return (
-      <Link to={link}>
-        <SoftButton variant="gradient" color="dark" size="small">
-          Voir details
-        </SoftButton>
-      </Link>
+      <SoftButton variant="text" color="error" onClick={() => handleClick(id)}>
+        <DeleteIcon>Supprimer</DeleteIcon>&nbsp;Supprimer
+      </SoftButton>
     )
   } 
   
@@ -35,7 +36,12 @@ function ColdRoomsList ({ coldRooms }) {
     ],
   
     rows: 
-    coldRooms
+    coldRooms.map((coldRoom) => 
+      ({
+      name: coldRoom.name,
+      button: <Button id={coldRoom.id} />
+      })
+    ),
   };
 
   return (
