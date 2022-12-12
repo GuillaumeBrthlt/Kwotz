@@ -2,6 +2,7 @@ import SoftTypography from '@components/SoftTypography'
 import { Grid } from '@mui/material'
 import Separator from '@pages/projectpage/components/Separator'
 import React from 'react'
+import { comment } from 'stylis'
 
 export default function ColdRoomDetails({ coldRoom }) {
 
@@ -97,9 +98,13 @@ export default function ColdRoomDetails({ coldRoom }) {
         <SoftTypography variant='h5' color="primary" mt={2}>
           Commentaires
         </SoftTypography>
-        <SoftTypography variant='body2'>
-          {coldRoom.comment}
-        </SoftTypography>
+        {coldRoom.comment.split('\n').map(line => {
+          return (
+            <SoftTypography variant='body2'>
+              {line}
+            </SoftTypography>
+          )
+        })}
       </Grid>
     </Grid>
   )
