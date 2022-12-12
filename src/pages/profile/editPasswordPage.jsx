@@ -57,6 +57,11 @@ export function EditPasswordPage() {
     }
   }
 
+  function commitDestroy() {
+    userStore.destroyUser()
+    navigate('/register')
+  }
+
   return (
     <>
       <Sidenav />
@@ -76,7 +81,7 @@ export function EditPasswordPage() {
                 <SoftBox mb={2}>
                   <SoftInput 
                     type="password" 
-                    placeholder="Mot de passe actuel (obligatoire)" 
+                    placeholder="Ca ne marche pas" 
                     onChange={e => setCurrentPassword(e.target.value)}
                     error={passwordError ? true : false}
                     onKeyDown={handleKeyDown}
@@ -85,7 +90,7 @@ export function EditPasswordPage() {
                 <SoftBox mb={2}>
                   <SoftInput 
                     type="password" 
-                    placeholder="Nouveau mot de passe" 
+                    placeholder="Il faut envoyer un mail" 
                     onChange={e => setPassword(e.target.value)}
                     error={passwordError ? true : false}
                     onKeyDown={handleKeyDown}
@@ -94,7 +99,7 @@ export function EditPasswordPage() {
                 <SoftBox mb={2}>
                   <SoftInput 
                     type="password" 
-                    placeholder="confirmation du nouveau mot de passe" 
+                    placeholder="de reset de password comme pour l'oubli" 
                     onChange={e => setPasswordConfirmation(e.target.value)}
                     error={passwordError ? true : false}
                     onKeyDown={handleKeyDown}
@@ -106,6 +111,11 @@ export function EditPasswordPage() {
                   </SoftButton>
                 </SoftBox>
                 <Separator />
+                <SoftBox mt={1} mb={1}>
+                  <SoftButton variant="gradient" color="error" fullWidth onClick={() => commitDestroy()}>
+                    Supprimer mon compte
+                  </SoftButton>
+                </SoftBox>
               </SoftBox>
               </Grid>
             </Grid>
