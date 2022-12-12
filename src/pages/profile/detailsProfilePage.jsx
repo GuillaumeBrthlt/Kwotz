@@ -55,9 +55,9 @@ const ProfileOverview = observer(() => {
 
   if(!userProfileStore.profileDetails.id ) {
     return (
-      <div className="sweet-loading">
+      <Grid display='flex' height='100vh' justifyContent='center' alignItems='center'>
         <PropagateLoader color="#36d7b7"/>
-      </div>
+      </Grid>
     )
   }
 
