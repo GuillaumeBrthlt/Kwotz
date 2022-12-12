@@ -88,7 +88,6 @@ const NewUser = observer(() => {
 
   return (
     <>
-      <Sidenav />
       <DashboardLayout>
         <DashboardNavbar />
         <SoftBox py={3} mb={20}>

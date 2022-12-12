@@ -113,8 +113,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 color="inherit"
                 sx={navbarMobileMenu}
                 onClick={handleMiniSidenav}
-              >
-                <Icon className={light ? "text-white" : "text-dark"}>
+              > 
+                <Icon className={light ? "text-white" : "text-dark"} sx={userStore.user.has_profile ? {} : {display: 'none'}}>
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
