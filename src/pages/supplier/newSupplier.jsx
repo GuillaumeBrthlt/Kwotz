@@ -141,15 +141,15 @@ export const NewSupplier = observer(() => {
                             Annuler / Retour
                           </SoftButton>
                         </SoftBox>
-                            <SoftButton
-                              component={Link}
-                              to="/profile"
-                              variant="gradient" 
-                              color="info"
-                              onClick={handleSubmit}
-                            >
-                              Valider
-                            </SoftButton>
+                          <SoftButton
+                            component={Link}
+                            to="/profile"
+                            variant="gradient" 
+                            color="info"
+                            onClick={handleSubmit}
+                          >
+                            Valider
+                          </SoftButton>
                       </SoftBox>
                     </SoftBox>
                   </SoftBox>
