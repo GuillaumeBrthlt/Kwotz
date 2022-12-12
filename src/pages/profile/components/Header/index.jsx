@@ -73,7 +73,6 @@ const e = userProfileStore.profileDetails
 
   return (
     <SoftBox position="relative">
-      <DashboardNavbar absolute light />
       <SoftBox
         display="flex"
         alignItems="center"

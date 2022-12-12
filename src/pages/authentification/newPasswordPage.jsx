@@ -16,6 +16,8 @@ import BasicLayout from "@pages/authentification/components/BasicLayout";
 import Separator from "@pages/authentification/components/Separator";
 
 import curved7 from "/assets/images/curved-images/curved7.jpg"
+import DefaultNavbar from '@components/navbars/defaultNavbar'
+import { useEffect } from 'react'
 
 export default function NewPasswordPage() {
   const [password, setPassword] = useState(null)
@@ -49,9 +51,12 @@ export default function NewPasswordPage() {
     }
   }
 
-  if (!token) {
-    navigate('/404')
-  }
+  useEffect(() => {
+    if (!token) {
+      navigate('/404')
+    }
+  }, [])
+  
 
   function handleKeyDown(e) {
     if (e.key === 'Enter') {
@@ -60,58 +65,61 @@ export default function NewPasswordPage() {
   }
 
   return (
-    <BasicLayout
-      title="Changement de mot de passe?"
-      description="Choisissez votre nouveau mot de passe pour accéder à votre espace"
-      image={curved7}
-    >
-      <SoftAlert color='error' style={!passwordError ? {display: 'none'} : ''}>Les mots de passe ne correspondent pas</SoftAlert>
-      <Card>
-        <SoftBox p={3} mb={1} textAlign="center">
-          <SoftTypography variant="h5" fontWeight="medium">
-            Votre nouveau mot de passe
-          </SoftTypography>
-        </SoftBox>
-        <SoftBox p={3}>
-          <SoftBox component="form" role="form">
-            <SoftBox mb={2}>
-              <SoftInput 
-                type="password" 
-                placeholder="mot de passe" 
-                onChange={e => setPassword(e.target.value)}
-                error={passwordError ? true : false}
-                onKeyDown={handleKeyDown}
-              />
-            </SoftBox>
-            <SoftBox mb={2}>
-              <SoftInput 
-                type="password" 
-                placeholder="confirmation du mot de passe" 
-                onChange={e => setPasswordConfirmation(e.target.value)}
-                error={passwordError ? true : false}
-                onKeyDown={handleKeyDown}
-              />
-            </SoftBox>
-            <SoftBox mt={4} mb={1}>
-              <SoftButton variant="gradient" color="info" fullWidth onClick={newPassword}>
-                Envoyer
-              </SoftButton>
-            </SoftBox>
-            <Separator />
-            <SoftBox mt={1} mb={3}>
-              <SoftButton
-                component={Link}
-                to="/login"
-                variant="gradient"
-                color="dark"
-                fullWidth
-              >
-                se connecter
-              </SoftButton>
+    <>
+      <DefaultNavbar />
+      <BasicLayout
+        title="Changement de mot de passe?"
+        description="Choisissez votre nouveau mot de passe pour accéder à votre espace"
+        image={curved7}
+      >
+        <SoftAlert color='error' style={!passwordError ? {display: 'none'} : ''}>Les mots de passe ne correspondent pas</SoftAlert>
+        <Card>
+          <SoftBox p={3} mb={1} textAlign="center">
+            <SoftTypography variant="h5" fontWeight="medium">
+              Votre nouveau mot de passe
+            </SoftTypography>
+          </SoftBox>
+          <SoftBox p={3}>
+            <SoftBox component="form" role="form">
+              <SoftBox mb={2}>
+                <SoftInput 
+                  type="password" 
+                  placeholder="mot de passe" 
+                  onChange={e => setPassword(e.target.value)}
+                  error={passwordError ? true : false}
+                  onKeyDown={handleKeyDown}
+                />
+              </SoftBox>
+              <SoftBox mb={2}>
+                <SoftInput 
+                  type="password" 
+                  placeholder="confirmation du mot de passe" 
+                  onChange={e => setPasswordConfirmation(e.target.value)}
+                  error={passwordError ? true : false}
+                  onKeyDown={handleKeyDown}
+                />
+              </SoftBox>
+              <SoftBox mt={4} mb={1}>
+                <SoftButton variant="gradient" color="info" fullWidth onClick={newPassword}>
+                  Envoyer
+                </SoftButton>
+              </SoftBox>
+              <Separator />
+              <SoftBox mt={1} mb={3}>
+                <SoftButton
+                  component={Link}
+                  to="/login"
+                  variant="gradient"
+                  color="dark"
+                  fullWidth
+                >
+                  se connecter
+                </SoftButton>
+              </SoftBox>
             </SoftBox>
           </SoftBox>
-        </SoftBox>
-      </Card>
-    </BasicLayout>
+        </Card>
+      </BasicLayout>
+    </>
   );
 }
