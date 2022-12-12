@@ -50,7 +50,6 @@ export const NewSupplier = observer(() => {
 
   const handleSubmit = () => {
     supplierStore.createSupplier(supplierData)
-    console.log(supplierData)
   }
 
   return (
