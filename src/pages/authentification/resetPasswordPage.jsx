@@ -16,6 +16,7 @@ import BasicLayout from "@pages/authentification/components/BasicLayout";
 import Separator from "@pages/authentification/components/Separator";
 
 import curved6 from "/assets/images/curved-images/curved6.jpg"
+import DefaultNavbar from '@components/navbars/defaultNavbar'
 
 
 export default function ResetPasswordPage() {
@@ -41,52 +42,55 @@ export default function ResetPasswordPage() {
 
   function handleKeyDown(e) {
     if (e.key === 'Enter') {
-      handleRegister()
+      sendMail(e)
     }
   }
 
   return (
-    <BasicLayout
-      title="Mot de passe oublié ?"
-      description="Entrez votre addresse email pour recevoir un lien de réinitialisation de mot de passe"
-      image={curved6}
-    >
-      <Card>
-        <SoftBox p={3} mb={1} textAlign="center">
-          <SoftTypography variant="h5" fontWeight="medium">
-            changer le mot de passe
-          </SoftTypography>
-        </SoftBox>
-        <SoftBox p={3}>
-          <SoftBox component="form" role="form">
-            <SoftBox mb={2}>
-              <SoftInput 
-                type="email" 
-                placeholder="Email" 
-                onChange={e => setEmail(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-            </SoftBox>
-            <SoftBox mt={4} mb={1}>
-              <SoftButton variant="gradient" color="info" fullWidth onClick={sendMail}>
-                Envoyer le mail
-              </SoftButton>
-            </SoftBox>
-            <Separator />
-            <SoftBox mt={1} mb={3}>
-              <SoftButton
-                component={Link}
-                to="/login"
-                variant="gradient"
-                color="dark"
-                fullWidth
-              >
-                se connecter
-              </SoftButton>
+    <>
+      <DefaultNavbar />
+      <BasicLayout
+        title="Mot de passe oublié ?"
+        description="Entrez votre addresse email pour recevoir un lien de réinitialisation de mot de passe"
+        image={curved6}
+      >
+        <Card>
+          <SoftBox p={3} mb={1} textAlign="center">
+            <SoftTypography variant="h5" fontWeight="medium">
+              changer le mot de passe
+            </SoftTypography>
+          </SoftBox>
+          <SoftBox p={3}>
+            <SoftBox component="form" role="form">
+              <SoftBox mb={2}>
+                <SoftInput 
+                  type="email" 
+                  placeholder="Email" 
+                  onChange={e => setEmail(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+              </SoftBox>
+              <SoftBox mt={4} mb={1}>
+                <SoftButton variant="gradient" color="info" fullWidth onClick={sendMail}>
+                  Envoyer le mail
+                </SoftButton>
+              </SoftBox>
+              <Separator />
+              <SoftBox mt={1} mb={3}>
+                <SoftButton
+                  component={Link}
+                  to="/login"
+                  variant="gradient"
+                  color="dark"
+                  fullWidth
+                >
+                  se connecter
+                </SoftButton>
+              </SoftBox>
             </SoftBox>
           </SoftBox>
-        </SoftBox>
-      </Card>
-    </BasicLayout>
+        </Card>
+      </BasicLayout>
+    </>
   );
 }

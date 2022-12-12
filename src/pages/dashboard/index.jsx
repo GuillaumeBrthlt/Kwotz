@@ -38,19 +38,15 @@ import { observer } from "mobx-react-lite";
 import Footer from "@components/Footer";
 import { useProjectStore } from "../../contexts/ProjectContext";
 import { useEffect, useState } from "react";
+import Sidenav from "@components/navbars/Sidenav";
 
 const Dashboard = observer(() => {
-  const userStore = useUserStore()
-  const navigate = useNavigate()
   const projectStore = useProjectStore()
   
   useEffect(() => {
     projectStore.getProjects()
   }, [])
  
-  if (!userStore.authenticated) {
-    navigate('/login')
-  }
 
   function Button({ id }) {
     const link = `/project-edit/${id}`
@@ -81,39 +77,41 @@ const Dashboard = observer(() => {
   };
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <SoftBox my={3}>
-        <Card>
-          <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
-            <SoftBox lineHeight={1}>
-              <SoftTypography variant="h5" fontWeight="medium">
-                Mes Projets
-              </SoftTypography>
-              <SoftTypography variant="button" fontWeight="regular" color="text">
-                Retrouvez sur cette page l'ensemble de vos projets
-              </SoftTypography>
+    <>
+      <Sidenav />
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SoftBox my={3}>
+          <Card>
+            <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
+              <SoftBox lineHeight={1}>
+                <SoftTypography variant="h5" fontWeight="medium">
+                  Mes Projets
+                </SoftTypography>
+                <SoftTypography variant="button" fontWeight="regular" color="text">
+                  Retrouvez sur cette page l'ensemble de vos projets
+                </SoftTypography>
+              </SoftBox>
+              <Stack spacing={1} direction="row">
+                <Link to="/new_project">
+                  <SoftButton variant="gradient" color="info" size="small">
+                    + nouveau projet
+                  </SoftButton>
+                </Link>
+              </Stack>
             </SoftBox>
-            <Stack spacing={1} direction="row">
-              <Link to="/new_project">
-                <SoftButton variant="gradient" color="info" size="small">
-                  + nouveau projet
-                </SoftButton>
-              </Link>
-            </Stack>
-          </SoftBox>
-          <DataTable
-            table={dataTableData}
-            entriesPerPage={{
-              defaultValue: 5,
-              entries: [5, 10, 25],
-            }}
-            canSearch
-          />
-        </Card>
-      </SoftBox>
-      <Footer />
-    </DashboardLayout>
+            <DataTable
+              table={dataTableData}
+              entriesPerPage={{
+                defaultValue: 5,
+                entries: [5, 10, 25],
+              }}
+            />
+          </Card>
+        </SoftBox>
+        <Footer />
+      </DashboardLayout>
+    </>
   );
 })
 

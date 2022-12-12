@@ -26,15 +26,27 @@ import SoftBox from "@components/SoftBox";
 
 // Soft UI Dashboard PRO React context
 import { useSoftUIController, setLayout } from "@contexts/SoftUIContext";
+import { useUserStore } from "@contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
-function DashboardLayout({ children }) {
+const DashboardLayout = observer(({ children }) => {
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav } = controller;
   const { pathname } = useLocation();
+  const userStore = useUserStore()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setLayout(dispatch, "dashboard");
   }, [pathname]);
+
+  useEffect(() => {
+    if (!userStore.authenticated) {
+      navigate('/login')
+    }
+  }, [userStore.authenticated])
+  
 
   return (
     <SoftBox
@@ -54,7 +66,7 @@ function DashboardLayout({ children }) {
       {children}
     </SoftBox>
   );
-}
+})
 
 // Typechecking props for the DashboardLayout
 DashboardLayout.propTypes = {

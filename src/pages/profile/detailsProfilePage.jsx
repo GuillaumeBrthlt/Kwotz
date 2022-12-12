@@ -15,7 +15,6 @@ Coded by www.creative-tim.com
 //import react-spinner animation loading
 import {PropagateLoader} from 'react-spinners'
 
-import {useParams} from 'react-router-dom'
 import {useEffect} from 'react'
 import {observer} from 'mobx-react-lite';
 import { useUserStore } from "@contexts/UserContext";
@@ -37,68 +36,77 @@ import ProfileInfoCard from "@pages/profile/components/ProfileInfoCard";
 
 // Overview page components
 import Header from "@pages/profile/components/Header";
+import Sidenav from '@components/navbars/Sidenav';
+import DashboardNavbar from '@components/navbars/DashboardNavbar';
+import { useNavigate } from 'react-router-dom';
 
 
-  const ProfileOverview = observer(() => {
+const ProfileOverview = observer(() => {
   const userProfileStore = useUserProfileStore()
   const userStore = useUserStore()
   const userID = userStore.user.id
 
-useEffect(() => {
-  userProfileStore.getProfileDetails(userID)
-}, [])
+  useEffect(() => {
+    userProfileStore.getProfileDetails(userID)
+  }, [])
 
-const e = userProfileStore.profileDetails
+  const e = userProfileStore.profileDetails
 
-if(!userProfileStore.profileDetails.id ) {
+  if(!userProfileStore.profileDetails.id ) {
+    return (
+      <div className="sweet-loading">
+        <PropagateLoader color="#36d7b7"/>
+      </div>
+    )
+  }
+
+  
+
   return (
-    <div className="sweet-loading">
-      <PropagateLoader color="#36d7b7"/>
-    </div>
-  )
-}
-
-  return (
-    <DashboardLayout>
-      <Header />
-      <Grid container spacing={3} alignItems="center" justifyContent="center" mt={3}>
-        <Grid item xs={12} md={6} lg={4} container alignItems="center" justifyContent='center'>
-          <Link to="/edit_profile">
-            <SoftButton variant="gradient" color="dark" size="short" >
-              Modifier son profil
-            </SoftButton>
-          </Link>
-        </Grid>
-      </Grid>
-      <SoftBox mt={5} mb={3}>
-        <Grid container spacing={3}>
-        <Grid item xs={12} md={6} xl={4}>
-            <ProfileInfoCard
-              title="informations personnelles"
-              info={{
-                nomComplet: e.first_name + ' ' + e.last_name,
-                adresse: e.address,
-                ville: e.city,
-                codePostal: e.zipcode,
-                telephone: e.phone_number,
-              }}
-            />
+    <>
+      <Sidenav />
+      <DashboardLayout>
+        <DashboardNavbar />
+        <Header />
+        <Grid container spacing={3} alignItems="center" justifyContent="center" mt={3}>
+          <Grid item xs={12} md={6} lg={4} container alignItems="center" justifyContent='center'>
+            <Link to="/edit_profile">
+              <SoftButton variant="gradient" color="dark" size="large" >
+                Modifier son profil
+              </SoftButton>
+            </Link>
           </Grid>
+        </Grid>
+        <SoftBox mt={5} mb={3}>
+          <Grid container spacing={3}>
           <Grid item xs={12} md={6} xl={4}>
-            <ProfileInfoCard
-              title="informations de mon adresse de livraison"
-              info={{
-                intitulé: e.shipping_alias,
-                adresse: e.shipping_address,
-                ville: e.shipping_city,
-                codePostal: e.shipping_zipcode,
-              }}
-            />
+              <ProfileInfoCard
+                title="informations personnelles"
+                info={{
+                  nomComplet: e.first_name + ' ' + e.last_name,
+                  adresse: e.address,
+                  ville: e.city,
+                  codePostal: e.zipcode,
+                  telephone: e.phone_number,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} xl={4}>
+              <ProfileInfoCard
+                title="informations de mon adresse de livraison"
+                info={{
+                  intitulé: e.shipping_alias,
+                  adresse: e.shipping_address,
+                  ville: e.shipping_city,
+                  codePostal: e.shipping_zipcode,
+                }}
+              />
+            </Grid>
           </Grid>
-        </Grid>
-      </SoftBox>
-      <Footer />
-    </DashboardLayout>
+        </SoftBox>
+        <Footer />
+      </DashboardLayout>
+    </>
   )
 });
 

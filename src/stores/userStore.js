@@ -37,7 +37,7 @@ export function createUserStore() {
             this.auth_token = response.headers.authorization;
             this.user = response.data.user
             axios.defaults.headers.common["Authorization"] = this.auth_token
-            localStorage.setItem('auth_token', this.auth_token)
+            Cookies.set('authToken', this.auth_token)
           })
         } else {
           throw new Error('invalid password or email')
@@ -69,7 +69,7 @@ export function createUserStore() {
             this.auth_token = response.headers.authorization;
             this.user = response.data.user
             axios.defaults.headers.common["Authorization"] = this.auth_token
-            localStorage.setItem('auth_token', this.auth_token)
+            Cookies.set('authToken', this.auth_token)
             this.loading = false
           })
         } else {
@@ -102,7 +102,7 @@ export function createUserStore() {
           this.tokenOutdated = false
           this.auth_token = null;
           this.authenticated = false;
-          localStorage.removeItem("auth_token");
+          Cookies.remove("authToken");
           axios.defaults.headers.common["Authorization"] = null;
         })
       } catch(error) {
@@ -122,13 +122,14 @@ export function createUserStore() {
 
       try {
         let response = await axios.get(`${BASE_URL}member-data`, config)
-        if (response.statusText === "OK" && response.data.user) {
+        console.log(response)
+        if (response.data.user) {
           runInAction(() => {
             this.authenticated = true
             this.loading = false
             this.tokenOutdated = false
             this.user = response.data.user;
-            this.auth_token = localStorage.getItem('auth_token');
+            this.auth_token = Cookies.get('authToken');
             axios.defaults.headers.common["Authorization"] = this.auth_token
           })
         } else {

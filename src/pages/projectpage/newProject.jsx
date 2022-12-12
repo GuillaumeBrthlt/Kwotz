@@ -21,6 +21,7 @@ import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import Footer from "@components/Footer";
 import { useNavigate } from "react-router-dom";
+import Sidenav from "@components/navbars/Sidenav";
 
 const NewProject = observer(() => {
   const projectStore = useProjectStore()
@@ -51,6 +52,10 @@ const NewProject = observer(() => {
     projectStore.createProject(projectData)
     await sleep(1000)
   }
+  
+  function getBack() {
+    navigate('/dashboard')
+  }
 
   useEffect(()=> {
     sleep(1000)
@@ -69,64 +74,67 @@ const NewProject = observer(() => {
   }
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <SoftBox mt={3} mb={4}>
-        <Grid container spacing={3} justifyContent="center">
-          <Grid item xs={12} lg={9}>
-            <Card sx={{ overflow: "visible" }}>
-              <SoftBox p={2} lineHeight={1}>
-                <SoftTypography variant="h6" fontWeight="medium">
-                  Nouveau Projet
-                </SoftTypography>
-                <SoftTypography variant="button" fontWeight="regular" color="text">
-                  Créer un nouveau projet
-                </SoftTypography>
-                <Divider />
-                <Formik
-                  initialValues={initialValues}
-                  onSubmit={handleSubmit}
-                >
-                  <Form>
-                    <SoftBox
-                      display="flex"
-                      flexDirection="column"
-                      justifyContent="flex-end"
-                      height="100%"
-                    >
-                      <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                        <SoftTypography component="label" variant="caption" fontWeight="bold">
-                          Nom du projet
-                        </SoftTypography>
-                      </SoftBox>
-                      <SoftInput 
-                        type="text"
-                        placeholder="votre référence chantier" 
-                        onChange={e => setName(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                      />
-                    </SoftBox>
-                    <SoftBox display="flex" justifyContent="flex-end" mt={3}>
-                      <SoftBox mr={1}>
-                        <SoftButton color="light">annuler</SoftButton>
-                      </SoftBox>
-                      <SoftButton 
-                        type="submit"
-                        variant="gradient"
-                        color="info"
+    <>
+      <Sidenav />
+      <DashboardLayout>
+        <DashboardNavbar />
+        <SoftBox mt={3} mb={4}>
+          <Grid container spacing={3} justifyContent="center">
+            <Grid item xs={12} lg={9}>
+              <Card sx={{ overflow: "visible" }}>
+                <SoftBox p={2} lineHeight={1}>
+                  <SoftTypography variant="h6" fontWeight="medium">
+                    Nouveau Projet
+                  </SoftTypography>
+                  <SoftTypography variant="button" fontWeight="regular" color="text">
+                    Créer un nouveau projet
+                  </SoftTypography>
+                  <Divider />
+                  <Formik
+                    initialValues={initialValues}
+                    onSubmit={handleSubmit}
+                  >
+                    <Form>
+                      <SoftBox
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="flex-end"
+                        height="100%"
                       >
-                        créer le projet
-                      </SoftButton>
-                    </SoftBox>
-                  </Form>
-                </Formik>
-              </SoftBox>
-            </Card>
+                        <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                          <SoftTypography component="label" variant="caption" fontWeight="bold">
+                            Nom du projet
+                          </SoftTypography>
+                        </SoftBox>
+                        <SoftInput 
+                          type="text"
+                          placeholder="votre référence chantier" 
+                          onChange={e => setName(e.target.value)}
+                          onKeyDown={handleKeyDown}
+                        />
+                      </SoftBox>
+                      <SoftBox display="flex" justifyContent="flex-end" mt={3}>
+                        <SoftBox mr={1}>
+                          <SoftButton color="light" onClick={getBack}>annuler</SoftButton>
+                        </SoftBox>
+                        <SoftButton 
+                          type="submit"
+                          variant="gradient"
+                          color="info"
+                        >
+                          créer le projet
+                        </SoftButton>
+                      </SoftBox>
+                    </Form>
+                  </Formik>
+                </SoftBox>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </SoftBox>
-      <Footer />
-    </DashboardLayout>
+        </SoftBox>
+        <Footer />
+      </DashboardLayout>
+    </>
   );
 })
 

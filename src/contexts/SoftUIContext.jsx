@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer, useMemo } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 
 // The Soft UI Dashboard PRO React main context
 const SoftUI = createContext(null);
@@ -66,9 +67,11 @@ function SoftUIControllerProvider({ children }) {
 function useSoftUIController() {
   const context = useContext(SoftUI);
 
-  if (!context) {
-    throw new Error("useSoftUIController should be used inside the SoftUIControllerProvider.");
-  }
+  useEffect(() => {
+    if (!context) {
+      throw new Error("useSoftUIController should be used inside the SoftUIControllerProvider.");
+    }
+  }, [context])
 
   return context;
 }

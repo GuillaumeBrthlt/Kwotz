@@ -24,25 +24,13 @@ import SoftTypography from "@components/SoftTypography";
 
 // Soft UI Dashboard PRO React example components
 import PageLayout from "@components/LayoutContainers/PageLayout";
-import { useEffect } from "react";
-import { useUserStore } from "@contexts/UserContext";
-import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
 
 // Authentication layout components
 // import Footer from "layouts/authentication/components/Footer";
 
 // Soft UI Dashboard PRO React page layout routes
 
-const BasicLayout = observer(({ title, description, image, children }) => {
-  const userStore = useUserStore()
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (userStore.authenticated) {
-      navigate('/dashboard')
-    }
-  }, [userStore.authenticated])
+function Layout ({ title, description, image, children }) {
 
   return (
     <PageLayout>
@@ -90,20 +78,20 @@ const BasicLayout = observer(({ title, description, image, children }) => {
       </SoftBox>
     </PageLayout>
   );
-})
+}
 
 // Setting default values for the props of BasicLayout
-BasicLayout.defaultProps = {
+Layout.defaultProps = {
   title: "",
   description: "",
 };
 
 // Typechecking props for the BasicLayout
-BasicLayout.propTypes = {
+Layout.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   image: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default BasicLayout;
+export default Layout;
