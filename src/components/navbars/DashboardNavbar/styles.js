@@ -70,36 +70,22 @@ function navbar(theme, ownerState) {
   };
 }
 
-const navbarContainer = ({ breakpoints }) => ({
+const navbarContainer = () => ({
   flexDirection: "column",
   alignItems: "flex-start",
   justifyContent: "space-between",
   pt: 0.5,
   pb: 0.5,
 
-  [breakpoints.up("md")]: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: "0",
-    paddingBottom: "0",
-  },
+
 });
 
-const navbarRow = ({ breakpoints }, { isMini }) => ({
+const navbarRow = () => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
   width: "100%",
 
-  [breakpoints.up("md")]: {
-    justifyContent: isMini ? "space-between" : "stretch",
-    width: isMini ? "100%" : "max-content",
-  },
-
-  [breakpoints.up("xl")]: {
-    justifyContent: "stretch !important",
-    width: "max-content !important",
-  },
 });
 
 const navbarIconButton = ({ typography: { size }, breakpoints }) => ({
@@ -119,22 +105,10 @@ const navbarIconButton = ({ typography: { size }, breakpoints }) => ({
   },
 });
 
-const navbarDesktopMenu = ({ breakpoints }) => ({
-  display: "none !important",
-  cursor: "pointer",
-
-  [breakpoints.up("xl")]: {
-    display: "inline-block !important",
-  },
-});
-
-const navbarMobileMenu = ({ breakpoints }) => ({
+const navbarMobileMenu = () => ({
   display: "inline-block",
   lineHeight: 0,
 
-  [breakpoints.up("xl")]: {
-    display: "none",
-  },
 });
 
 export {
@@ -142,6 +116,5 @@ export {
   navbarContainer,
   navbarRow,
   navbarIconButton,
-  navbarDesktopMenu,
   navbarMobileMenu,
 };

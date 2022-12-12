@@ -98,7 +98,7 @@ export const LoginPage = observer(() => {
                   color="dark"
                   fullWidth
                 >
-                  s'incrire
+                  s'inscrire
                 </SoftButton>
               </SoftBox>
             </SoftBox>

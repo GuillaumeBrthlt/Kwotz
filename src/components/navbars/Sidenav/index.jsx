@@ -156,7 +156,7 @@ function Sidenav({ color, brand, brandName, ...rest }) {
     }, 
     {
       type: "collapse",
-      name: "Profile",
+      name: "Profil",
       key: "profile",
       icon: <Office size="12px" />,
       route: "/profile",

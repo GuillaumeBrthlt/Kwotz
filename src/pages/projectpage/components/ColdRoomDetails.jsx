@@ -36,7 +36,7 @@ export default function ColdRoomDetails({ coldRoom }) {
 
   return (
     <Grid>
-      <SoftTypography variant='h4' mt={5}>
+      <SoftTypography variant='h4' mt={2}>
         {coldRoom.name}
       </SoftTypography>
       <Separator />
