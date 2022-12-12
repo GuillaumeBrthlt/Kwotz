@@ -51,5 +51,30 @@ export function createColdRoomStore() {
         })
       }
     },
+
+    async deleteColdRoom(id) {
+      
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      
+      try {
+        let response = await axios.delete(`${BASE_URL}cold_rooms/${id}`);
+        if (response.status == 204) {
+          runInAction (() => {
+            this.loading = false
+            this.getColdRooms()
+         })
+        } else {
+          throw new Error('annonce non supprimée')
+        }  
+      } catch (error) {
+        runInAction (() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      }
+    },
   }
 }
