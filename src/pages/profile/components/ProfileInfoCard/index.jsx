@@ -12,21 +12,23 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
+ import {Link} from 'react-router-dom';
 
 // prop-types is library for typechecking of props
 import PropTypes from "prop-types";
 
 // @mui material components
-import Card from "@mui/material/Card";
+ import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
+import Icon from "@mui/material/Icon";
+import Tooltip from "@mui/material/Tooltip";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 
 
-function ProfileInfoCard({ title, info }) {
+function ProfileInfoCard({ title, info, action }) {
   const labels = [];
   const values = [];
 
@@ -65,6 +67,11 @@ function ProfileInfoCard({ title, info }) {
         <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
           {title}
         </SoftTypography>
+        <SoftTypography component={Link} to={action.route} variant="body2" color="secondary">
+          <Tooltip title={action.tooltip} placement="top">
+            <Icon>edit</Icon>
+          </Tooltip>
+        </SoftTypography>
       </SoftBox>
       <SoftBox p={2}>
         <SoftBox mb={2} lineHeight={1}>
@@ -86,6 +93,10 @@ function ProfileInfoCard({ title, info }) {
 ProfileInfoCard.propTypes = {
   title: PropTypes.string.isRequired,
   info: PropTypes.objectOf(PropTypes.string).isRequired,
+  action: PropTypes.shape({
+    route: PropTypes.string.isRequired,
+    tooltip: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default ProfileInfoCard;

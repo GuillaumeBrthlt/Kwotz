@@ -164,6 +164,36 @@ export function createUserStore() {
           this.loading = false
         })
       } 
+    },
+
+    async destroyUser() { 
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        await axios.delete(`${BASE_URL}users`)
+        if (response.statusText == "OK") {
+        runInAction(() => {
+          this.loading = false
+          this.user = {
+            id: null,
+            username: null,
+            email: null,
+            has_profile: null
+           };
+          this.tokenOutdated = false
+          this.auth_token = null;
+          this.authenticated = false;
+          Cookies.remove("authToken");
+          axios.defaults.headers.common["Authorization"] = null;
+        })
+      } else {
+        throw new Error(response.statusText)
+      }
+      } catch(error) {
+        console.error(error)
+      }
     }
   }
 }
