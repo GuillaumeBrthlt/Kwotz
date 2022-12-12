@@ -164,6 +164,30 @@ export function createUserStore() {
           this.loading = false
         })
       } 
+    },
+
+    async editPassword(payload) {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+
+      try {
+        let response = await axios.put(`${BASE_URL}users/`, payload)
+        if (response.statusText === "OK") {
+          runInAction(()=> {
+            this.loading = false
+            this.hasErrors = false
+          })
+        } else {
+          throw new Error(response.statusText)
+        }  
+      } catch (error) {
+        runInAction (() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      }
     }
   }
 }
