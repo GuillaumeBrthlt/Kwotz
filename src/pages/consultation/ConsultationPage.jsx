@@ -37,7 +37,13 @@ const  ConsultationPage = observer(() => {
         <IdentityCheck setVerified={setVerified} verifemail={projectStore.consultation.email} />
       </Grid>
       <Grid padding={5} sx={verified ? {} : {display: 'none'}} maxWidth='1200px' marginX='auto'>
-        <Previews profile={projectStore.consultation.user_profile} user={projectStore.consultation.user} project={projectStore.consultation.project} coldRooms={projectStore.consultation.cold_rooms}/>
+        <Previews 
+          profile={projectStore.consultation.user_profile} 
+          user={projectStore.consultation.user} 
+          project={projectStore.consultation.project} 
+          coldRooms={projectStore.consultation.cold_rooms}
+          date={projectStore.consultation.created_at}
+        />
       </Grid>
     </>
   )

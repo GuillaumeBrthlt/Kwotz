@@ -23,7 +23,7 @@ import { useUserProfileStore } from "@contexts/UserProfileContext"
 import Sidenav from "@components/navbars/Sidenav"
 import CommentSection from "@pages/projectpage/components/CommentSection"
 
-export const ProjectOverview = observer(() => {
+export const ProjectEdit = observer(() => {
   const {id} = useParams()
   const projectStore = useProjectStore()
   const [newColdRoom, setNewColdRoom] = useState(false)
