@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie'
 import { runInAction } from 'mobx'
 import axios from 'axios'
+import { FamilyRestroomRounded } from '@mui/icons-material';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -15,8 +16,10 @@ export function createUserStore() {
     },
     loading: true,
     hasErrors: false,
+    registerErrors: false,
     authenticated: false,
     tokenOutdated: false,
+    sentEmail: false,
 
     has_profile() {
       this.user.has_profile= true
@@ -25,7 +28,7 @@ export function createUserStore() {
     async register(payload) {
       runInAction (() => {
         this.loading = true
-        this.hasErrors = false
+        this.registerErrors = false
       })
       
       try {
@@ -38,6 +41,7 @@ export function createUserStore() {
             this.user = response.data.user
             axios.defaults.headers.common["Authorization"] = this.auth_token
             Cookies.set('authToken', this.auth_token)
+            this.sentEmail = true
           })
         } else {
           throw new Error('invalid password or email')
@@ -45,7 +49,7 @@ export function createUserStore() {
       } catch (error) {
         runInAction (() => {
           this.loading = false
-          this.hasErrors = true
+          this.registerErrors = true
         })
       }
     },

@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 import { observer } from 'mobx-react-lite'
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useUserStore } from '@contexts/UserContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { Card } from '@mui/material'
@@ -52,6 +52,7 @@ export const RegisterPage = observer(() => {
         }
       };
       userStore.register(registerData)
+      navigate('/send_email')
     } else {
       setPasswordError(true)
     }

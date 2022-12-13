@@ -3,6 +3,7 @@ import { useUserStore } from "@contexts/UserContext";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import {LoginPage} from "@pages/authentification/loginPage";
 import {RegisterPage} from "@pages/authentification/registerPage";
+import ConfirmationPage from "@pages/authentification/ConfirmationPage";
 import ResetPasswordPage from "@pages/authentification/resetPasswordPage";
 import NewPasswordPage from "@pages/authentification/newPasswordPage";
 import NewUser from "@pages/profile/profileFormPage";
@@ -72,6 +73,7 @@ export const App = observer(() => {
             <Route path="/" element={<Navigate to='/login'/>}/>
             <Route path="/login" element={<LoginPage />}/>
             <Route path="/register" element={<RegisterPage />}/>
+            <Route path="/send_email" element={< ConfirmationPage/>}/>
             <Route path="/resetpassword" element={<ResetPasswordPage />}/>
             <Route path="/new_password" element={<NewPasswordPage />}/>
             <Route path="/new_profile" element={<NewUser/>} />
