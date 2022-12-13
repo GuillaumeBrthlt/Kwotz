@@ -17,7 +17,7 @@ import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
 import EmailValidation from "@pages/authentification/EmailValidation";
 import NewProject from "./pages/projectpage/newProject";
-import { ProjectOverview } from "@pages/projectpage/editProject";
+import { ProjectEdit } from "@pages/projectpage/editProject";
 import { useEffect } from "react";
 import { Grid } from "@mui/material";
 import { BarLoader } from "react-spinners";
@@ -25,6 +25,7 @@ import { NewSupplier } from "@pages/supplier/newSupplier";
 import ConsultationPage from "@pages/consultation/ConsultationPage";
 import Cookies from "js-cookie";
 import { EditPasswordPage } from "@pages/profile/editPasswordPage";
+import ProjectOverview from "@pages/projectpage/ProjectOverview"
 import { Suppliers } from "@pages/suppliers_list/suppliersList";
 
 export const App = observer(() => {
@@ -66,7 +67,7 @@ export const App = observer(() => {
       <Router>
         <main>
           <Routes>
-            <Route path="/project-edit/:id" element={<PrivateRoute component={<ProjectOverview />}/>}/>
+            <Route path="/projects/edit/:id" element={<PrivateRoute component={<ProjectEdit />}/>}/>
             <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
             <Route path="/consultation/:id" element={<ConsultationPage />}/>
             <Route path="/" element={<Navigate to='/login'/>}/>
@@ -82,8 +83,9 @@ export const App = observer(() => {
             <Route path="/edit_shipping" element={<PrivateRoute component={<EditShipping />}/>}/>
             <Route path="/404" element={<Error404/>}/>
             <Route path="/confirmation" element={<EmailValidation/>}/>
-            <Route path="/edit_account" element={<EditPasswordPage/>}/>
+            <Route path="/profile/account/edit" element={<EditPasswordPage/>}/>
             <Route path="/suppliers" element={<PrivateRoute component={<Suppliers/>}/>}/>
+            <Route path="/projects" element={<PrivateRoute component={<ProjectOverview />}/>}/>
           </Routes>
         </main>
       </Router>

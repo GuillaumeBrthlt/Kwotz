@@ -168,10 +168,18 @@ function Sidenav({ color, brand, brandName, ...rest }) {
         {
           name: "Mon compte",
           key: "login",
-          route: "/edit_account"
+          route: "/profile/account/edit"
         },
       ]
-    }
+    },
+    {
+      type: "collapse",
+      name: "Projets",
+      key: "projects",
+      icon: <Shop size="12px" />,
+      route: "/projects",
+      noCollapse: true,
+    }, 
   ]
 
 

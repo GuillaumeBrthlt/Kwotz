@@ -80,7 +80,7 @@ const details = userProfileStore.profileDetails
         display="flex"
         alignItems="center"
         position="relative"
-        minHeight="18.75rem"
+        minHeight="10rem"
         borderRadius="xl"
         sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
@@ -99,7 +99,7 @@ const details = userProfileStore.profileDetails
           backgroundColor: ({ functions: { rgba }, palette: { white } }) => rgba(white.main, 0.8),
           boxShadow: ({ boxShadows: { navbarBoxShadow } }) => navbarBoxShadow,
           position: "relative",
-          mt: -8,
+          mt: -5,
           mx: 3,
           py: 2,
           px: 2,
