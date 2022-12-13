@@ -124,7 +124,7 @@ const Dashboard = observer(() => {
                     </SoftTypography>
                   </SoftBox>
                   <Stack spacing={1} direction="row">
-                    <Link to="/new_project">
+                    <Link to="/projects">
                       <SoftButton variant="gradient" color="light" size="medium">
                         Voir mes projets
                       </SoftButton>
