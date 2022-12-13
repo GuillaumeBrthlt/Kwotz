@@ -15,6 +15,7 @@ export function createProjectStore() {
     latestProject: null,
     created: null,
     consultation: null,
+    consultations: [],
 
     async createProject(projectData) {
 
@@ -106,6 +107,26 @@ export function createProjectStore() {
         if (response.data) {
           runInAction(() => {
             this.consultation = response.data
+          })
+        } else {
+          throw new Error('impossible de trouver la page demandée')
+        }
+      } catch(error) {
+        this.hasErrors = true
+        console.error(error)
+      }
+    },
+
+    async getConsultations(id) {
+      runInAction(() => {
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios(`${BASE_URL}quote_requests`)
+        if (response.data) {
+          runInAction(() => {
+            let myConsultations = response.data.filter(consultation => consultation.user.id == id)
+            this.consultations = myConsultations
           })
         } else {
           throw new Error('impossible de trouver la page demandée')

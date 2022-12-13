@@ -48,15 +48,13 @@ const ProfileOverview = observer(() => {
 
   const details = userProfileStore.profileDetails
 
-  if(!userProfileStore.profileDetails.id ) {
+  if(!userProfileStore.profileDetails ) {
     return (
       <Grid display='flex' height='100vh' justifyContent='center' alignItems='center'>
         <PropagateLoader color="#36d7b7"/>
       </Grid>
     )
   }
-
-  
 
   return (
     <>

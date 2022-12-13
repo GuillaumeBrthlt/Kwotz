@@ -1,25 +1,10 @@
-/**
-=========================================================
-* Soft UI Dashboard PRO React - v4.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-import { useEffect, useState } from "react";
+import { useState, useEffect} from "react";
 import { useUserProfileStore } from "@contexts/UserProfileContext";
-import { useUserStore } from "@contexts/UserContext";
-import { useNavigate } from "react-router-dom";
-import { observer } from "mobx-react-lite";
-
 // formik components
 import { Formik, Form } from "formik";
+
+//import react-spinner animation loading
+import {PropagateLoader} from 'react-spinners'
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -29,7 +14,12 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { MobileStepper } from "@mui/material";
 
+//import css file for load spinner
+import '@pages/profile/editProfileFormPage.css'
+
+
 // Soft UI Dashboard PRO React components
+import SoftAlert from '@components/SoftAlert'
 import SoftBox from "@components/SoftBox";
 import SoftButton from "@components/SoftButton";
 
@@ -45,8 +35,12 @@ import ProfileInfos from "./components/ProfileInfos/profileInfos";
 
 // NewUser layout schemas for form and form feilds
 import validations from "./schemas/validations";
-import form from "./schemas/form";
-import initialValues from "./schemas/initialValues";
+import checkout from "./editschemas/form";
+import form from "./editschemas/form";
+import { useUserStore } from "@contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+
 
 function getSteps() {
   return ["Ma société", "Adresse Livraison", "Mes infos"];
@@ -65,8 +59,10 @@ function getStepContent(stepIndex, formData) {
   }
 }
 
-const NewUser = observer(() => {
+const EditUser = observer(() => {
   const [activeStep, setActiveStep] = useState(0);
+  const [update, setUpdate] = useState(false)
+  const [loading, setLoading] = useState(false)
   const steps = getSteps();
   const { formId, formField } = form;
   const currentValidation = validations[activeStep];
@@ -74,14 +70,66 @@ const NewUser = observer(() => {
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const navigate = useNavigate()
-  const handleBack = () => setActiveStep(activeStep - 1);
-  const submitForm = async (values, actions) => {
-    userProfileStore.createProfile(values)
+  const userID = userStore.user.id
+
+useEffect(() => {
+  userProfileStore.getProfileDetails(userID)
+}, [])
+
+
+const {
+  formField: {
+    company,
+    address,
+    zipcode,
+    city,
+    role,
+    first_name,
+    last_name,
+    shipping_alias,
+    shipping_address,
+    shipping_zipcode,
+    shipping_city,
+    phone_number,
+  },
+} = checkout;
+const e = userProfileStore.profileDetails
+
+const initialValues = {
+  [company.name]: e.company,
+  [address.name]: e.address,
+  [zipcode.name]: e.zipcode,
+  [city.name]: e.city,
+  [role.name]: e.role,
+  [first_name.name]: e.first_name,
+  [last_name.name]: e.last_name,
+  [shipping_alias.name]: e.shipping_alias,
+  [shipping_address.name]: e.shipping_address,
+  [shipping_zipcode.name]: e.shipping_zipcode,
+  [shipping_city.name]: e.shipping_city,
+  [phone_number.name]: e.phone_number,
+};
+
+const sleep = (ms) =>
+new Promise((resolve) => {
+  setTimeout(resolve, ms);
+});
+const handleBack = () => setActiveStep(activeStep - 1);
+
+
+  const submitForm = async (values) => {
+    await sleep(1000);
+
+    userProfileStore.editProfile(values, userID)
+    setUpdate(true)
+    await sleep(1000)
+    setLoading(true)
   };
+
 
   const handleSubmit = (values, actions) => {
     if (isLastStep) {
-      submitForm(values);
+      submitForm(values, actions);
     } else {
       setActiveStep(activeStep + 1);
       actions.setTouched({});
@@ -89,18 +137,24 @@ const NewUser = observer(() => {
     }
   };
 
-  useEffect(() => {
-    if (userProfileStore.created) {
-      userStore.has_profile()
-      navigate('/dashboard')
-    }
-  }, [userProfileStore.created])
+  if (!userStore.authenticated) {
+    navigate('/login')
+  }
 
-
+  if (loading == true) {
+    navigate('/dashboard')
+    setLoading(false)
+  }
+  
   return (
-    <>
+  <div>
+    {!userProfileStore.profileDetails.id ? (
+      <div className="sweet-loading">
+        <PropagateLoader color="#36d7b7"/>
+      </div>) : (
       <DashboardLayout>
         <DashboardNavbar />
+        <SoftAlert color='success' style={ update == true ? '' : {display: 'none'}}>Votre profil a bien été mis à jour </SoftAlert>
         <SoftBox py={3} mb={20}>
           <Grid container justifyContent="center" sx={{ height: "100%" }}>
             <Grid item xs={12} lg={8}>
@@ -143,7 +197,7 @@ const NewUser = observer(() => {
                               <SoftBox />
                             ) : (
                               <SoftButton variant="gradient" color="light" onClick={handleBack}>
-                                Retour
+                                back
                               </SoftButton>
                             )}
                             <SoftButton
@@ -165,9 +219,10 @@ const NewUser = observer(() => {
           </Grid>
         </SoftBox>
         <Footer />
-      </DashboardLayout>
-    </>
-  );
-})
+      </DashboardLayout>  
+    )}
+  </div>
+  )
+});
 
-export default NewUser;
+export default EditUser;

@@ -99,7 +99,7 @@ export default function ColdRoomDetails({ coldRoom }) {
         </SoftTypography>
         {coldRoom.comment.split('\n').map(line => {
           return (
-            <SoftTypography variant='body2'>
+            <SoftTypography key={line} variant='body2'>
               {line}
             </SoftTypography>
           )

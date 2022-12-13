@@ -25,12 +25,31 @@ import { observer } from "mobx-react-lite";
 import ColdRoomDetails from "@pages/projectpage/components/ColdRoomDetails";
 import { useRef } from "react";
 
-export const Previews = observer(({profile, project, coldRooms, user}) => {
+export const Previews = observer(({profile, project, coldRooms, user, date}) => {
   const componentRef = useRef()
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current
   })
+
+  function displayMessage(message) {
+    if (message) {
+      return (
+        <SoftBox p={3}>
+          <SoftTypography variant="h6" color="secondary" fontWeight="medium">
+            Informations
+          </SoftTypography>
+          {project.message.split('\n').map(line => {
+            return (
+                <SoftTypography key={line} variant='body2'>
+                {line}
+              </SoftTypography>
+            )
+          })} 
+        </SoftBox>
+      ) 
+    }
+  }
 
   return (
 
@@ -95,7 +114,7 @@ export const Previews = observer(({profile, project, coldRooms, user}) => {
                         </SoftBox>
                         <SoftBox marginLeft={{xs: 0, md:1}}>
                           <SoftTypography variant="h6" fontWeight="medium">
-                            {new Date(project.created_at).toLocaleDateString('fr')}
+                            {date ? new Date(date).toLocaleDateString('fr') : "(date de consultation)"}
                           </SoftTypography>
                         </SoftBox>
                       </SoftBox>
@@ -111,18 +130,7 @@ export const Previews = observer(({profile, project, coldRooms, user}) => {
                   </Grid>
                 </SoftBox>
               </SoftBox>
-              <SoftBox p={3} sx={project.message ? {} : {display: 'none'}}>
-                <SoftTypography variant="h6" color="secondary" fontWeight="medium">
-                  Informations
-                </SoftTypography>
-                {project.message.split('\n').map(line => {
-                  return (
-                     <SoftTypography variant='body2'>
-                      {line}
-                    </SoftTypography>
-                  )
-                })} 
-              </SoftBox>
+              {project.message ? displayMessage(project.message) : ''}
               {/* Invoice content */}
               <SoftBox p={3}>
                 {coldRooms.map(coldRoom => <ColdRoomDetails key={coldRoom.id} coldRoom={coldRoom}/>)}

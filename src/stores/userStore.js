@@ -176,8 +176,8 @@ export function createUserStore() {
         this.hasErrors = false
       })
       try {
-        await axios.delete(`${BASE_URL}users`)
-        if (response.statusText == "OK") {
+        let response  = await axios.delete(`${BASE_URL}users`)
+        if (response.status == 204) {
         runInAction(() => {
           this.loading = false
           this.user = {
@@ -185,10 +185,10 @@ export function createUserStore() {
             username: null,
             email: null,
             has_profile: null
-           };
+          };
           this.tokenOutdated = false
           this.auth_token = null;
-          this.authenticated = false;
+          this.authenticated = false
           Cookies.remove("authToken");
           axios.defaults.headers.common["Authorization"] = null;
         })
