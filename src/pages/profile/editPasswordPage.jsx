@@ -14,7 +14,6 @@ Coded by www.creative-tim.com
 */
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Card } from '@mui/material'
 import { Grid, Modal, Button } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
@@ -29,6 +28,7 @@ import SoftTypography from "@components/SoftTypography";
 import SoftInput from "@components/SoftInput";
 import SoftButton from "@components/SoftButton";
 import SoftAlert from '@components/SoftAlert'
+import Header from "@components/Header";
 
 // Authentication layout components
 import Separator from "@pages/authentification/components/Separator";
@@ -103,8 +103,11 @@ export function EditPasswordPage() {
       <Sidenav />
       <DashboardLayout>
         <DashboardNavbar />
-        <SoftAlert color='error' style={validEmail ? {display: 'none'} : {}}>Cet email n'est pas valide</SoftAlert>
-        <SoftAlert color='info' style={sentMail ? {} : {display: 'none'}}>Email envoyé, vous allez être déconnecté.</SoftAlert>
+        <Header title="MON COMPTE"/>
+        <SoftBox mt={2}>
+          <SoftAlert color='error' style={validEmail ? {display: 'none'} : {}}>Cet email n'est pas valide</SoftAlert>
+          <SoftAlert color='info' style={sentMail ? {} : {display: 'none'}}>Email envoyé, vous allez être déconnecté.</SoftAlert>
+        </SoftBox>
         <Modal
             open={open}
             onClose={handleClose}
@@ -138,75 +141,79 @@ export function EditPasswordPage() {
               </Grid>
             </Card>
           </Modal>
-        <Card id="delete-account">
-          <SoftBox p={3} lineHeight={1}>
-            <SoftBox mb={1}>
-              <SoftTypography variant="h5">Changer de mot de passe</SoftTypography>
-            </SoftBox>
-            <SoftTypography variant="button" color="text" fontWeight="regular">
-              Vous receverez un mail pour modifier vôtre mot de passe.
-            </SoftTypography>
-          </SoftBox>
-          <SoftBox
-            pb={3}
-            px={3}
-            display="flex"
-            justifyContent="space-between"
-            alignItems={{ xs: "flex-start", sm: "center" }}
-            flexDirection={{ xs: "column", sm: "row" }}
-          >
-            <SoftBox display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
-              <SoftTypography variant="caption" color="text">
-                Ne communiquez jamais vôtre mot de passe, on ne vous le demandera jamais.
+          <SoftBox mt={5} mb={3}>
+            <Card id="delete-account">
+            <SoftBox p={3} lineHeight={1}>
+              <SoftBox mb={1}>
+                <SoftTypography variant="h5">Changer de mot de passe</SoftTypography>
+              </SoftBox>
+              <SoftTypography variant="button" color="text" fontWeight="regular">
+                Vous receverez un mail pour modifier vôtre mot de passe.
               </SoftTypography>
             </SoftBox>
-            <SoftBox display="flex" flexDirection={{ xs: "column", sm: "row" }}>
-              <SoftBox ml={{ xs: 0, sm: 1 }} mt={{ xs: 1, sm: 0 }}>
-                <SoftButton variant="gradient" color="info" sx={{ height: "100%" }} onClick={() => {handleOpen()}}>
-                  nouveau mot de passe
-                </SoftButton>
-              </SoftBox>
-            </SoftBox>
-          </SoftBox>
-        </Card>
-        <Separator />
-        <Card id="delete-account">
-          <SoftBox p={3} lineHeight={1}>
-            <SoftBox mb={1}>
-              <SoftTypography variant="h5">Supprimer mon compte</SoftTypography>
-            </SoftBox>
-            <SoftTypography variant="button" color="text" fontWeight="regular">
-              Une fois le compte supprimé, vous ne pouvez pas revenir en arrière !
-            </SoftTypography>
-          </SoftBox>
-          <SoftBox
-            pb={3}
-            px={3}
-            display="flex"
-            justifyContent="space-between"
-            alignItems={{ xs: "flex-start", sm: "center" }}
-            flexDirection={{ xs: "column", sm: "row" }}
-          >
-            <SoftBox display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
-              <Switch checked={confirmDelete} onChange={(() => setConfirmDelete(!confirmDelete))} />
-              <SoftBox ml={2} lineHeight={0}>
-                <SoftTypography display="block" variant="button" fontWeight="medium">
-                  Confirmer
-                </SoftTypography>
+            <SoftBox
+              pb={3}
+              px={3}
+              display="flex"
+              justifyContent="space-between"
+              alignItems={{ xs: "flex-start", sm: "center" }}
+              flexDirection={{ xs: "column", sm: "row" }}
+            >
+              <SoftBox display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
                 <SoftTypography variant="caption" color="text">
-                  Je veux supprimer mon compte.
+                  Ne communiquez jamais vôtre mot de passe, on ne vous le demandera jamais.
                 </SoftTypography>
               </SoftBox>
-            </SoftBox>
-            <SoftBox display="flex" flexDirection={{ xs: "column", sm: "row" }}>
-              <SoftBox ml={{ xs: 0, sm: 1 }} mt={{ xs: 1, sm: 0 }}>
-                <SoftButton variant="gradient" color="error" sx={{ height: "100%" }} onClick={() => commitDestroy()} disabled={!confirmDelete}>
-                  Supprimer
-                </SoftButton>
+              <SoftBox display="flex" flexDirection={{ xs: "column", sm: "row" }}>
+                <SoftBox ml={{ xs: 0, sm: 1 }} mt={{ xs: 1, sm: 0 }}>
+                  <SoftButton variant="gradient" color="info" sx={{ height: "100%" }} onClick={() => {handleOpen()}}>
+                    nouveau mot de passe
+                  </SoftButton>
+                </SoftBox>
               </SoftBox>
             </SoftBox>
-          </SoftBox>
-        </Card>
+          </Card>
+        </SoftBox>
+        <Separator />
+        <SoftBox mt={3} mb={3}>
+          <Card id="delete-account">
+            <SoftBox p={3} lineHeight={1}>
+              <SoftBox mb={1}>
+                <SoftTypography variant="h5">Supprimer mon compte</SoftTypography>
+              </SoftBox>
+              <SoftTypography variant="button" color="text" fontWeight="regular">
+                Une fois le compte supprimé, vous ne pouvez pas revenir en arrière !
+              </SoftTypography>
+            </SoftBox>
+            <SoftBox
+              pb={3}
+              px={3}
+              display="flex"
+              justifyContent="space-between"
+              alignItems={{ xs: "flex-start", sm: "center" }}
+              flexDirection={{ xs: "column", sm: "row" }}
+            >
+              <SoftBox display="flex" alignItems="center" mb={{ xs: 3, sm: 0 }}>
+                <Switch checked={confirmDelete} onChange={(() => setConfirmDelete(!confirmDelete))} />
+                <SoftBox ml={2} lineHeight={0}>
+                  <SoftTypography display="block" variant="button" fontWeight="medium">
+                    Confirmer
+                  </SoftTypography>
+                  <SoftTypography variant="caption" color="text">
+                    Je veux supprimer mon compte.
+                  </SoftTypography>
+                </SoftBox>
+              </SoftBox>
+              <SoftBox display="flex" flexDirection={{ xs: "column", sm: "row" }}>
+                <SoftBox ml={{ xs: 0, sm: 1 }} mt={{ xs: 1, sm: 0 }}>
+                  <SoftButton variant="gradient" color="error" sx={{ height: "100%" }} onClick={() => commitDestroy()} disabled={!confirmDelete}>
+                    Supprimer
+                  </SoftButton>
+                </SoftBox>
+              </SoftBox>
+            </SoftBox>
+          </Card>
+        </SoftBox>
         <Footer />
       </DashboardLayout>
     </>
