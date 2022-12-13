@@ -5,9 +5,10 @@ import SoftTypography from '@components/SoftTypography'
 import { useProjectStore } from '@contexts/ProjectContext'
 import { Card } from '@mui/material'
 import React, {useState} from 'react'
+import { useEffect } from 'react'
 
 export default function CommentSection({ comment, projectId }) {
-  const [newComment, setNewComment] = useState(comment)
+  const [newComment, setNewComment] = useState("")
   const projectStore = useProjectStore()
 
   function handleSubmit() {
@@ -18,7 +19,11 @@ export default function CommentSection({ comment, projectId }) {
     }
     projectStore.updateProject(projectId, payload)
   }
-
+  useEffect(() => {
+    if (comment) {
+      setNewComment(comment)
+    }
+  }, [])
 
   return (
     <SoftBox mt={3}>
