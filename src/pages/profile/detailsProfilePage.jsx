@@ -31,7 +31,6 @@ import SoftBox from "@components/SoftBox";
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import Footer from "@components/Footer";
 import ProfileInfoCard from "@pages/profile/components/ProfileInfoCard";
-//import ProfilesList from "examples/Lists/ProfilesList";
 
 // Overview page components
 import Header from "@pages/profile/components/Header";
@@ -78,7 +77,7 @@ const ProfileOverview = observer(() => {
                   codePostal: details.zipcode,
                   telephone: details.phone_number,
                 }}
-                action={{ route: "/edit_informations", tooltip: "Edit Profile" }}
+                action={{ route: "/edit_informations", tooltip: "Modifier le profil" }}
               />
             </Grid>
             <Grid item xs={12} md={6} xl={4}>
@@ -90,7 +89,7 @@ const ProfileOverview = observer(() => {
                   ville: details.shipping_city,
                   codePostal: details.shipping_zipcode,
                 }}
-                action={{ route: "/edit_shipping", tooltip: "Edit Profile" }}
+                action={{ route: "/edit_shipping", tooltip: "Modifier le profil" }}
               />
             </Grid>
           </Grid>
