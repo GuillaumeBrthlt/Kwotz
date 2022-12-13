@@ -18,7 +18,6 @@ import { Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Stack from "@mui/material/Stack";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";

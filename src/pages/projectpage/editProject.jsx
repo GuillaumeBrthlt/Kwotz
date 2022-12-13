@@ -36,6 +36,7 @@ import { useUserStore } from "@contexts/UserContext"
 import { useUserProfileStore } from "@contexts/UserProfileContext"
 import Sidenav from "@components/navbars/Sidenav"
 import CommentSection from "@pages/projectpage/components/CommentSection"
+import { SettingsEthernetRounded } from "@mui/icons-material"
 
 export const ProjectEdit = observer(() => {
   const {id} = useParams()
@@ -49,6 +50,7 @@ export const ProjectEdit = observer(() => {
   const userId = userStore.user.id
   const [open, setOpen] = useState(false)
   const [project, setProject] = useState(null)
+  const [sent, setSent] = useState(false)
 
   useEffect(() => {
     projectStore.getDetails(id)
@@ -69,6 +71,7 @@ export const ProjectEdit = observer(() => {
   }, [projectStore.projectDetails])
 
   function handleOpen() {
+    setSent(false)
     setOpen(true)
   }
 
@@ -89,6 +92,7 @@ export const ProjectEdit = observer(() => {
       email: email
     }
     projectStore.sendProject(payload)
+    setSent(true)
   }
 
   const modalStyle = {
@@ -155,10 +159,10 @@ export const ProjectEdit = observer(() => {
               <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleClose()}}>
                 <CloseIcon />
               </Button>
-              <SoftTypography  variant='h4' textAlign='center'>
-                  Envoyer la demande prix
+              <SoftTypography  variant='h4' textAlign='center' mb={2}>
+                  {sent ? "Votre demande de prix à bien été envoyée!" : "Envoyer la demande prix"}
               </SoftTypography>
-              <Grid container spacing={2} justifyContent='center' mb={2} mt={1}>
+              <Grid container spacing={2} justifyContent='center' mb={2} mt={1} sx={sent ? {display: 'none'}: {}}>
                 <Grid item xs={11} md={8}>
                   <SoftInput 
                     placeholder="email du contact"
