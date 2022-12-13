@@ -1,3 +1,17 @@
+/**
+=========================================================
+* Soft UI Dashboard PRO React - v4.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-pro-react
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
 import React, { useEffect } from "react"
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout"
 import Header from "@components/Header"
@@ -21,6 +35,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useUserStore } from "@contexts/UserContext"
 import { useUserProfileStore } from "@contexts/UserProfileContext"
 import Sidenav from "@components/navbars/Sidenav"
+import CommentSection from "@pages/projectpage/components/CommentSection"
 
 export const ProjectOverview = observer(() => {
   const {id} = useParams()
@@ -33,6 +48,7 @@ export const ProjectOverview = observer(() => {
   const userProfileStore = useUserProfileStore()
   const userId = userStore.user.id
   const [open, setOpen] = useState(false)
+  const [project, setProject] = useState(null)
 
   useEffect(() => {
     projectStore.getDetails(id)
@@ -45,6 +61,12 @@ export const ProjectOverview = observer(() => {
   useEffect(() => {
     userProfileStore.getProfileDetails(userId)
   }, [userId])
+
+  useEffect(() => {
+    if (projectStore.projectDetails) {
+      setProject(projectStore.projectDetails)
+    }
+  }, [projectStore.projectDetails])
 
   function handleOpen() {
     setOpen(true)
@@ -77,8 +99,8 @@ export const ProjectOverview = observer(() => {
     width:{xs: 350, md:600}
   };
 
-  if (projectStore.projectDetails) {
-    const project = projectStore.projectDetails;
+  if (project) {
+
 
     return (
       <>
@@ -156,8 +178,9 @@ export const ProjectOverview = observer(() => {
               </Grid>
             </Card>
           </Modal>
-          <Grid container spacing={2} justifyContent='center'>
+          <Grid container spacing={2} justifyContent='center' alignItems='start'>
             <Grid item sm={12} md={4}>
+              <CommentSection comment={project.message} projectId={project.id}/>
               <ColdRoomsList coldRooms={coldRooms}/>
             </Grid>
             <Grid item sm={12} md={8}>

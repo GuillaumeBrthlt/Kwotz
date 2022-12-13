@@ -111,7 +111,18 @@ export const Previews = observer(({profile, project, coldRooms, user}) => {
                   </Grid>
                 </SoftBox>
               </SoftBox>
-
+              <SoftBox p={3} sx={project.message ? {} : {display: 'none'}}>
+                <SoftTypography variant="h6" color="secondary" fontWeight="medium">
+                  Informations
+                </SoftTypography>
+                {project.message.split('\n').map(line => {
+                  return (
+                     <SoftTypography variant='body2'>
+                      {line}
+                    </SoftTypography>
+                  )
+                })} 
+              </SoftBox>
               {/* Invoice content */}
               <SoftBox p={3}>
                 {coldRooms.map(coldRoom => <ColdRoomDetails key={coldRoom.id} coldRoom={coldRoom}/>)}

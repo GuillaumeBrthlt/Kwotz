@@ -115,5 +115,24 @@ export function createProjectStore() {
         console.error(error)
       }
     },
+
+    async updateProject(id, payload) {
+      runInAction(() => {
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.patch(`${BASE_URL}projects/${id}`, payload)
+        if (response.data) {
+          runInAction(() => {
+            this.getDetails(id)
+          })
+        } else {
+          throw new Error('impossible de trouver la page demandée')
+        }
+      } catch(error) {
+        this.hasErrors = true
+        console.error(error)
+      }
+    },
   }
 }
