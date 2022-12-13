@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 import { useSupplierStore } from "@contexts/SupplierContext";
 import { useUserStore } from "@contexts/UserContext";
 import Table from "@components/Tables/DataTable/Table";
-import Footer from "@components/footer"
+import Footer from "@components/Footer"
 import Sidenav from "@components/navbars/Sidenav";
 
 
