@@ -61,6 +61,26 @@ export function createProjectStore() {
       }
     },
 
+    async updateQuoteRequest(payload, id) {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.put(`${BASE_URL}quote_requests/${id}`, payload)
+        let data = await response.data
+        if (data) {
+          runInAction(() => {
+            this.loading = false
+            this.sent = true
+          })
+        }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+
     async getProjects() {
       runInAction(() => {
         this.loading = true
