@@ -74,9 +74,7 @@ const NewUser = observer(() => {
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const navigate = useNavigate()
-
   const handleBack = () => setActiveStep(activeStep - 1);
-
   const submitForm = async (values, actions) => {
     userProfileStore.createProfile(values)
   };
