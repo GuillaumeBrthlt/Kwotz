@@ -40,5 +40,26 @@ export function createSupplierStore() {
         })
       }
     },
+
+    async getSuppliers() {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios(`${BASE_URL}suppliers`)
+        let data = await response.data
+        if (data) {
+          runInAction(() => {
+            this.loading = false
+            this.projects = data
+            let supplierData = []
+            data.map(supplier => supplierData.push(supplier.supplierData))
+            let 
+          })
+        }
+      }
+    }
+
   }
 }

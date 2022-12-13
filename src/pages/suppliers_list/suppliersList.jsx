@@ -18,9 +18,23 @@ import Header from "@components/Header/index"
 
 import ComplexProjectCard from "@pages/suppliers_list/components/complexProjectCard";
 import PlaceholderCard from "@pages/suppliers_list/components/placeholderCard";
+import { observer } from "mobx-react-lite";
+import { useSupplierStore } from "@contexts/SupplierContext";
+import { useEffect } from "react";
 
 
-export const Suppliers = () => {
+export const Suppliers = observer(() => {
+  const supplierStore = useSupplierStore()
+
+
+
+  const Suppliers = () => {
+    const [suppliers, setSuppliers] = useState([]);
+
+    useEffect(() => {
+      supplierStore.getSupplierDetails(supplierID)
+    }, [])
+
   // ComplexProjectCard dropdown menu state
   const [supplier1, setSupplier1] = useState(null);
   const [supplier2, setSupplier2] = useState(null);
@@ -100,5 +114,5 @@ export const Suppliers = () => {
       </DashboardLayout>
     </>
   );
-}
+})
 
