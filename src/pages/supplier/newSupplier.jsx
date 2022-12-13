@@ -148,7 +148,7 @@ export const NewSupplier = observer(() => {
                         <SoftBox mr={1}>
                           <SoftButton 
                             component={Link}
-                            to="/profile"
+                            to="/suppliers"
                             color="light"
                           >
                             Annuler / Retour
@@ -156,7 +156,7 @@ export const NewSupplier = observer(() => {
                         </SoftBox>
                           <SoftButton
                             component={Link}
-                            to="/profile"
+                            to="/suppliers"
                             variant="gradient" 
                             color="info"
                             onClick={handleSubmit}

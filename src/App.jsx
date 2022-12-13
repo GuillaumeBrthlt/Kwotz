@@ -26,6 +26,8 @@ import ConsultationPage from "@pages/consultation/ConsultationPage";
 import Cookies from "js-cookie";
 import { EditPasswordPage } from "@pages/profile/editPasswordPage";
 import { Suppliers } from "@pages/suppliers_list/suppliersList";
+import SupplierContacts from "@pages/supplier/supplierContact";
+
 
 export const App = observer(() => {
   const userStore = useUserStore()
@@ -76,7 +78,7 @@ export const App = observer(() => {
             <Route path="/new_password" element={<NewPasswordPage />}/>
             <Route path="/new_profile" element={<NewUser/>} />
             <Route path="/new_project" element={<PrivateRoute component={<NewProject />}/>}/>
-            <Route path="/new_supplier" element={<PrivateRoute component={<NewSupplier />}/>}/>
+            <Route path="/suppliers/new" element={<PrivateRoute component={<NewSupplier />}/>}/>
             <Route path="/profile" element={<ProfileOverview />} />
             <Route path="/edit_informations" element={<PrivateRoute component={<EditInformations />}/>}/>
             <Route path="/edit_shipping" element={<PrivateRoute component={<EditShipping />}/>}/>
@@ -84,6 +86,7 @@ export const App = observer(() => {
             <Route path="/confirmation" element={<EmailValidation/>}/>
             <Route path="/edit_account" element={<EditPasswordPage/>}/>
             <Route path="/suppliers" element={<PrivateRoute component={<Suppliers/>}/>}/>
+            <Route path="/suppliers/:id" element={<PrivateRoute component={<SupplierContacts/>}/>}/>
           </Routes>
         </main>
       </Router>

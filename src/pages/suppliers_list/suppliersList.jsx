@@ -14,10 +14,11 @@ Coded by www.creative-tim.com
 */
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 import { useSupplierStore } from "@contexts/SupplierContext";
+import { useUserStore } from "@contexts/UserContext";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -37,37 +38,22 @@ import Header from "@components/Header/index"
 
 import ComplexProjectCard from "@pages/suppliers_list/components/complexProjectCard";
 import PlaceholderCard from "@pages/suppliers_list/components/placeholderCard";
-import { observer } from "mobx-react-lite";
-import { useSupplierStore } from "@contexts/SupplierContext";
-import { useEffect } from "react";
-
-
-export const Suppliers = observer(() => {
-  const supplierStore = useSupplierStore()
-
-
 
 export const Suppliers = observer (() => {
-
-  const {id} = useParams()
   const supplierStore = useSupplierStore()
+  const userStore = useUserStore()
 
 
   // ComplexProjectCard dropdown menu state
   const [supplier1, setSupplier1] = useState(null);
-  const [supplier2, setSupplier2] = useState(null);
   
-useEffect(() => {
-    supplierStore.getData(id)
-  }, [id])
-
-
+  useEffect(() => {
+    supplierStore.getSuppliers(userStore.user.id)
+  }, [])
 
   // TeamProfileCard dropdown menu handlers
   const openSupplier1 = (event) => setSupplier1(event.currentTarget);
   const closeSupplier1 = () => setSupplier1(null);
-  const openSupplier2 = (event) => setSupplier2(event.currentTarget);
-  const closeSupplier2 = () => setSupplier2(null);
 
   // Dropdown menu template for the ComplexProjectCard
   const renderMenu = (state, close) => (
@@ -89,49 +75,30 @@ useEffect(() => {
     <>
     <Sidenav />
       <DashboardLayout>
-      <Header />
         <DashboardNavbar />
+        <Header title="MES FOURNISSEURS"/>
           <SoftBox pt={5} pb={2}>
-            <Grid container>
-              <Grid item xs={12} md={8}>
-                <SoftBox mb={1}>
-                  <SoftTypography variant="h5">Liste de tous les fournisseurs :</SoftTypography>
-                </SoftBox>
-                <SoftBox mb={2}>
-                  <SoftTypography variant="body2" color="text">
-                    Voici la liste de tous les fournisseurs que vous pouvez contacter ou ajouter à vos favoris.
-                  </SoftTypography>
-                </SoftBox>
-              </Grid>
-            </Grid>
             <SoftBox mt={{ xs: 1, lg: 3 }} mb={1}>
               <Grid container spacing={3}>
+                {supplierStore.suppliers.map(supplier => {
+                  return (
+                    <Grid item xs={12} md={6} lg={4} key={supplier.id}>
+                      <ComplexProjectCard
+                        supplier={supplier}
+                        dropdown={{
+                          action: openSupplier1,
+                          menu: renderMenu(supplier1, closeSupplier1),
+                        }}
+                      />
+                    </Grid>
+                  )
+                })} 
                 <Grid item xs={12} md={6} lg={4}>
-                  <ComplexProjectCard
-                    title="Supplier Un"
-                    description="description du premier fournisseur"
-                    dropdown={{
-                      action: openSupplier1,
-                      menu: renderMenu(supplier1, closeSupplier1),
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                  <ComplexProjectCard
-                    title="Supplier Deux"
-                    description="description du second fournisseur"
-                    dropdown={{
-                      action: openSupplier2,
-                      menu: renderMenu(supplier2, closeSupplier2),
-                    }}
-                  />
-                </Grid>
-                
-                <Grid item xs={12} md={6} lg={4}>
-                  <PlaceholderCard 
-                  title={{ variant: "h5", text: "Ajouter un fournisseur" }} 
-                  
-                  />
+                  <Link to="./new">
+                    <PlaceholderCard 
+                      title={{ variant: "h5", text: "Ajouter un fournisseur" }} 
+                    />
+                  </Link>
                 </Grid>
               </Grid>
             </SoftBox>
