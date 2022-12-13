@@ -73,7 +73,7 @@ const NewProject = observer(() => {
   useEffect(()=> {
     sleep(1000)
     if (projectStore.created) {
-      navigate(`/project-edit/${projectStore.latestProject.id}`)
+      navigate(`/projects/edit/${projectStore.latestProject.id}`)
       projectStore.created = false
     }
   },[projectStore.created])
