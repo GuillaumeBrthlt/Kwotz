@@ -33,7 +33,6 @@ import ProfileInfos from "./components/ProfileInfos/profileInfos";
 import validations from "./schemas/validations";
 import form from "./schemas/form";
 import initialValues from "./schemas/initialValues";
-import Sidenav from "@components/navbars/Sidenav";
 
 function getSteps() {
   return ["Ma société", "Adresse Livraison", "Mes infos"];

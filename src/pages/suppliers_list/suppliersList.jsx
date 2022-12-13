@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+
+import { useSupplierStore } from "@contexts/SupplierContext";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -20,11 +25,21 @@ import ComplexProjectCard from "@pages/suppliers_list/components/complexProjectC
 import PlaceholderCard from "@pages/suppliers_list/components/placeholderCard";
 
 
-export const Suppliers = () => {
+export const Suppliers = observer (() => {
+
+  const {id} = useParams()
+  const supplierStore = useSupplierStore()
+
+
   // ComplexProjectCard dropdown menu state
   const [supplier1, setSupplier1] = useState(null);
   const [supplier2, setSupplier2] = useState(null);
   
+useEffect(() => {
+    supplierStore.getData(id)
+  }, [id])
+
+
 
   // TeamProfileCard dropdown menu handlers
   const openSupplier1 = (event) => setSupplier1(event.currentTarget);
@@ -91,7 +106,10 @@ export const Suppliers = () => {
                 </Grid>
                 
                 <Grid item xs={12} md={6} lg={4}>
-                  <PlaceholderCard title={{ variant: "h5", text: "Ajouter un fournisseur" }} />
+                  <PlaceholderCard 
+                  title={{ variant: "h5", text: "Ajouter un fournisseur" }} 
+                  
+                  />
                 </Grid>
               </Grid>
             </SoftBox>
@@ -100,5 +118,5 @@ export const Suppliers = () => {
       </DashboardLayout>
     </>
   );
-}
+});
 
