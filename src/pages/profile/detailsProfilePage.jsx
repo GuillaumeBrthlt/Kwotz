@@ -1,55 +1,28 @@
-/**
-=========================================================
-* Soft UI Dashboard PRO React - v4.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import {useEffect} from 'react'
 import {observer} from 'mobx-react-lite';
 import { useUserStore } from "@contexts/UserContext";
 import { useUserProfileStore } from "@contexts/UserProfileContext";
-import { Link } from "react-router-dom";
 
 //import react-spinner animation loading
  import {PropagateLoader} from 'react-spinners'
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
-import SoftTypography from "@components/SoftTypography";
-import SoftButton from "@components/SoftButton"
+
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import Footer from "@components/Footer";
 import ProfileInfoCard from "@pages/profile/components/ProfileInfoCard";
 //import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "@pages/profile/components/DefaultProjectCard";
-import PlaceholderCard from "@pages/profile/components/PlaceholderCard";
 
 // Overview page components
 import Header from "@pages/profile/components/Header";
 import Sidenav from '@components/navbars/Sidenav';
 import DashboardNavbar from '@components/navbars/DashboardNavbar';
-import { useNavigate } from 'react-router-dom';
-import { DetailsSharp } from '@mui/icons-material';
 
 const ProfileOverview = observer(() => {
   const userProfileStore = useUserProfileStore()
