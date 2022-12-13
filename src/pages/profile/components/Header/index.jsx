@@ -19,6 +19,9 @@ import { useState, useEffect } from "react";
 // @mui material components
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -49,7 +52,7 @@ useEffect(() => {
   userProfileStore.getProfileDetails(userID)
 }, [])
 
-const e = userProfileStore.profileDetails
+const details = userProfileStore.profileDetails
 
   useEffect(() => {
     // A function that sets the orientation state of the tabs.
@@ -77,7 +80,7 @@ const e = userProfileStore.profileDetails
         display="flex"
         alignItems="center"
         position="relative"
-        minHeight="18.75rem"
+        minHeight="10rem"
         borderRadius="xl"
         sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
@@ -96,7 +99,7 @@ const e = userProfileStore.profileDetails
           backgroundColor: ({ functions: { rgba }, palette: { white } }) => rgba(white.main, 0.8),
           boxShadow: ({ boxShadows: { navbarBoxShadow } }) => navbarBoxShadow,
           position: "relative",
-          mt: -8,
+          mt: -5,
           mx: 3,
           py: 2,
           px: 2,
@@ -104,12 +107,12 @@ const e = userProfileStore.profileDetails
       >
         <Grid container spacing={3} alignItems="center" justifyContent="center">
           <Grid item >
-            <SoftBox height="100%" mt={0.5} lineHeight={1}>
+            <SoftBox height="100%" mt={0.5} lineHeight={1} display="flex" flexDirection="column" alignItems="center">
               <SoftTypography variant="h5" fontWeight="medium">
-                {e.first_name}
+                {`${details.first_name} ${details.last_name}`}
               </SoftTypography>
               <SoftTypography variant="button" color="text" fontWeight="medium">
-                {e.role}
+                {details.role}
               </SoftTypography>
             </SoftBox>
           </Grid>

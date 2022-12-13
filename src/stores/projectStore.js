@@ -15,6 +15,7 @@ export function createProjectStore() {
     latestProject: null,
     created: null,
     consultation: null,
+    consultations: [],
 
     async createProject(projectData) {
 
@@ -50,7 +51,6 @@ export function createProjectStore() {
       try {
         let response = await axios.post(`${BASE_URL}quote_requests`, payload)
         let data = await response.data
-        console.log(data)
         if (data) {
           runInAction(() => {
             this.sent = true
@@ -107,6 +107,45 @@ export function createProjectStore() {
         if (response.data) {
           runInAction(() => {
             this.consultation = response.data
+          })
+        } else {
+          throw new Error('impossible de trouver la page demandée')
+        }
+      } catch(error) {
+        this.hasErrors = true
+        console.error(error)
+      }
+    },
+
+    async getConsultations(id) {
+      runInAction(() => {
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios(`${BASE_URL}quote_requests`)
+        if (response.data) {
+          runInAction(() => {
+            let myConsultations = response.data.filter(consultation => consultation.user.id == id)
+            this.consultations = myConsultations
+          })
+        } else {
+          throw new Error('impossible de trouver la page demandée')
+        }
+      } catch(error) {
+        this.hasErrors = true
+        console.error(error)
+      }
+    },
+
+    async updateProject(id, payload) {
+      runInAction(() => {
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.patch(`${BASE_URL}projects/${id}`, payload)
+        if (response.data) {
+          runInAction(() => {
+            this.getDetails(id)
           })
         } else {
           throw new Error('impossible de trouver la page demandée')

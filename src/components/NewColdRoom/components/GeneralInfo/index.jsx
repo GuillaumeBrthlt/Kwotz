@@ -13,7 +13,6 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
 import PropTypes from "prop-types";
 
 // @mui material components
@@ -41,8 +40,6 @@ function GeneralInfo({ formData }) {
     prod_outside: prod_outsideV, 
     refrigerant_type: refrigerant_typeV 
   } = values;
-
-
 
   return (
     <SoftBox>
@@ -99,7 +96,7 @@ function GeneralInfo({ formData }) {
                 <ErrorMessage name={condensing_unit.name} />
               </SoftTypography>
             </SoftBox>
-            <SoftBox mb={3}>
+            <SoftBox mb={3} sx={condensing_unitV == "without" ? {display:'none'} : {}}>
               <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                 <SoftTypography
                   component="label"
@@ -113,12 +110,10 @@ function GeneralInfo({ formData }) {
                 name={prod_outside.name}
                 as={Select}
                 input={<SoftInput type="text"/>}
-                value={prod_outsideV} 
                 error={errors.prod_outside && touched.prod_outside}
               >
-                <MenuItem value="outside">A l'extérieur</MenuItem>
-                <MenuItem value="inside">En salle des machines</MenuItem>
-                <MenuItem value="without">Ne pas chiffrer la production</MenuItem>
+                <MenuItem value="true">A l'extérieur</MenuItem>
+                <MenuItem value="false">En salle des machines</MenuItem>
               </Field>
               <SoftTypography component="div" variant="caption" color="error">
                 <ErrorMessage name={condensing_unit.name} />

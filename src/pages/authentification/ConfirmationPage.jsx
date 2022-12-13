@@ -13,11 +13,8 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import React from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Card } from '@mui/material'
-import { observer } from 'mobx-react-lite';
-import { useUserStore } from "@contexts/UserContext";
-import DefaultNavbar from '@components/navbars/defaultNavbar'
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -27,53 +24,43 @@ import SoftButton from "@components/SoftButton";
 // Authentication layout components
 import BasicLayout from "@pages/authentification/components/BasicLayout";
 
-import curved1 from "/assets/images/curved-images/curved1.jpg"
+import curved8 from "/assets/images/curved-images/curved8.jpg"
+import DefaultNavbar from '@components/navbars/defaultNavbar'
 
-
-const EmailValidation = observer(() => {
-  const userStore = useUserStore();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
-
-  const token = searchParams.get('confirmation_token')
-
-
-  function handleValidation() {
-    userStore.validateEmail(token)
-    navigate('/login')
-  }
-
-  if (!token) {
-    navigate('/404')
-  }
+export default function ConfirmationPage() {
 
   return (
     <>
       <DefaultNavbar />
       <BasicLayout
-        title="Validez votre email"
-        description="Cliquez sur le bouton de validation pour vous connecter à votre espace"
-        image={curved1}
+        title="Dernière étape !"
+        description="un email de confirmation vient de vous être envoyé: veuillez vérifier votre boîte de réception email"
+        image={curved8}
       >
         <Card>
           <SoftBox p={3} mb={1} textAlign="center">
             <SoftTypography variant="h5" fontWeight="medium">
-              Validation du mail
+              Veuillez vous connecter
+            </SoftTypography>
+            <SoftTypography variant="h5" fontWeight="medium">
+              Après avoir confirmé votre inscription
             </SoftTypography>
           </SoftBox>
-          <SoftBox p={3}>
-            <SoftBox component="form" role="form">
-              <SoftBox mt={4} mb={1}>
-                <SoftButton variant="gradient" color="info" fullWidth onClick={handleValidation}>
-                  Valider mon email
+          <SoftBox mt={4} p={3}>
+              <SoftBox>
+                <SoftButton
+                  component={Link}
+                  to="/login"
+                  variant="gradient"
+                  color="info"
+                  fullWidth
+                >
+                  se connecter
                 </SoftButton>
               </SoftBox>
             </SoftBox>
-          </SoftBox>
         </Card>
       </BasicLayout>
     </>
   );
-})
-
-export default EmailValidation
+}

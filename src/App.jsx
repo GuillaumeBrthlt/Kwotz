@@ -3,10 +3,12 @@ import { useUserStore } from "@contexts/UserContext";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import {LoginPage} from "@pages/authentification/loginPage";
 import {RegisterPage} from "@pages/authentification/registerPage";
+import ConfirmationPage from "@pages/authentification/ConfirmationPage";
 import ResetPasswordPage from "@pages/authentification/resetPasswordPage";
 import NewPasswordPage from "@pages/authentification/newPasswordPage";
 import NewUser from "@pages/profile/profileFormPage";
-import EditUser from "@pages/profile/editProfileFormPage";
+import EditInformations from "@pages/profile/editProfileInformationsPage";
+import EditShipping from "@pages/profile/editProfileShippingPage";
 import ProfileOverview from "@pages/profile/detailsProfilePage";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,14 +18,16 @@ import { Navigate } from "react-router-dom";
 import Dashboard from "@pages/dashboard";
 import EmailValidation from "@pages/authentification/EmailValidation";
 import NewProject from "./pages/projectpage/newProject";
-import { ProjectOverview } from "@pages/projectpage/editProject";
+import { ProjectEdit } from "@pages/projectpage/editProject";
 import { useEffect } from "react";
 import { Grid } from "@mui/material";
 import { BarLoader } from "react-spinners";
 import { NewSupplier } from "@pages/supplier/newSupplier";
 import ConsultationPage from "@pages/consultation/ConsultationPage";
 import Cookies from "js-cookie";
-
+import { EditPasswordPage } from "@pages/profile/editPasswordPage";
+import ProjectOverview from "@pages/projectpage/ProjectOverview"
+import { Suppliers } from "@pages/suppliers_list/suppliersList";
 
 export const App = observer(() => {
   const userStore = useUserStore()
@@ -64,21 +68,26 @@ export const App = observer(() => {
       <Router>
         <main>
           <Routes>
-            <Route path="/project-edit/:id" element={<PrivateRoute component={<ProjectOverview />}/>}/>
+            <Route path="/projects/edit/:id" element={<PrivateRoute component={<ProjectEdit />}/>}/>
             <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
             <Route path="/consultation/:id" element={<ConsultationPage />}/>
             <Route path="/" element={<Navigate to='/login'/>}/>
             <Route path="/login" element={<LoginPage />}/>
             <Route path="/register" element={<RegisterPage />}/>
+            <Route path="/send_email" element={< ConfirmationPage/>}/>
             <Route path="/resetpassword" element={<ResetPasswordPage />}/>
             <Route path="/new_password" element={<NewPasswordPage />}/>
             <Route path="/new_profile" element={<NewUser/>} />
             <Route path="/new_project" element={<PrivateRoute component={<NewProject />}/>}/>
             <Route path="/new_supplier" element={<PrivateRoute component={<NewSupplier />}/>}/>
             <Route path="/profile" element={<ProfileOverview />} />
-            <Route path="/edit_profile" element={<PrivateRoute component={<EditUser />}/>}/>
+            <Route path="/edit_informations" element={<PrivateRoute component={<EditInformations />}/>}/>
+            <Route path="/edit_shipping" element={<PrivateRoute component={<EditShipping />}/>}/>
             <Route path="/404" element={<Error404/>}/>
             <Route path="/confirmation" element={<EmailValidation/>}/>
+            <Route path="/profile/account/edit" element={<EditPasswordPage/>}/>
+            <Route path="/suppliers" element={<PrivateRoute component={<Suppliers/>}/>}/>
+            <Route path="/projects" element={<PrivateRoute component={<ProjectOverview />}/>}/>
           </Routes>
         </main>
       </Router>

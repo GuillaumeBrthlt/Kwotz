@@ -156,12 +156,30 @@ function Sidenav({ color, brand, brandName, ...rest }) {
     }, 
     {
       type: "collapse",
-      name: "Profile",
+      name: "Profil",
       key: "profile",
       icon: <Office size="12px" />,
-      route: "/profile",
+      collapse: [
+        {
+          name: "Mon Profil",
+          key: "profile",
+          route: "/profile",
+        },
+        {
+          name: "Mon compte",
+          key: "login",
+          route: "/profile/account/edit"
+        },
+      ]
+    },
+    {
+      type: "collapse",
+      name: "Projets",
+      key: "projects",
+      icon: <Shop size="12px" />,
+      route: "/projects",
       noCollapse: true,
-    }
+    }, 
   ]
 
 
@@ -256,7 +274,7 @@ function Sidenav({ color, brand, brandName, ...rest }) {
             <Icon sx={{ fontWeight: "bold" }}>close</Icon>
           </SoftTypography>
         </SoftBox>
-        <SoftBox component={NavLink} to="/" display="flex" alignItems="center">
+        <SoftBox component={NavLink} to="/dashboard" display="flex" alignItems="center">
           {brand && <SoftBox component="img" src={brand} alt="Soft UI Logo" width="2rem" />}
           <SoftBox
             width={!brandName && "100%"}

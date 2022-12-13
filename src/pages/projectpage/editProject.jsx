@@ -1,3 +1,17 @@
+/**
+=========================================================
+* Soft UI Dashboard PRO React - v4.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-pro-react
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
 import React, { useEffect } from "react"
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout"
 import Header from "@components/Header"
@@ -7,7 +21,7 @@ import { useState } from "react"
 import {Previews} from "./components/previews"
 import { observer } from "mobx-react-lite"
 import SoftButton from "@components/SoftButton"
-import { Grid } from "@mui/material"
+import { Grid, Modal } from "@mui/material"
 import { Button } from "@mui/material"
 import NewColdRoom from "@components/NewColdRoom"
 import { useColdRoomStore } from "@contexts/ColdRoomContext"
@@ -21,18 +35,22 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useUserStore } from "@contexts/UserContext"
 import { useUserProfileStore } from "@contexts/UserProfileContext"
 import Sidenav from "@components/navbars/Sidenav"
+import CommentSection from "@pages/projectpage/components/CommentSection"
+import { SettingsEthernetRounded } from "@mui/icons-material"
 
-export const ProjectOverview = observer(() => {
+export const ProjectEdit = observer(() => {
   const {id} = useParams()
   const projectStore = useProjectStore()
   const [newColdRoom, setNewColdRoom] = useState(false)
   const coldRoomStore = useColdRoomStore()
   const [coldRooms, setColdRooms] = useState([])
-  const [send, setSend] = useState(false)
   const [email, setEmail] = useState(null)
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const userId = userStore.user.id
+  const [open, setOpen] = useState(false)
+  const [project, setProject] = useState(null)
+  const [sent, setSent] = useState(false)
 
   useEffect(() => {
     projectStore.getDetails(id)
@@ -47,6 +65,21 @@ export const ProjectOverview = observer(() => {
   }, [userId])
 
   useEffect(() => {
+    if (projectStore.projectDetails) {
+      setProject(projectStore.projectDetails)
+    }
+  }, [projectStore.projectDetails])
+
+  function handleOpen() {
+    setSent(false)
+    setOpen(true)
+  }
+
+  function handleClose() {
+    setOpen(false)
+  }
+
+  useEffect(() => {
     return async() => {
       let thoseColdRooms = coldRoomStore.coldRooms.filter(coldRoom => coldRoom.project_id == id)
       setColdRooms(thoseColdRooms)
@@ -59,10 +92,19 @@ export const ProjectOverview = observer(() => {
       email: email
     }
     projectStore.sendProject(payload)
+    setSent(true)
   }
 
-  if (projectStore.projectDetails) {
-    const project = projectStore.projectDetails;
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width:{xs: 350, md:600}
+  };
+
+  if (project) {
+
 
     return (
       <>
@@ -73,9 +115,9 @@ export const ProjectOverview = observer(() => {
               variant="gradient" 
               color="success" 
               size="medium"
-              onClick={() => {setSend(true)}}
+              onClick={() => {handleOpen()}}
               sx={
-                send ? {
+                open ? {
                   display: 'none', 
                   position: 'fixed',
                   zIndex: '1',
@@ -107,34 +149,42 @@ export const ProjectOverview = observer(() => {
             </SoftButton>
           </Grid>
           {newColdRoom ? <NewColdRoom project={project.id} setNewColdRoom={setNewColdRoom}/> : <></>}
-          <Card sx={send ? {marginTop: 3, textAlign: 'center'} : {display: 'none'}}>
-            <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {setSend(false)}}>
-              <CloseIcon />
-            </Button>
-            <SoftTypography  variant='h4'>
-                Formulaire d'envoi
-            </SoftTypography>
-            <Grid container spacing={4} justifyContent='center' mb={2} mt={1}>
-              <Grid item xs={11} md={8}>
-                <SoftInput 
-                  placeholder="email du contact"
-                  onChange={e=> setEmail(e.target.value)}
-                />
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="sending-form"
+            aria-describedby="sending-project-form"
+            >
+            <Card sx={modalStyle}>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleClose()}}>
+                <CloseIcon />
+              </Button>
+              <SoftTypography  variant='h4' textAlign='center' mb={2}>
+                  {sent ? "Votre demande de prix à bien été envoyée!" : "Envoyer la demande prix"}
+              </SoftTypography>
+              <Grid container spacing={2} justifyContent='center' mb={2} mt={1} sx={sent ? {display: 'none'}: {}}>
+                <Grid item xs={11} md={8}>
+                  <SoftInput 
+                    placeholder="email du contact"
+                    onChange={e=> setEmail(e.target.value)}
+                  />
+                </Grid>
+                <Grid item>
+                  <SoftButton 
+                    variant="gradient" 
+                    color="success" 
+                    size="medium"
+                    onClick={() => {sendMail()}}
+                  >
+                    Envoyer
+                  </SoftButton>
+                </Grid>
               </Grid>
-              <Grid item>
-                <SoftButton 
-                  variant="gradient" 
-                  color="success" 
-                  size="medium"
-                  onClick={() => {sendMail()}}
-                >
-                  Envoyer
-                </SoftButton>
-              </Grid>
-            </Grid>
-          </Card>
-          <Grid container spacing={2} justifyContent='center'>
+            </Card>
+          </Modal>
+          <Grid container spacing={2} justifyContent='center' alignItems='start'>
             <Grid item sm={12} md={4}>
+              <CommentSection comment={project.message} projectId={project.id}/>
               <ColdRoomsList coldRooms={coldRooms}/>
             </Grid>
             <Grid item sm={12} md={8}>

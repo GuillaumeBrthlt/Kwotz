@@ -36,7 +36,7 @@ export default function ColdRoomDetails({ coldRoom }) {
 
   return (
     <Grid>
-      <SoftTypography variant='h4' mt={5}>
+      <SoftTypography variant='h4' mt={2}>
         {coldRoom.name}
       </SoftTypography>
       <Separator />
@@ -97,9 +97,13 @@ export default function ColdRoomDetails({ coldRoom }) {
         <SoftTypography variant='h5' color="primary" mt={2}>
           Commentaires
         </SoftTypography>
-        <SoftTypography variant='body2'>
-          {coldRoom.comment}
-        </SoftTypography>
+        {coldRoom.comment.split('\n').map(line => {
+          return (
+            <SoftTypography key={line} variant='body2'>
+              {line}
+            </SoftTypography>
+          )
+        })}
       </Grid>
     </Grid>
   )

@@ -1,3 +1,17 @@
+/**
+=========================================================
+* Soft UI Dashboard PRO React - v4.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-pro-react
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
 import { useProjectStore } from '@contexts/ProjectContext'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
@@ -37,7 +51,13 @@ const  ConsultationPage = observer(() => {
         <IdentityCheck setVerified={setVerified} verifemail={projectStore.consultation.email} />
       </Grid>
       <Grid padding={5} sx={verified ? {} : {display: 'none'}} maxWidth='1200px' marginX='auto'>
-        <Previews profile={projectStore.consultation.user_profile} user={projectStore.consultation.user} project={projectStore.consultation.project} coldRooms={projectStore.consultation.cold_rooms}/>
+        <Previews 
+          profile={projectStore.consultation.user_profile} 
+          user={projectStore.consultation.user} 
+          project={projectStore.consultation.project} 
+          coldRooms={projectStore.consultation.cold_rooms}
+          date={projectStore.consultation.created_at}
+        />
       </Grid>
     </>
   )
