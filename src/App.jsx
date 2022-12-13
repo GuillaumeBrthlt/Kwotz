@@ -25,7 +25,6 @@ import { NewSupplier } from "@pages/supplier/newSupplier";
 import ConsultationPage from "@pages/consultation/ConsultationPage";
 import Cookies from "js-cookie";
 import { EditPasswordPage } from "@pages/profile/editPasswordPage";
-
 import { Suppliers } from "@pages/suppliers_list/suppliersList";
 
 export const App = observer(() => {
