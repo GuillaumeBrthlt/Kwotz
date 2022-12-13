@@ -156,6 +156,14 @@ function Sidenav({ color, brand, brandName, ...rest }) {
     }, 
     {
       type: "collapse",
+      name: "Mes fournisseurs",
+      key: "suppliers",
+      icon: <Shop size="12px" />,
+      route: "/suppliers",
+      noCollapse: true,
+    }, 
+    {
+      type: "collapse",
       name: "Profil",
       key: "profile",
       icon: <Office size="12px" />,

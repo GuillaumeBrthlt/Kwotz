@@ -7,14 +7,9 @@ export function createSupplierStore() {
   return {
     loading: null,
     hasErrors: null,
-    supplierData: {
-      alias: null,
-      address: null,
-      city: null,
-      zipcode: null,
-      favorite: false
-    },
+    suppliers: [],
     created: null,
+    details: null,
 
     async createSupplier(supplierData) {
 
@@ -41,7 +36,7 @@ export function createSupplierStore() {
       }
     },
 
-    async getSuppliers() {
+    async getSuppliers(id) {
       runInAction(() => {
         this.loading = true
         this.hasErrors = false
@@ -52,11 +47,7 @@ export function createSupplierStore() {
         if (data) {
           runInAction(() => {
             this.loading = false
-            this.suppliers = data
-            let supplierData = []
-            data.map(supplier => supplierData.push(supplier.supplierData))
-            let uniqueSupplierData = [...new Set(supplierData)]
-            this.supplierData = uniqueSupplierData
+            this.suppliers = data.filter(supplier => supplier.user_id == id)
           })
         }    
       } catch(error) {
@@ -64,17 +55,42 @@ export function createSupplierStore() {
       }
     },
 
-    async getData(id) {
+    async getDetails(userId, supplierId) {
       runInAction(() => {
         this.loading = true
         this.hasErrors = false
       })
       try {
-        await this.getSuppliers()
-        let findSupplier = this.suppliers.filter(supplier => supplier.id == id)[0]
-        this.supplierData = findSupplier
+        await this.getSuppliers(userId)
+        let supplierDetails = await this.suppliers.filter(supplier => supplier.id == supplierId)[0]
+        this.details = supplierDetails
       } catch(error) {
         console.error(error)
+      }
+    },
+
+    async deleteSupplier(id) {
+
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+
+      try {
+        let response = await axios.delete(`${BASE_URL}suppliers/${id}`);
+        if (response.status == 204) {
+          runInAction (() => {
+            this.loading = false
+            this.getSuppliers()
+          })
+        } else {
+          throw new Error('annonce non supprimée')
+        }  
+      } catch (error) {
+        runInAction (() => {
+          this.loading = false
+          this.hasErrors = true
+        })
       }
     },
 

@@ -9,31 +9,59 @@ import Icon from "@mui/material/Icon";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-import SoftAvatar from "@components/SoftAvatar";
+import Avatar from '@mui/material/Avatar';
+import SoftButton from "@components/SoftButton";
+import { Link } from "react-router-dom";
+
+
+import StoreIcon from '@mui/icons-material/Store';
+
 
 // Custom styles for ComplexProjectCard
-function ComplexProjectCard({ color, title, description, suppliers, dropdown }) {
-  const renderSuppliers = suppliers.map((supplier, key) => {
-    const supplierKey = `supplier-${key}`;    
-  });
+function ComplexProjectCard({ color, supplier, dropdown }) {
 
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+  
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+  
+    return color;
+  }
+
+  
+  function stringAvatar(alias) {
+    const aliasArray = alias.split(' ')
+    return {
+      sx: {
+        bgcolor: stringToColor(alias),
+      },
+      children: `${aliasArray.map(string => string[0]).join('')}`,
+    };
+  }
+  
   return (
     <Card>
       <SoftBox p={2}>
         <SoftBox display="flex" alignItems="center">
-          <SoftAvatar
-            alt={title}
-            size="xl"
-            bgColor={color}
-            sx={{ p: 1 }}
-          />
+          <Avatar {...stringAvatar(supplier.alias)}/>
           <SoftBox ml={2} lineHeight={0}>
             <SoftBox mb={1} lineHeight={0}>
               <SoftTypography variant="h6" textTransform="capitalize" fontWeight="medium">
-                {title}
+                {supplier.alias}
               </SoftTypography>
             </SoftBox>
-            {suppliers.length > -1 ? <SoftBox display="flex">{renderSuppliers}</SoftBox> : null}
           </SoftBox>
           {dropdown && (
             <SoftTypography
@@ -52,28 +80,29 @@ function ComplexProjectCard({ color, title, description, suppliers, dropdown }) 
           )}
           {dropdown.menu}
         </SoftBox>
-        <SoftBox my={2} lineHeight={1}>
-          <SoftTypography variant="button" fontWeight="regular" color="text">
-            {description}
+        <SoftBox my={2}>
+          <SoftTypography  variant="body2" color="text">
+            {supplier.address}
+          </SoftTypography>
+          <SoftTypography  variant="body2" color="text">
+            {supplier.zipcode}, {supplier.city}
           </SoftTypography>
         </SoftBox>
         <Divider />
 
         <SoftBox display="flex" justifyContent="space-between" alignItems="center">
-          {suppliers.length > -1 ? (
             <SoftBox display="flex" flexDirection="column" lineHeight={0}>
               <SoftTypography variant="button" fontWeight="medium">
-                {suppliers.length}
+                {supplier.supplier_contacts.length}
               </SoftTypography>
               <SoftTypography variant="button" fontWeight="medium" color="secondary">
-                Nombre de contacts
+                Contact(s)
               </SoftTypography>
             </SoftBox>
-          ) : null}
             <SoftBox display="flex" flexDirection="column" lineHeight={0}>
-              <SoftTypography variant="button" fontWeight="medium" color="secondary">
-                Contacter
-              </SoftTypography>
+              <SoftButton color="info" size="small" component={Link} to={`/suppliers/${supplier.id}`}>
+                Voir
+              </SoftButton>
             </SoftBox>
         </SoftBox>
       </SoftBox>
@@ -100,9 +129,6 @@ ComplexProjectCard.propTypes = {
     "dark",
     "light",
   ]),
-  title: PropTypes.string.isRequired,
-  description: PropTypes.node.isRequired,
-  suppliers: PropTypes.arrayOf(PropTypes.string),
   dropdown: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.shape({
