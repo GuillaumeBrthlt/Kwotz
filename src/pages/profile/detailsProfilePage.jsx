@@ -12,7 +12,6 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
 import {useEffect} from 'react'
 import {observer} from 'mobx-react-lite';
 import { useUserStore } from "@contexts/UserContext";
@@ -27,6 +26,7 @@ import Grid from "@mui/material/Grid";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 
+
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import Footer from "@components/Footer";
@@ -36,7 +36,6 @@ import ProfileInfoCard from "@pages/profile/components/ProfileInfoCard";
 import Header from "@pages/profile/components/Header";
 import Sidenav from '@components/navbars/Sidenav';
 import DashboardNavbar from '@components/navbars/DashboardNavbar';
-
 
 const ProfileOverview = observer(() => {
   const userProfileStore = useUserProfileStore()

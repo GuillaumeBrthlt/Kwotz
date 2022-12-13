@@ -1,3 +1,17 @@
+/**
+=========================================================
+* Soft UI Dashboard PRO React - v4.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-pro-react
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
 import { useEffect, useState } from "react";
 import { useUserProfileStore } from "@contexts/UserProfileContext";
 import { useUserStore } from "@contexts/UserContext";
@@ -33,7 +47,6 @@ import ProfileInfos from "./components/ProfileInfos/profileInfos";
 import validations from "./schemas/validations";
 import form from "./schemas/form";
 import initialValues from "./schemas/initialValues";
-import Sidenav from "@components/navbars/Sidenav";
 
 function getSteps() {
   return ["Ma société", "Adresse Livraison", "Mes infos"];
