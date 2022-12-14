@@ -25,9 +25,11 @@ import IdentityCheck from './components/IdentityCheck'
 import SoftBox from '@components/SoftBox'
 import SoftTypography from '@components/SoftTypography'
 import { Card } from '@mui/material'
-import SoftDropzone from '@components/SoftDropzone'
 import SoftButton from '@components/SoftButton'
+import SoftBadgeDot from '@components/SoftBadgeDot'
 import SoftInput from '@components/SoftInput'
+import Dropzone from 'react-dropzone'
+import "./ConsultationPage.css"
 
 const  ConsultationPage = observer(() => {
   const { id } = useParams()
@@ -35,21 +37,21 @@ const  ConsultationPage = observer(() => {
   const navigate = useNavigate()
   const [verified, setVerified] = useState(false)
   const [responseComment, setResponseComment] = useState("");
-  const [quoteDocument, setQuoteDocument] = useState(null)
+  const [quoteDocument, setQuoteDocument] = useState()
 
   useEffect(() => {
     projectStore.getConsultation(id)
   }, [id])
 
   const handleSubmit = ()  =>{
-    let payload = {
-      "quote_request" : {
-        "response_comment" : responseComment,
-        "response_status" : true,
-        "document" : quoteDocument
-      }
-    }
-    projectStore.updateQuote(payload, id)
+    const data = new FormData()
+    data.append("quote_request[response_commment]", responseComment)
+    data.append("quote_request[response_status]", true)
+    quoteDocument.forEach((document) => {
+    data.append("quote_request[document][]", document)
+    })
+    projectStore.updateQuoteRequest(data, id)
+    console.log(quoteDocument)
   }
 
   if (projectStore.hasErrors) {
@@ -83,7 +85,7 @@ const  ConsultationPage = observer(() => {
           <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
             <SoftBox lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
-                Ajouter un commentaire au projet
+                Envoyer une réponse
               </SoftTypography>
             </SoftBox>
           </SoftBox>
@@ -110,10 +112,34 @@ const  ConsultationPage = observer(() => {
                   Envoyez un devis
                 </SoftTypography>
               </SoftBox>
-              <SoftDropzone options={{ addRemoveLinks: true }} onChange={(e) => {setQuoteDocument(e.target.files[0])}}/>
+              <Dropzone onDrop={files => setQuoteDocument(files)}>
+                {({getRootProps, getInputProps, acceptedFiles}) => (
+                  <div className="container">
+                    <div
+                      {...getRootProps({
+                        className: 'dropzone',
+                        onDrop: event => event.stopPropagation()
+                      })}
+                    >
+                      <input {...getInputProps()} />
+                      <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
+                        Deposer les fichiers à envoyer ici (vous pouvez en selectionner plusieurs).
+                      </SoftTypography>
+                    </div>
+                    <aside>
+                      <SoftTypography variant="caption" fontWeight="bold">Files</SoftTypography>
+                      {acceptedFiles.map(file => (
+                        <SoftBadgeDot size="md" key={file.path}
+                          badgeContent={file.path}
+                        />
+                      ))}
+                    </aside>
+                  </div>
+                )}
+              </Dropzone>
             </SoftBox>
           </SoftBox>
-          <SoftBox display="flex" justifyContent="flex-end" mt={3}>
+          <SoftBox display="flex" justifyContent="flex-end" my={3} mx={3}>
             <SoftButton variant="gradient" color="info" onClick={(e) => {handleSubmit()}}>
               Envoyer réponse
             </SoftButton>
