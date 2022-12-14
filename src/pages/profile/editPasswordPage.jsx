@@ -102,7 +102,6 @@ export function EditPasswordPage() {
     <>
       <Sidenav />
       <DashboardLayout>
-        <DashboardNavbar />
         <Header title="MON COMPTE"/>
         <SoftBox mt={2}>
           <SoftAlert color='error' style={validEmail ? {display: 'none'} : {}}>Cet email n'est pas valide</SoftAlert>
@@ -214,7 +213,6 @@ export function EditPasswordPage() {
             </SoftBox>
           </Card>
         </SoftBox>
-        <Footer />
       </DashboardLayout>
     </>
   );

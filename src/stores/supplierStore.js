@@ -10,6 +10,7 @@ export function createSupplierStore() {
     suppliers: [],
     created: null,
     details: null,
+    contacts: [],
 
     async createSupplier(supplierData) {
 
@@ -91,6 +92,20 @@ export function createSupplierStore() {
           this.loading = false
           this.hasErrors = true
         })
+      }
+    },
+
+    async getContacts(id) {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        await this.getSuppliers(id)
+        let contacts = this.suppliers.map(supplier => supplier.supplier_contacts).flat()
+        this.contacts = contacts
+      } catch(error) {
+        console.error(error)
       }
     },
 

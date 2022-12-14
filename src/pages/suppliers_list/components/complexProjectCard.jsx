@@ -14,11 +14,8 @@ import SoftButton from "@components/SoftButton";
 import { Link } from "react-router-dom";
 
 
-import StoreIcon from '@mui/icons-material/Store';
-
-
 // Custom styles for ComplexProjectCard
-function ComplexProjectCard({ color, supplier, dropdown }) {
+function ComplexProjectCard({ supplier, dropdown }) {
 
   function stringToColor(string) {
     let hash = 0;

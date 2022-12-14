@@ -62,12 +62,10 @@ const SupplierContacts = observer(() => {
     <>
       <Sidenav />
       <DashboardLayout>
-        <DashboardNavbar />
         <Header title={supplierStore.details ? supplierStore.details.alias : ''}/>
         <Grid container my={3}>
           <Table columns={columns} rows={rows} />
         </Grid>
-        <Footer />
       </DashboardLayout>
     </>
   )
