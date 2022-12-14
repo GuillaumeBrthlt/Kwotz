@@ -94,5 +94,30 @@ export function createSupplierStore() {
       }
     },
 
+   /*  async createContact(contactData) {
+
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      let payload = contactData
+      try {
+        let response = await axios.post(`${BASE_URL}contacts`, payload);
+        if (response.status == 201) {
+          runInAction (() => {
+            this.loading = false
+            this.created = true
+          })
+        } else {
+          throw new Error('informations non valides')
+        }  
+      } catch (error) {
+        runInAction (() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      }
+    }, */
+
   }
 }

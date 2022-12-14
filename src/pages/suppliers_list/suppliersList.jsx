@@ -24,6 +24,8 @@ import { useUserStore } from "@contexts/UserContext";
 import Grid from "@mui/material/Grid";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Icon from '@mui/material/Icon';
+
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -51,6 +53,11 @@ export const Suppliers = observer (() => {
     supplierStore.getSuppliers(userStore.user.id)
   }, [])
 
+  // Destroy supplier card
+  function commitDestroy() {
+    supplierStore.deleteSupplier(id)
+  }
+
   // TeamProfileCard dropdown menu handlers
   const openSupplier1 = (event) => setSupplier1(event.currentTarget);
   const closeSupplier1 = () => setSupplier1(null);
@@ -65,9 +72,20 @@ export const Suppliers = observer (() => {
       onClose={close}
       keepMounted
     >
-      <MenuItem onClick={close}>Action</MenuItem>
-      <MenuItem onClick={close}>Another action</MenuItem>
-      <MenuItem onClick={close}>Something else here</MenuItem>
+      <MenuItem onClick={close}>
+        <Link to="./new">
+          Ajouter un contact
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={close}>
+        <Link to="./new">
+          Voir ce fournisseur
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={() => commitDestroy(id)}>
+        Supprimer ce fournisseur 
+        <Icon color="error">delete</Icon>
+      </MenuItem>
     </Menu>
   );
 

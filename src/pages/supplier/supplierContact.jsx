@@ -10,14 +10,12 @@ Coded by www.creative-tim.com
 */
 
 // Soft UI Dashboard PRO React components
-import SoftBox from "@components/SoftBox";
-import SoftBadgeDot from "@components/SoftBadgeDot";
-
+import SoftButton from "@components/SoftButton";
 import { observer } from "mobx-react-lite";
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import Header from "@components/Header";
 import DashboardNavbar from "@components/navbars/DashboardNavbar";
-import { Grid } from "@mui/material";
+import { Grid, Modal } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSupplierStore } from "@contexts/SupplierContext";
@@ -25,6 +23,7 @@ import { useUserStore } from "@contexts/UserContext";
 import Table from "@components/Tables/DataTable/Table";
 import Footer from "@components/Footer"
 import Sidenav from "@components/navbars/Sidenav";
+import { Card } from "@mui/material";
 
 
 const SupplierContacts = observer(() => {
@@ -32,6 +31,7 @@ const SupplierContacts = observer(() => {
   const supplierStore = useSupplierStore()
   const userStore = useUserStore()
   const [contacts, setContacts]= useState([])
+  const [newContact, setNewContact] = useState()
 
   useEffect(() => {
     if (supplierStore.suppliers) {
@@ -45,7 +45,9 @@ const SupplierContacts = observer(() => {
     }
   }, [supplierStore.details])
 
+
   const columns = [
+    { name: "Avatar", align: "center" },
     { name: "Prénom", align: "left" },
     { name: "Nom", align: "left" },
     { name: "email", align: "center" },
@@ -55,8 +57,33 @@ const SupplierContacts = observer(() => {
     key: contact.id,
     email: contact.email,
     Prénom: contact.first_name,
-    Nom: contact.last_name
+    Nom: contact.last_name,
+    Avatar: contact.first_name
+    
   })) : []
+
+  
+
+  /* function stringToColor(string) {
+    let hash = 0;
+    let i; */
+  
+    /* eslint-disable no-bitwise 
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise 
+  
+    return color;
+  } */
+
 
   return (
     <>
@@ -64,6 +91,22 @@ const SupplierContacts = observer(() => {
       <DashboardLayout>
         <DashboardNavbar />
         <Header title={supplierStore.details ? supplierStore.details.alias : ''}/>
+
+        <Grid container justifyContent='center' mt={5}>
+            <SoftButton 
+              variant="gradient" 
+              color="info" 
+              size="medium" 
+              onClick={() => {createContact(true)}}
+              sx={
+                newContact ? {display: 'none'} : {}
+              }
+            >
+              + Ajouter un contact.
+            </SoftButton>
+          </Grid>
+          {newContact ? <NewContact supplier={supplier.id} setNewContact={setNewContact}/> : <></>}
+        
         <Grid container my={3}>
           <Table columns={columns} rows={rows} />
         </Grid>
