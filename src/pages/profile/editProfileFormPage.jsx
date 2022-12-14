@@ -153,7 +153,6 @@ const handleBack = () => setActiveStep(activeStep - 1);
         <PropagateLoader color="#36d7b7"/>
       </div>) : (
       <DashboardLayout>
-        <DashboardNavbar />
         <SoftAlert color='success' style={ update == true ? '' : {display: 'none'}}>Votre profil a bien été mis à jour </SoftAlert>
         <SoftBox py={3} mb={20}>
           <Grid container justifyContent="center" sx={{ height: "100%" }}>
@@ -218,7 +217,6 @@ const handleBack = () => setActiveStep(activeStep - 1);
             </Grid>
           </Grid>
         </SoftBox>
-        <Footer />
       </DashboardLayout>  
     )}
   </div>

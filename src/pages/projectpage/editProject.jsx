@@ -110,7 +110,6 @@ export const ProjectEdit = observer(() => {
       <>
         <Sidenav />
         <DashboardLayout>
-          <DashboardNavbar />
           <SoftButton 
               variant="gradient" 
               color="success" 
@@ -191,7 +190,6 @@ export const ProjectEdit = observer(() => {
               <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails}/> 
             </Grid>
           </Grid>
-          
         </DashboardLayout>
       </>
     )

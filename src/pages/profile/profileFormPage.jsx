@@ -100,7 +100,6 @@ const NewUser = observer(() => {
   return (
     <>
       <DashboardLayout>
-        <DashboardNavbar />
         <SoftBox py={3} mb={20}>
           <Grid container justifyContent="center" sx={{ height: "100%" }}>
             <Grid item xs={12} lg={8}>
@@ -164,7 +163,6 @@ const NewUser = observer(() => {
             </Grid>
           </Grid>
         </SoftBox>
-        <Footer />
       </DashboardLayout>
     </>
   );
