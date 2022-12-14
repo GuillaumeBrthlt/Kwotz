@@ -70,7 +70,6 @@ export const NewSupplier = observer(() => {
     <>
       <Sidenav />
       <DashboardLayout>
-        <DashboardNavbar />
         <SoftBox mt={3} mb={4}>
           <Grid container spacing={3} justifyContent="center">
             <Grid item xs={12} lg={9}>
@@ -171,7 +170,6 @@ export const NewSupplier = observer(() => {
             </Grid>
           </Grid>
         </SoftBox>
-        <Footer />
       </DashboardLayout>
     </>
   );

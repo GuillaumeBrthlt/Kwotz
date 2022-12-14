@@ -10,6 +10,7 @@ export function createSupplierStore() {
     suppliers: [],
     created: null,
     details: null,
+    contacts: [],
 
     async createSupplier(supplierData) {
 
@@ -94,30 +95,19 @@ export function createSupplierStore() {
       }
     },
 
-   /*  async createContact(contactData) {
-
-      runInAction (() => {
+    async getContacts(id) {
+      runInAction(() => {
         this.loading = true
         this.hasErrors = false
       })
-      let payload = contactData
       try {
-        let response = await axios.post(`${BASE_URL}contacts`, payload);
-        if (response.status == 201) {
-          runInAction (() => {
-            this.loading = false
-            this.created = true
-          })
-        } else {
-          throw new Error('informations non valides')
-        }  
-      } catch (error) {
-        runInAction (() => {
-          this.loading = false
-          this.hasErrors = true
-        })
+        await this.getSuppliers(id)
+        let contacts = this.suppliers.map(supplier => supplier.supplier_contacts).flat()
+        this.contacts = contacts
+      } catch(error) {
+        console.error(error)
       }
-    }, */
+    },
 
   }
 }
