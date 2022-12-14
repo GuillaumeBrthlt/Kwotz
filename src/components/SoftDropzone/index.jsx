@@ -52,7 +52,7 @@ function SoftDropzone({ options }) {
   return (
     <SoftDropzoneRoot
       component="form"
-      action="/file-upload"
+      action="/1"
       ref={dropzoneRef}
       className="form-control dropzone"
     >
