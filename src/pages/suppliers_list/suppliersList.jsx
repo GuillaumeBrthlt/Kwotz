@@ -78,7 +78,7 @@ export const Suppliers = observer (() => {
         </Link>
       </MenuItem>
       <MenuItem onClick={close}>
-        <Link to="./new">
+        <Link to="./suppliers/${supplier.id}`">
           Voir ce fournisseur
         </Link>
       </MenuItem>
