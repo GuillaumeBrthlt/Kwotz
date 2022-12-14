@@ -60,7 +60,6 @@ const ProfileOverview = observer(() => {
     <>
       <Sidenav />
       <DashboardLayout>
-        <DashboardNavbar />
         <Header />
         <SoftBox mt={5} mb={3}>
           <Grid container spacing={3} justifyContent="center">
@@ -92,7 +91,6 @@ const ProfileOverview = observer(() => {
             </Grid>
           </Grid>
         </SoftBox>
-        <Footer />
       </DashboardLayout>
     </>
   );

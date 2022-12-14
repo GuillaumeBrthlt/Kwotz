@@ -91,7 +91,6 @@ const ProjectOverview = observer(() => {
     <>
       <Sidenav />
       <DashboardLayout>
-        <DashboardNavbar />
         <Header title="MES PROJETS"/>
         <SoftBox my={3}>
           <Card>
@@ -114,7 +113,6 @@ const ProjectOverview = observer(() => {
             />
           </Card>
         </SoftBox>
-        <Footer />
       </DashboardLayout>
     </>
   );

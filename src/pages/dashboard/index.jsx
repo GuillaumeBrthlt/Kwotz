@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 // @mui material components
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
+import {Avatar} from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -26,40 +27,30 @@ import SoftButton from "@components/SoftButton";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import DataTable from "@components/Tables/DataTable";
 
 // Data
 // import dataTableData from "@pages/dashboard/data/dataTableData";
 import { observer } from "mobx-react-lite";
-import Footer from "@components/Footer";
 import { useProjectStore } from "../../contexts/ProjectContext";
 import { useEffect } from "react";
 import Sidenav from "@components/navbars/Sidenav";
 import Header from "@components/Header";
 import { Grid } from "@mui/material";
 import { useUserStore } from "@contexts/UserContext";
+import { useSupplierStore } from "@contexts/SupplierContext";
 
 const Dashboard = observer(() => {
   const projectStore = useProjectStore()
   const userStore = useUserStore()
+  const supplierStore = useSupplierStore()
   
   useEffect(() => {
     projectStore.getProjects()
     projectStore.getConsultations(userStore.user.id)
+    supplierStore.getContacts(userStore.user.id)
   }, [])
  
-
-  function Button({ id }) {
-    const link = `/projects/edit/${id}`
-    return (
-      <Link to={link}>
-        <SoftButton variant="gradient" color="dark" size="small">
-          Voir details
-        </SoftButton>
-      </Link>
-    )
-  } 
 
   function handleStatus(status) {
     switch (status) {
@@ -68,6 +59,37 @@ const Dashboard = observer(() => {
       case "pending":
         return <SoftTypography color='error' fontWeight="medium" variant="body2">Sauvegardé</SoftTypography>
     }
+  }
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+  
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+  
+    return color;
+  }
+
+  
+  function stringAvatar(alias) {
+    const aliasArray = alias.split(' ')
+    return {
+      sx: {
+        bgcolor: stringToColor(alias),
+      },
+      children: `${aliasArray.map(string => string[0]).join('')}`,
+    };
   }
   
   const ProjectsTable = {
@@ -104,16 +126,44 @@ const Dashboard = observer(() => {
     ),
   };
 
+  function companyAvatar(contact) {
+    const company = supplierStore.suppliers.find(supplier => supplier.id == contact.supplier_id).alias
+
+    return (
+      <>
+      <Avatar {...stringAvatar(company)}/>
+      </>
+    )
+  }
+
+  const ContactsTable = {
+    columns: [
+      { Header: "Entreprise", accessor: "company" },
+      { Header: "Prénom", accessor: "first_name" },
+      { Header: "Nom", accessor: "last_name" },
+      { Header: "email", accessor: "email" },
+    ],
+  
+    rows: 
+    supplierStore.contacts.map((contact) => 
+      ({
+      company: companyAvatar(contact),
+      first_name: contact.first_name,
+      last_name: contact.last_name,
+      email: contact.email
+      })
+    ),
+  };
+
   return (
     <>
       <Sidenav />
       <DashboardLayout>
-        <DashboardNavbar />
         <Header title="MON TABLEAU DE BORD"/>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={6}>
-            <SoftBox my={3}>
-              <Card>
+          <Grid item xs={12} md={6} mt={3}>
+            <SoftBox sx={{height: '100%'}}>
+              <Card sx={{height: '100%'}}>
                 <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
                   <SoftBox lineHeight={1}>
                     <SoftTypography variant="h5" fontWeight="medium">
@@ -141,9 +191,9 @@ const Dashboard = observer(() => {
               </Card>
             </SoftBox>
           </Grid>
-          <Grid item xs={12} md={6}>
-          <SoftBox my={3}>
-              <Card>
+          <Grid item xs={12} md={6} mt={3}>
+            <SoftBox sx={{height: '100%'}}>
+              <Card sx={{height: '100%'}}>
                 <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
                   <SoftBox lineHeight={1}>
                     <SoftTypography variant="h5" fontWeight="medium">
@@ -164,9 +214,27 @@ const Dashboard = observer(() => {
               </Card>
             </SoftBox>
           </Grid>
+          <Grid item xs={12} md={6} my={3}>
+            <SoftBox sx={{height: '100%'}}>
+              <Card sx={{height: '100%'}}>
+                <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
+                  <SoftBox lineHeight={1}>
+                    <SoftTypography variant="h5" fontWeight="medium">
+                      Mes Contacts
+                    </SoftTypography>
+                  </SoftBox>
+                </SoftBox>
+                <DataTable
+                  table={ContactsTable}
+                  entriesPerPage={{
+                    defaultValue: 5,
+                    entries: [5, 10, 25],
+                  }}
+                />
+              </Card>
+            </SoftBox>
+          </Grid>
         </Grid>
-        
-        <Footer />
       </DashboardLayout>
     </>
   );

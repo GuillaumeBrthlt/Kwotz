@@ -29,6 +29,8 @@ import { useSoftUIController, setLayout } from "@contexts/SoftUIContext";
 import { useUserStore } from "@contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import Footer from "@components/Footer";
+import DashboardNavbar from "@components/navbars/DashboardNavbar";
 
 const DashboardLayout = observer(({ children }) => {
   const [controller, dispatch] = useSoftUIController();
@@ -63,7 +65,9 @@ const DashboardLayout = observer(({ children }) => {
         },
       })}
     >
+      <DashboardNavbar/>
       {children}
+      <Footer />
     </SoftBox>
   );
 })

@@ -75,35 +75,33 @@ export const Suppliers = observer (() => {
     <>
     <Sidenav />
       <DashboardLayout>
-        <DashboardNavbar />
         <Header title="MES FOURNISSEURS"/>
-          <SoftBox pt={5} pb={2}>
-            <SoftBox mt={{ xs: 1, lg: 3 }} mb={1}>
-              <Grid container spacing={3}>
-                {supplierStore.suppliers.map(supplier => {
-                  return (
-                    <Grid item xs={12} md={6} lg={4} key={supplier.id}>
-                      <ComplexProjectCard
-                        supplier={supplier}
-                        dropdown={{
-                          action: openSupplier1,
-                          menu: renderMenu(supplier1, closeSupplier1),
-                        }}
-                      />
-                    </Grid>
-                  )
-                })} 
-                <Grid item xs={12} md={6} lg={4}>
-                  <Link to="./new">
-                    <PlaceholderCard 
-                      title={{ variant: "h5", text: "Ajouter un fournisseur" }} 
+        <SoftBox pt={5} pb={2}>
+          <SoftBox mt={{ xs: 1, lg: 3 }} mb={1}>
+            <Grid container spacing={3}>
+              {supplierStore.suppliers.map(supplier => {
+                return (
+                  <Grid item xs={12} md={6} lg={4} key={supplier.id}>
+                    <ComplexProjectCard
+                      supplier={supplier}
+                      dropdown={{
+                        action: openSupplier1,
+                        menu: renderMenu(supplier1, closeSupplier1),
+                      }}
                     />
-                  </Link>
-                </Grid>
+                  </Grid>
+                )
+              })} 
+              <Grid item xs={12} md={6} lg={4}>
+                <Link to="./new">
+                  <PlaceholderCard 
+                    title={{ variant: "h5", text: "Ajouter un fournisseur" }} 
+                  />
+                </Link>
               </Grid>
-            </SoftBox>
+            </Grid>
           </SoftBox>
-        <Footer />
+        </SoftBox>
       </DashboardLayout>
     </>
   );
