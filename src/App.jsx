@@ -27,6 +27,7 @@ import ConsultationPage from "@pages/consultation/ConsultationPage";
 import Cookies from "js-cookie";
 import { EditPasswordPage } from "@pages/profile/editPasswordPage";
 import ProjectOverview from "@pages/projectpage/ProjectOverview"
+import { ProjectView } from "@pages/projectpage/ViewProject"
 import { Suppliers } from "@pages/suppliers_list/suppliersList";
 import SupplierContacts from "@pages/supplier/supplierContact";
 import "./App.css"
@@ -82,6 +83,7 @@ function AppRoutes() {
   return(
     <Routes>
       <Route path="/projects/edit/:id" element={<PrivateRoute component={<ProjectEdit />}/>}/>
+      <Route path="/projects/view/:id" element={<PrivateRoute component={<ProjectView />}/>}/>      
       <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
       <Route path="/consultation/:id" element={<ConsultationPage />}/>
       <Route path="/" element={<Navigate to='/login'/>}/>
