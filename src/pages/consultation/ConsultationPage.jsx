@@ -37,7 +37,7 @@ const  ConsultationPage = observer(() => {
   const navigate = useNavigate()
   const [verified, setVerified] = useState(false)
   const [responseComment, setResponseComment] = useState("");
-  const [quoteDocument, setQuoteDocument] = useState()
+  const [sent, setSent] = useState(false)
 
   useEffect(() => {
     projectStore.getConsultation(id)
@@ -46,12 +46,13 @@ const  ConsultationPage = observer(() => {
   const handleSubmit = ()  =>{
     const data = new FormData()
     data.append("quote_request[response_comment]", responseComment)
-    data.append("quote_request[response_status]", true)
-    Array.from(quoteDocument).forEach((document) => {
-    data.append("quote_request[document][]", document)
-    })
+    if (acceptedFiles.length > 0) {
+      acceptedFiles.forEach((document) => {
+      data.append("quote_request[document][]", document)
+      })
+    } 
     projectStore.updateQuoteRequest(data, id)
-    console.log(quoteDocument)
+    setSent(true)
   }
 
   if (projectStore.hasErrors) {
@@ -73,6 +74,7 @@ const  ConsultationPage = observer(() => {
       badgeContent={file.path}
     />
   ));
+
 
   if (!projectStore.consultation) {
     return (
@@ -112,6 +114,7 @@ const  ConsultationPage = observer(() => {
               value={responseComment}
               onChange={(e) => {setResponseComment(e.target.value)}}
               placeholder={"Ecrivez un commentaire à joindre a vôtre devis"}
+              disabled={sent}
             >
             </SoftInput>
           </SoftBox>
@@ -129,7 +132,7 @@ const  ConsultationPage = observer(() => {
                 </SoftTypography>
               </SoftBox>
               <section className="container">
-                <div onChange={e => setQuoteDocument(e.target.files)} {...getRootProps({ className: 'dropzone' })}>
+                <div {...getRootProps({ className: 'dropzone' })}>
                   <input {...getInputProps()} />
                   <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
                     Deposer les fichiers à envoyer ici (vous pouvez en selectionner plusieurs).
@@ -146,8 +149,8 @@ const  ConsultationPage = observer(() => {
             </SoftBox>
           </SoftBox>
           <SoftBox display="flex" justifyContent="flex-end" my={3} mx={3}>
-            <SoftButton variant="gradient" color="info" onClick={(e) => {handleSubmit()}}>
-              Envoyer réponse
+            <SoftButton variant="gradient" color="info" onClick={(e) => {handleSubmit()}} disabled={sent}>
+              {sent ? 'Réponse envoyé!' : 'Envoyer réponse'}
             </SoftButton>
           </SoftBox>
         </Card>
