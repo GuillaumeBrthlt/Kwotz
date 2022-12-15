@@ -28,7 +28,7 @@ import { Card } from '@mui/material'
 import SoftButton from '@components/SoftButton'
 import SoftBadgeDot from '@components/SoftBadgeDot'
 import SoftInput from '@components/SoftInput'
-import Dropzone from 'react-dropzone'
+import { useDropzone } from 'react-dropzone'
 import "./ConsultationPage.css"
 
 const  ConsultationPage = observer(() => {
@@ -45,9 +45,9 @@ const  ConsultationPage = observer(() => {
 
   const handleSubmit = ()  =>{
     const data = new FormData()
-    data.append("quote_request[response_commment]", responseComment)
+    data.append("quote_request[response_comment]", responseComment)
     data.append("quote_request[response_status]", true)
-    quoteDocument.forEach((document) => {
+    Array.from(quoteDocument).forEach((document) => {
     data.append("quote_request[document][]", document)
     })
     projectStore.updateQuoteRequest(data, id)
@@ -57,6 +57,22 @@ const  ConsultationPage = observer(() => {
   if (projectStore.hasErrors) {
     navigate('/404')
   }
+
+  const {
+    acceptedFiles,
+    getRootProps,
+    getInputProps
+  } = useDropzone({
+    accept: {
+      'image/pdf': [".pdf"]
+    }
+  });
+
+  const acceptedFileItems = acceptedFiles.map(file => (
+    <SoftBadgeDot size="md" key={file.path}
+      badgeContent={file.path}
+    />
+  ));
 
   if (!projectStore.consultation) {
     return (
@@ -112,31 +128,21 @@ const  ConsultationPage = observer(() => {
                   Envoyez un devis
                 </SoftTypography>
               </SoftBox>
-              <Dropzone onDrop={files => setQuoteDocument(files)}>
-                {({getRootProps, getInputProps, acceptedFiles}) => (
-                  <div className="container">
-                    <div
-                      {...getRootProps({
-                        className: 'dropzone',
-                        onDrop: event => event.stopPropagation()
-                      })}
-                    >
-                      <input {...getInputProps()} />
-                      <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
-                        Deposer les fichiers à envoyer ici (vous pouvez en selectionner plusieurs).
-                      </SoftTypography>
-                    </div>
-                    <aside>
-                      <SoftTypography variant="caption" fontWeight="bold">Files</SoftTypography>
-                      {acceptedFiles.map(file => (
-                        <SoftBadgeDot size="md" key={file.path}
-                          badgeContent={file.path}
-                        />
-                      ))}
-                    </aside>
-                  </div>
-                )}
-              </Dropzone>
+              <section className="container">
+                <div onChange={e => setQuoteDocument(e.target.files)} {...getRootProps({ className: 'dropzone' })}>
+                  <input {...getInputProps()} />
+                  <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
+                    Deposer les fichiers à envoyer ici (vous pouvez en selectionner plusieurs).
+                  </SoftTypography>
+                  <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
+                    Seuls les .pdf sont acceptés
+                  </SoftTypography>
+                </div>
+                <aside>
+                <SoftTypography variant="caption" fontWeight="bold">Fichiers à envoyer</SoftTypography>
+                  <ul>{acceptedFileItems}</ul>
+                </aside>
+              </section>
             </SoftBox>
           </SoftBox>
           <SoftBox display="flex" justifyContent="flex-end" my={3} mx={3}>
