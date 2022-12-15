@@ -101,6 +101,8 @@ export const ProjectEdit = observer(() => {
     width:{xs: 350, md:600}
   };
 
+  
+
   if (project) {
 
 
@@ -115,8 +117,6 @@ export const ProjectEdit = observer(() => {
               sx={
                 open ? {
                   display: 'none', 
-                  position: 'fixed',
-                  zIndex: '1',
                   bottom: 50,
                   right: 50
                 } : {
