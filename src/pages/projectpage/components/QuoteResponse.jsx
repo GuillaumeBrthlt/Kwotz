@@ -14,19 +14,14 @@ import {PropagateLoader} from 'react-spinners'
 
 const QuoteResponse = observer(({project}) => {
   const projectStore = useProjectStore()
-
+const id = project.user_id
   useEffect(() => {
-    projectStore.getConsultation(project.id)
-    console.log(projectStore.consultation)
+    projectStore.getConsultations(id)
+    console.log(projectStore.consultations)
   }, [])
   
   
   return (
-    <div>
-    {projectStore.consultation.response_comment == null ? (
-      <Grid display='flex' height='100vh' justifyContent='center' alignItems='center'>
-        <PropagateLoader color="#36d7b7"/>
-      </Grid>) : (
     <SoftBox my={3}>
       <Card>
         <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
@@ -68,8 +63,6 @@ const QuoteResponse = observer(({project}) => {
         </SoftBox>
       </Card>
     </SoftBox>
-  )}
-  </div>
   )
 })
 
