@@ -8,19 +8,35 @@ import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import SoftButton from "@components/SoftButton";
 import {PropagateLoader} from 'react-spinners'
-
+import { Link } from 'react-router-dom';
 // Data
 // import dataTableData from "@pages/dashboard/data/dataTableData";
 
 const QuoteResponse = observer(({project}) => {
   const projectStore = useProjectStore()
-const id = project.user_id
+  const id = project.user_id
+
   useEffect(() => {
-    projectStore.getConsultations(id)
-    console.log(projectStore.consultations)
+   projectStore.getConsultations(id)
   }, [])
   
+  const comment = projectStore.consultations.map(consultation => consultation.response_comment)
   
+  projectStore.consultations.map(document => console.log(document.document_url))
+
+
+  // const documents_urls = () => {
+  //   return (
+  //     projectStore.consultations.map(document =>
+  //       document.document_url.forEach(doc =>
+  //         <SoftTypography variant="h6" fontWeight="medium" component={Link} to="/login">
+  //           {doc}
+  //         </SoftTypography> 
+  //       )
+  //     )
+  //   )
+  // }
+
   return (
     <SoftBox my={3}>
       <Card>
@@ -34,9 +50,7 @@ const id = project.user_id
                 <SoftTypography variant="h6" fontWeight="medium">
                   Voir pièce(s) jointe(s)
                 </SoftTypography>
-                <SoftButton variant="gradient" color="dark" size="small">
-                  ouvrir
-                </SoftButton>
+                {/* {documents_urls()} */}
               </SoftBox>
               <SoftBox p={2}>
                 <SoftBox mt={6} mb={3} lineHeight={0}>
@@ -54,6 +68,7 @@ const id = project.user_id
                   </SoftTypography>
                   <SoftBox mb={3}>
                     <SoftTypography variant="button" fontWeight="regular" color="white">
+                      {comment}
                     </SoftTypography>
                   </SoftBox>
                 </SoftBox>
