@@ -111,8 +111,11 @@ export function createProjectStore() {
       })
       try {
         await this.getProjects()
-        let findProject = this.projects.filter(project => project.id == id)[0]
-        this.projectDetails = findProject
+        runInAction(() => {
+          let findProject = this.projects.filter(project => project.id == id)[0]
+          this.projectDetails = findProject
+        })
+        
       } catch(error) {
         console.error(error)
       }
@@ -145,8 +148,8 @@ export function createProjectStore() {
         let response = await axios(`${BASE_URL}quote_requests`)
         if (response.data) {
           runInAction(() => {
-            let myConsultations = response.data.filter(consultation => consultation.user.id == id)
-            this.consultations = myConsultations
+            let myConsultations = response.data.filter(consultation => consultation.attributes.user.id == id)
+            this.consultations = myConsultations.map(consultation => consultation.attributes)
           })
         } else {
           throw new Error('impossible de trouver la page demandée')
