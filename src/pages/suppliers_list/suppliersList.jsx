@@ -25,6 +25,7 @@ import Grid from "@mui/material/Grid";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Icon from '@mui/material/Icon';
+import { Modal } from "@mui/material";
 
 
 // Soft UI Dashboard PRO React components
@@ -40,54 +41,17 @@ import Header from "@components/Header/index"
 
 import ComplexProjectCard from "@pages/suppliers_list/components/complexProjectCard";
 import PlaceholderCard from "@pages/suppliers_list/components/placeholderCard";
+import { NewContact } from "@components/NewContact";
 
 export const Suppliers = observer (() => {
   const supplierStore = useSupplierStore()
   const userStore = useUserStore()
 
-
-  // ComplexProjectCard dropdown menu state
-  const [supplier1, setSupplier1] = useState(null);
   
   useEffect(() => {
     supplierStore.getSuppliers(userStore.user.id)
   }, [])
-
-  // Destroy supplier card
-  function commitDestroy() {
-    supplierStore.deleteSupplier(id)
-  }
-
-  // TeamProfileCard dropdown menu handlers
-  const openSupplier1 = (event) => setSupplier1(event.currentTarget);
-  const closeSupplier1 = () => setSupplier1(null);
-
-  // Dropdown menu template for the ComplexProjectCard
-  const renderMenu = (state, close) => (
-    <Menu
-      anchorEl={state}
-      anchorOrigin={{ vertical: "top", horizontal: "left" }}
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={Boolean(state)}
-      onClose={close}
-      keepMounted
-    >
-      <MenuItem onClick={close}>
-        <Link to="./new">
-          Ajouter un contact
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={close}>
-        <Link to="./suppliers/${supplier.id}`">
-          Voir ce fournisseur
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={() => commitDestroy(id)}>
-        Supprimer ce fournisseur 
-        <Icon color="error">delete</Icon>
-      </MenuItem>
-    </Menu>
-  );
+    
 
   return (
     <>
@@ -102,10 +66,6 @@ export const Suppliers = observer (() => {
                   <Grid item xs={12} md={6} lg={4} key={supplier.id}>
                     <ComplexProjectCard
                       supplier={supplier}
-                      dropdown={{
-                        action: openSupplier1,
-                        menu: renderMenu(supplier1, closeSupplier1),
-                      }}
                     />
                   </Grid>
                 )

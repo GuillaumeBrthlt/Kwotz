@@ -98,7 +98,7 @@ function ComplexProjectCard({ supplier, dropdown }) {
             </SoftBox>
             <SoftBox display="flex" flexDirection="column" lineHeight={0}>
               <SoftButton color="info" size="small" component={Link} to={`/suppliers/${supplier.id}`}>
-                Voir
+                Détails
               </SoftButton>
             </SoftBox>
         </SoftBox>

@@ -14,16 +14,14 @@ import SoftButton from "@components/SoftButton";
 import { observer } from "mobx-react-lite";
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import Header from "@components/Header";
-import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import { Grid, Modal } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSupplierStore } from "@contexts/SupplierContext";
 import { useUserStore } from "@contexts/UserContext";
 import Table from "@components/Tables/DataTable/Table";
-import Footer from "@components/Footer"
+import {NewContact} from "@components/NewContact"
 import Sidenav from "@components/navbars/Sidenav";
-import { Card } from "@mui/material";
 
 
 const SupplierContacts = observer(() => {
@@ -84,24 +82,50 @@ const SupplierContacts = observer(() => {
     return color;
   } */
 
+  const [openModal, setOpenModal] = useState(false)
 
+  function handleOpenModal() {
+    setOpenModal(true)
+  }
+
+  function handleCloseModal() {
+    setOpenModal(false)
+  }
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width:{xs: 350, md:600}
+  };
+      
   return (
     <>
       <Sidenav />
       <DashboardLayout>
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="sending-form"
+          aria-describedby="sending-project-form"
+        >
+          <Grid sx={modalStyle}>
+            <NewContact supplier={supplierStore.details} handleCloseModal={handleCloseModal} />
+          </Grid>
+        </Modal>
         <Header title={supplierStore.details ? supplierStore.details.alias : ''}/>
-
         <Grid container justifyContent='center' mt={5}>
             <SoftButton 
               variant="gradient" 
               color="info" 
               size="medium" 
-              onClick={() => {createContact(true)}}
+              onClick={() => {handleOpenModal()}}
               sx={
-                newContact ? {display: 'none'} : {}
+                openModal ? {display: 'none'} : {}
               }
             >
-              + Ajouter un contact.
+              + Ajouter un contact
             </SoftButton>
           </Grid>
           {newContact ? <NewContact supplier={supplier.id} setNewContact={setNewContact}/> : <></>}
