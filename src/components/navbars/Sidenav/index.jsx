@@ -49,6 +49,8 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 // Soft UI Dashboard PRO React context
 import { useSoftUIController, setMiniSidenav } from "@contexts/SoftUIContext";
+import Basket from "@theme/Icons/Basket";
+import Document from "@theme/Icons/Document";
 
 
 function Sidenav({ color, brand, brandName, ...rest }) {
@@ -156,6 +158,22 @@ function Sidenav({ color, brand, brandName, ...rest }) {
     }, 
     {
       type: "collapse",
+      name: "Mes projets",
+      key: "projects",
+      icon: <Document size="12px" />,
+      route: "/projects",
+      noCollapse: true,
+    }, 
+    {
+      type: "collapse",
+      name: "Mes fournisseurs",
+      key: "suppliers",
+      icon: <Basket size="12px" />,
+      route: "/suppliers",
+      noCollapse: true,
+    }, 
+    {
+      type: "collapse",
       name: "Profil",
       key: "profile",
       icon: <Office size="12px" />,
@@ -172,14 +190,6 @@ function Sidenav({ color, brand, brandName, ...rest }) {
         },
       ]
     },
-    {
-      type: "collapse",
-      name: "Projets",
-      key: "projects",
-      icon: <Shop size="12px" />,
-      route: "/projects",
-      noCollapse: true,
-    }, 
   ]
 
 

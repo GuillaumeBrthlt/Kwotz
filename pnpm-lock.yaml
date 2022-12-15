@@ -40,6 +40,7 @@ specifiers:
   react-circular-slider-svg: 0.1.5
   react-countup: 6.3.0
   react-dom: 18.2.0
+  react-dropzone: ^14.2.3
   react-flatpickr: 3.10.13
   react-images-viewer: 1.7.1
   react-leaflet: 4.0.1
@@ -96,6 +97,7 @@ dependencies:
   react-circular-slider-svg: 0.1.5_react@18.2.0
   react-countup: 6.3.0_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-dropzone: 14.2.3_react@18.2.0
   react-flatpickr: 3.10.13_react@18.2.0
   react-images-viewer: 1.7.1_biqbaboplfbrettd7655fr4n2y
   react-leaflet: 4.0.1_zklzwh7pdkx5k4fi5tz77jtq6y
@@ -3690,6 +3692,11 @@ packages:
     hasBin: true
     dev: false
 
+  /attr-accept/2.2.2:
+    resolution: {integrity: sha512-7prDjvt9HmqiZ0cl5CRjtS84sEyhsHP2coDkaZKRKVfCDo9s7iw7ChVmar78Gu9pC4SoR/28wFu/G5JJhTnqEg==}
+    engines: {node: '>=4'}
+    dev: false
+
   /autoprefixer/10.4.13_postcss@8.4.19:
     resolution: {integrity: sha512-49vKpMqcZYsJjwotvt4+h/BCjJVnhGwcLpDt5xkcaOG3eLrG/HUYLagrihYsQ+qrIBgIzX1Rw7a6L8I/ZA1Atg==}
     engines: {node: ^10 || ^12 || >=14}
@@ -5866,6 +5873,13 @@ packages:
       loader-utils: 2.0.4
       schema-utils: 3.1.1
       webpack: 5.75.0
+    dev: false
+
+  /file-selector/0.6.0:
+    resolution: {integrity: sha512-QlZ5yJC0VxHxQQsQhXvBaC7VRJ2uaxTf+Tfpu4Z/OcVQJVpZO+DGU0rkoVW5ce2SccxugvpBJoMvUs59iILYdw==}
+    engines: {node: '>= 12'}
+    dependencies:
+      tslib: 2.4.1
     dev: false
 
   /filelist/1.0.4:
@@ -9412,6 +9426,18 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-dropzone/14.2.3_react@18.2.0:
+    resolution: {integrity: sha512-O3om8I+PkFKbxCukfIR3QAGftYXDZfOE2N1mr/7qebQJHs7U+/RSL/9xomJNpRg9kM5h9soQSdf0Gc7OHF5Fug==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      react: '>= 16.8 || 18.0.0'
+    dependencies:
+      attr-accept: 2.2.2
+      file-selector: 0.6.0
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-error-overlay/6.0.11:

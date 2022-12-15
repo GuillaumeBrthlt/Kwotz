@@ -26,7 +26,6 @@ import { Button } from "@mui/material"
 import NewColdRoom from "@components/NewColdRoom"
 import { useColdRoomStore } from "@contexts/ColdRoomContext"
 import ColdRoomsList from "@pages/projectpage/components/ColdRoomsList"
-import DashboardNavbar from "@components/navbars/DashboardNavbar"
 import SendIcon from '@mui/icons-material/Send';
 import SoftInput from "@components/SoftInput"
 import { Card } from "@mui/material"
@@ -36,7 +35,6 @@ import { useUserStore } from "@contexts/UserContext"
 import { useUserProfileStore } from "@contexts/UserProfileContext"
 import Sidenav from "@components/navbars/Sidenav"
 import CommentSection from "@pages/projectpage/components/CommentSection"
-import { SettingsEthernetRounded } from "@mui/icons-material"
 
 export const ProjectEdit = observer(() => {
   const {id} = useParams()
@@ -103,15 +101,15 @@ export const ProjectEdit = observer(() => {
     width:{xs: 350, md:600}
   };
 
+  
+
   if (project) {
 
 
     return (
       <>
         <Sidenav />
-        <DashboardLayout>
-          <DashboardNavbar />
-          <SoftButton 
+        <SoftButton 
               variant="gradient" 
               color="success" 
               size="medium"
@@ -119,13 +117,11 @@ export const ProjectEdit = observer(() => {
               sx={
                 open ? {
                   display: 'none', 
-                  position: 'fixed',
-                  zIndex: '1',
                   bottom: 50,
                   right: 50
                 } : {
                   position: 'fixed',
-                  zIndex: '1',
+                  zIndex: 1,
                   bottom: 50,
                   right: 50
                 }
@@ -134,6 +130,7 @@ export const ProjectEdit = observer(() => {
               <SendIcon sx={{marginRight: 2}}/>
               Envoyer
             </SoftButton>
+        <DashboardLayout>
           <Header title={project.name}/>
           <Grid container justifyContent='center' mt={5}>
             <SoftButton 
@@ -191,7 +188,6 @@ export const ProjectEdit = observer(() => {
               <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails}/> 
             </Grid>
           </Grid>
-          
         </DashboardLayout>
       </>
     )

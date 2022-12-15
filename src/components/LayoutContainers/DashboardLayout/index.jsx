@@ -29,6 +29,8 @@ import { useSoftUIController, setLayout } from "@contexts/SoftUIContext";
 import { useUserStore } from "@contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import Footer from "@components/Footer";
+import DashboardNavbar from "@components/navbars/DashboardNavbar";
 
 const DashboardLayout = observer(({ children }) => {
   const [controller, dispatch] = useSoftUIController();
@@ -53,7 +55,7 @@ const DashboardLayout = observer(({ children }) => {
       sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
         p: 3,
         position: "relative",
-        height: '100vh',
+        
         [breakpoints.up("xl")]: {
           marginLeft: miniSidenav ? pxToRem(120) : pxToRem(274),
           transition: transitions.create(["margin-left", "margin-right"], {
@@ -63,7 +65,9 @@ const DashboardLayout = observer(({ children }) => {
         },
       })}
     >
+      <DashboardNavbar/>
       {children}
+      <Footer />
     </SoftBox>
   );
 })

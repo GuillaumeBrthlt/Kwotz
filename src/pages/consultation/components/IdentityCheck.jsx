@@ -21,7 +21,7 @@ export default function IdentityCheck({ verifemail, setVerified }) {
   const [error, setError] = useState(false)
 
   
-  async function mailCheck(e) {
+  async function mailCheck() {
    if (email === verifemail) {
     setVerified(true)
    } else {
@@ -30,7 +30,9 @@ export default function IdentityCheck({ verifemail, setVerified }) {
   }
 
   function handleKeyDown(e) {
-    
+    if (e.key === "Enter") {
+      mailCheck()
+    }
   }
 
   return (
@@ -49,7 +51,7 @@ export default function IdentityCheck({ verifemail, setVerified }) {
             </SoftTypography>
           </SoftBox>
           <SoftBox p={3}>
-            <SoftBox component="form" role="form">
+            <SoftBox>
               <SoftBox mb={2}>
                 <SoftInput 
                   type="email" 

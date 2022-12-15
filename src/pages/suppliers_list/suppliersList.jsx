@@ -14,15 +14,18 @@ Coded by www.creative-tim.com
 */
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 import { useSupplierStore } from "@contexts/SupplierContext";
+import { useUserStore } from "@contexts/UserContext";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Icon from '@mui/material/Icon';
+
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -38,28 +41,26 @@ import Header from "@components/Header/index"
 import ComplexProjectCard from "@pages/suppliers_list/components/complexProjectCard";
 import PlaceholderCard from "@pages/suppliers_list/components/placeholderCard";
 
-
 export const Suppliers = observer (() => {
-
-  const {id} = useParams()
   const supplierStore = useSupplierStore()
+  const userStore = useUserStore()
 
 
   // ComplexProjectCard dropdown menu state
   const [supplier1, setSupplier1] = useState(null);
-  const [supplier2, setSupplier2] = useState(null);
   
-useEffect(() => {
-    supplierStore.getData(id)
-  }, [id])
+  useEffect(() => {
+    supplierStore.getSuppliers(userStore.user.id)
+  }, [])
 
-
+  // Destroy supplier card
+  function commitDestroy() {
+    supplierStore.deleteSupplier(id)
+  }
 
   // TeamProfileCard dropdown menu handlers
   const openSupplier1 = (event) => setSupplier1(event.currentTarget);
   const closeSupplier1 = () => setSupplier1(null);
-  const openSupplier2 = (event) => setSupplier2(event.currentTarget);
-  const closeSupplier2 = () => setSupplier2(null);
 
   // Dropdown menu template for the ComplexProjectCard
   const renderMenu = (state, close) => (
@@ -71,9 +72,20 @@ useEffect(() => {
       onClose={close}
       keepMounted
     >
-      <MenuItem onClick={close}>Action</MenuItem>
-      <MenuItem onClick={close}>Another action</MenuItem>
-      <MenuItem onClick={close}>Something else here</MenuItem>
+      <MenuItem onClick={close}>
+        <Link to="./new">
+          Ajouter un contact
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={close}>
+        <Link to="./suppliers/${supplier.id}`">
+          Voir ce fournisseur
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={() => commitDestroy(id)}>
+        Supprimer ce fournisseur 
+        <Icon color="error">delete</Icon>
+      </MenuItem>
     </Menu>
   );
 
@@ -81,54 +93,33 @@ useEffect(() => {
     <>
     <Sidenav />
       <DashboardLayout>
-      <Header />
-        <DashboardNavbar />
-          <SoftBox pt={5} pb={2}>
-            <Grid container>
-              <Grid item xs={12} md={8}>
-                <SoftBox mb={1}>
-                  <SoftTypography variant="h5">Liste de tous les fournisseurs :</SoftTypography>
-                </SoftBox>
-                <SoftBox mb={2}>
-                  <SoftTypography variant="body2" color="text">
-                    Voici la liste de tous les fournisseurs que vous pouvez contacter ou ajouter à vos favoris.
-                  </SoftTypography>
-                </SoftBox>
+        <Header title="MES FOURNISSEURS"/>
+        <SoftBox pt={5} pb={2}>
+          <SoftBox mt={{ xs: 1, lg: 3 }} mb={1}>
+            <Grid container spacing={3}>
+              {supplierStore.suppliers.map(supplier => {
+                return (
+                  <Grid item xs={12} md={6} lg={4} key={supplier.id}>
+                    <ComplexProjectCard
+                      supplier={supplier}
+                      dropdown={{
+                        action: openSupplier1,
+                        menu: renderMenu(supplier1, closeSupplier1),
+                      }}
+                    />
+                  </Grid>
+                )
+              })} 
+              <Grid item xs={12} md={6} lg={4}>
+                <Link to="./new">
+                  <PlaceholderCard 
+                    title={{ variant: "h5", text: "Ajouter un fournisseur" }} 
+                  />
+                </Link>
               </Grid>
             </Grid>
-            <SoftBox mt={{ xs: 1, lg: 3 }} mb={1}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6} lg={4}>
-                  <ComplexProjectCard
-                    title="Supplier Un"
-                    description="description du premier fournisseur"
-                    dropdown={{
-                      action: openSupplier1,
-                      menu: renderMenu(supplier1, closeSupplier1),
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                  <ComplexProjectCard
-                    title="Supplier Deux"
-                    description="description du second fournisseur"
-                    dropdown={{
-                      action: openSupplier2,
-                      menu: renderMenu(supplier2, closeSupplier2),
-                    }}
-                  />
-                </Grid>
-                
-                <Grid item xs={12} md={6} lg={4}>
-                  <PlaceholderCard 
-                  title={{ variant: "h5", text: "Ajouter un fournisseur" }} 
-                  
-                  />
-                </Grid>
-              </Grid>
-            </SoftBox>
           </SoftBox>
-        <Footer />
+        </SoftBox>
       </DashboardLayout>
     </>
   );
