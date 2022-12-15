@@ -123,6 +123,7 @@ export function createProjectStore() {
 
     async getConsultation(id) {
       runInAction(() => {
+        this.loading = true
         this.hasErrors = false
       })
       try {
@@ -130,6 +131,7 @@ export function createProjectStore() {
         if (response.data) {
           runInAction(() => {
             this.consultation = response.data
+            this.loading = false
           })
         } else {
           throw new Error('impossible de trouver la page demandée')
