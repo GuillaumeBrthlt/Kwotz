@@ -30,9 +30,6 @@ import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOu
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 
-// Soft UI Dashboard PRO React example components
-// import Breadcrumbs from "@components/navbars/Breadcrumbs";
-// import NotificationItem from "@components/navbars/Items/NotificationItem";
 
 // Custom styles for DashboardNavbar
 import {
