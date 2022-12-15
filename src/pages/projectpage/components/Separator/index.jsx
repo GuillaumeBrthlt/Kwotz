@@ -33,6 +33,9 @@ function Separator() {
         lineHeight={1}
         sx={{ transform: "translate(-50%, -60%)" }}
       >
+        <SoftTypography variant="button" fontWeight="medium" color="secondary">
+          ou
+        </SoftTypography>
       </SoftBox>
     </SoftBox>
   );

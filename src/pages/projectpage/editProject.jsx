@@ -35,6 +35,9 @@ import { useUserStore } from "@contexts/UserContext"
 import { useUserProfileStore } from "@contexts/UserProfileContext"
 import Sidenav from "@components/navbars/Sidenav"
 import CommentSection from "@pages/projectpage/components/CommentSection"
+import Separator from "@pages/projectpage/components/Separator"
+import SoftSelect from "@components/SoftSelect"
+import { useSupplierStore } from "@contexts/SupplierContext"
 
 export const ProjectEdit = observer(() => {
   const {id} = useParams()
@@ -49,6 +52,8 @@ export const ProjectEdit = observer(() => {
   const [open, setOpen] = useState(false)
   const [project, setProject] = useState(null)
   const [sent, setSent] = useState(false)
+  const [supplier, setSupplier] = useState(null)
+  const supplierStore = useSupplierStore()
 
   useEffect(() => {
     projectStore.getDetails(id)
@@ -56,6 +61,10 @@ export const ProjectEdit = observer(() => {
 
   useEffect(() => {
     coldRoomStore.getColdRooms()
+  }, [])
+
+  useEffect(() => {
+    supplierStore.getSuppliers(userId)
   }, [])
 
   useEffect(() => {
@@ -100,6 +109,36 @@ export const ProjectEdit = observer(() => {
     transform: 'translate(-50%, -50%)',
     width:{xs: 350, md:600}
   };
+
+  function SupplierSelector() {
+    return(
+      <SoftSelect 
+        options={supplierStore.suppliers.map(supplier => (
+          {value: supplier, label: supplier.alias}
+        ))} 
+        onChange={(e) => setSupplier(e.value)}
+      />
+    )
+  }
+
+  function ContactSelector() {
+    const displayContact = (contact) => {
+      return (
+        contact.first_name + " " + contact.last_name
+      )
+    }
+
+    if (supplier) {
+      return(
+        <SoftSelect 
+          options={supplier.supplier_contacts.map(contact => (
+            {value: contact.email, label: displayContact(contact)}
+          ))}
+          onChange={(e) => setEmail(e.value)}
+        />
+      )
+    }
+  }
 
   
 
@@ -156,13 +195,41 @@ export const ProjectEdit = observer(() => {
               <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleClose()}}>
                 <CloseIcon />
               </Button>
-              <SoftTypography  variant='h4' textAlign='center' mb={2}>
+              <SoftTypography  variant='h4' textAlign='center' mb={1}>
                   {sent ? "Votre demande de prix à bien été envoyée!" : "Envoyer la demande prix"}
               </SoftTypography>
               <Grid container spacing={2} justifyContent='center' mb={2} mt={1} sx={sent ? {display: 'none'}: {}}>
+                <Grid item xs={12}>
+                  <SoftTypography textAlign='center'>
+                    Choisissez parmis vos contacts:
+                  </SoftTypography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container spacing={2} px={1}>
+                    <Grid item xs={12} md={6}>
+                      <SoftTypography variant="caption">
+                        fournisseur:
+                      </SoftTypography>
+                      <SupplierSelector />
+                    </Grid>
+                    <Grid item xs={12} md={6} sx={supplier ? {} : {display: 'none'}}>
+                      <SoftTypography variant="caption">
+                        Contact:
+                      </SoftTypography>
+                      <ContactSelector />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                  <Separator />
+                  <SoftTypography textAlign='center'>
+                    Tapez l'adresse email:
+                  </SoftTypography>
+                </Grid>
                 <Grid item xs={11} md={8}>
                   <SoftInput 
                     placeholder="email du contact"
+                    value={email}
                     onChange={e=> setEmail(e.target.value)}
                   />
                 </Grid>
@@ -192,7 +259,7 @@ export const ProjectEdit = observer(() => {
       </>
     )
   }
-
+  
   return (
     <></>
   )

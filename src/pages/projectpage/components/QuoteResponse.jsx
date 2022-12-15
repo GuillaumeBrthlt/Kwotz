@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useEffect} from 'react';
 import { useProjectStore } from '@contexts/ProjectContext';
 import { observer } from "mobx-react-lite";
 import Card from "@mui/material/Card";
@@ -6,9 +6,9 @@ import Card from "@mui/material/Card";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-import SoftButton from "@components/SoftButton";
-import {PropagateLoader} from 'react-spinners'
-import { Link } from 'react-router-dom';
+import {Link} from '@mui/material';
+import { Grid } from '@mui/material';
+import Document from '@theme/Icons/Document';
 // Data
 // import dataTableData from "@pages/dashboard/data/dataTableData";
 
@@ -19,65 +19,76 @@ const QuoteResponse = observer(({project}) => {
   useEffect(() => {
    projectStore.getConsultations(id)
   }, [])
-  
-  const comment = projectStore.consultations.map(consultation => consultation.response_comment)
-  
-  projectStore.consultations.map(document => console.log(document.document_url))
 
-
-  // const documents_urls = () => {
-  //   return (
-  //     projectStore.consultations.map(document =>
-  //       document.document_url.forEach(doc =>
-  //         <SoftTypography variant="h6" fontWeight="medium" component={Link} to="/login">
-  //           {doc}
-  //         </SoftTypography> 
-  //       )
-  //     )
-  //   )
-  // }
 
   return (
-    <SoftBox my={3}>
-      <Card>
-        <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
-          <SoftBox lineHeight={1}>
-            <SoftTypography variant="h5" fontWeight="medium">
-              Réponse Fournisseur
-            </SoftTypography>            
-            <Card>
-              <SoftBox display="flex" justifyContent="space-between" alignItems="centers" pt={2} px={2}>
-                <SoftTypography variant="h6" fontWeight="medium">
-                  Voir pièce(s) jointe(s)
-                </SoftTypography>
-                {/* {documents_urls()} */}
-              </SoftBox>
-              <SoftBox p={2}>
-                <SoftBox mt={6} mb={3} lineHeight={0}>
-                </SoftBox>
-                <SoftBox
-                  bgColor="dark"
-                  borderRadius="lg"
-                  shadow="lg"
-                  p={2}
-                  variant="gradient"
-                  lineHeight={1}
-                >
-                  <SoftTypography variant="h6" fontWeight="medium" color="white">
-                    Commentaire:
-                  </SoftTypography>
-                  <SoftBox mb={3}>
-                    <SoftTypography variant="button" fontWeight="regular" color="white">
-                      {comment}
-                    </SoftTypography>
+    <>
+      {projectStore.consultations.map(consultation => {
+        if (consultation.project.id == project.id) {
+          return (
+            <SoftBox my={3} key={consultation.created_at}>
+              <Card>
+                <SoftBox p={3}>
+                  <SoftBox lineHeight={1}>
+                    {consultation.document_url || consultation.response_comment ? 
+                      <>
+                        <SoftTypography variant="h5" fontWeight="medium" color="primary">
+                          Réponse de {consultation.email}
+                        </SoftTypography>            
+                        <Grid>
+                          {consultation.document_url ? 
+                          <SoftBox  pt={2} px={1}>
+                            <SoftTypography variant="h6" fontWeight="medium" mb={2}>
+                              Voir pièce(s) jointe(s):
+                            </SoftTypography>
+                            <Grid display='flex' flexDirection="column" rowSpacing={2}>
+                              {consultation.document_url.map(document => {
+                                return (
+                                <Link rel="noopener noreferrer" target="_blank" href={document} key={document} variant="body2">
+                                  <Document /> Ouvrir
+                                </Link>
+                                )
+                              })}
+                            </Grid>
+                          </SoftBox>
+                          :
+                            <></>
+                          }
+                          <SoftBox p={1} mt={2}>
+                            <SoftBox
+                              bgColor="dark"
+                              borderRadius="lg"
+                              shadow="lg"
+                              p={2}
+                              variant="gradient"
+                              lineHeight={1}
+                            >
+                              <SoftTypography variant="h6" fontWeight="medium" color="white">
+                                Message:
+                              </SoftTypography>
+                              <SoftTypography variant="body2" fontWeight="regular" color="white">
+                                {consultation.response_comment}
+                              </SoftTypography>
+                            </SoftBox>
+                          </SoftBox>
+                        </Grid>
+                      </>
+                    :
+                      <>
+                      <SoftTypography variant="h5" fontWeight="medium" color="secondary">
+                        Pas encore de réponse de {consultation.email}
+                      </SoftTypography>
+                      </>
+                    }
                   </SoftBox>
                 </SoftBox>
-              </SoftBox>
-            </Card>
-          </SoftBox>
-        </SoftBox>
-      </Card>
-    </SoftBox>
+              </Card>
+            </SoftBox>
+          )
+        }
+      }
+    )}
+  </>
   )
 })
 
