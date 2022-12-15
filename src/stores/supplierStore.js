@@ -95,6 +95,30 @@ export function createSupplierStore() {
       }
     },
 
+    async createNewContact(payload, user_id, supplier_id) {
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.post(`${BASE_URL}supplier_contacts`, payload);
+        if (response.status == 201) {
+          runInAction (() => {
+            this.loading = false
+            this.created = true
+            this.getDetails(user_id, supplier_id)
+          })
+        } else {
+          throw new Error('informations non valides')
+        }  
+      } catch (error) {
+        runInAction (() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      }
+    },
+
     async getContacts(id) {
       runInAction(() => {
         this.loading = true
@@ -102,10 +126,8 @@ export function createSupplierStore() {
       })
       try {
         await this.getSuppliers(id)
-        runInAction(() => {
-          let contacts = this.suppliers.map(supplier => supplier.supplier_contacts).flat()
-          this.contacts = contacts
-        }) 
+        let contacts = this.suppliers.map(supplier => supplier.supplier_contacts).flat()
+        this.contacts = contacts
       } catch(error) {
         console.error(error)
       }
