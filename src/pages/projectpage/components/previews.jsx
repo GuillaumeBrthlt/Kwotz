@@ -60,8 +60,8 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
             <Card ref={componentRef}>
               {/* Invoice header */}
               <SoftBox p={3}>
-                <Grid container justifyContent="space-between">
-                  <Grid item xs={12} md={10}>
+                <Grid container justifyContent="space-between" flexWrap="wrap-reverse">
+                  <Grid item xs={12} md={7}>
                     <SoftTypography variant="h6" fontWeight="medium">
                       {profile.first_name} {profile.last_name}
                     </SoftTypography>
@@ -84,6 +84,24 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
                       <SoftTypography display="block" variant="body2" color="secondary">
                         tel: {profile.phone_number}
                       </SoftTypography>
+                    </SoftBox>
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <SoftBox
+                      width="100%"
+                      height={{ xs: "auto", md: "100%" }}
+                      display="flex"
+                      justifyContent='flex-end'
+                      alignItems="flex-start"
+                      mb={{ xs: 2, md: 0 }}
+                    >
+                      <SoftButton 
+                        variant="gradient" 
+                        color="info"
+                        onClick={handlePrint}
+                      > 
+                        Imprimer
+                      </SoftButton>
                     </SoftBox>
                   </Grid>
                 </Grid>
@@ -134,43 +152,6 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
               {/* Invoice content */}
               <SoftBox p={3}>
                 {coldRooms.map(coldRoom => <ColdRoomDetails key={coldRoom.id} coldRoom={coldRoom}/>)}
-              </SoftBox>
-
-              {/* Invoice footer */}
-              <SoftBox p={3} mt={7}>
-                <Grid container>
-                  <Grid item xs={12} lg={5}>
-                    <SoftTypography
-                      component="span"
-                      variant="h6"
-                      fontWeight="medium"
-                      color="secondary"
-                    >
-                      email:{" "}
-                      <SoftTypography component="span" variant="h6" fontWeight="medium">
-                        support@creative-tim.com
-                      </SoftTypography>
-                    </SoftTypography>
-                  </Grid>
-                  <Grid item xs={12} lg={7}>
-                    <SoftBox
-                      width="100%"
-                      height={{ xs: "auto", md: "100%" }}
-                      display="flex"
-                      justifyContent={{ xs: "flex-start", md: "flex-end" }}
-                      alignItems="flex-end"
-                      mt={{ xs: 2, md: 0 }}
-                    >
-                      <SoftButton 
-                        variant="gradient" 
-                        color="info"
-                        onClick={handlePrint}
-                      > 
-                        Imprimer
-                      </SoftButton>
-                    </SoftBox>
-                  </Grid>
-                </Grid>
               </SoftBox>
             </Card>
           </div>
