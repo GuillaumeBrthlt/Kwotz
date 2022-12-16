@@ -180,7 +180,7 @@ export default (selectSize, selectError, selectSuccess) => {
       transition: "background-color 300ms ease, color 300ms ease",
 
       "&:after": {
-        content: "'Press to select'",
+        content: "'sélectionner'",
         display: "block",
         fontSize: size.xs,
         position: "absolute",

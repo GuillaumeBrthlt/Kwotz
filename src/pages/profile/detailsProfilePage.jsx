@@ -63,7 +63,7 @@ const ProfileOverview = observer(() => {
         <Header />
         <SoftBox mt={5} mb={3}>
           <Grid container spacing={3} justifyContent="center">
-          <Grid item xs={12} md={6} xl={4}>
+          <Grid item xs={12} md={6}>
               <ProfileInfoCard
                 title="informations personnelles"
                 info={{
@@ -77,7 +77,7 @@ const ProfileOverview = observer(() => {
                 action={{ route: "/edit_informations", tooltip: "Modifier le profil" }}
               />
             </Grid>
-            <Grid item xs={12} md={6} xl={4}>
+            <Grid item xs={12} md={6}>
               <ProfileInfoCard
                 title="informations de mon adresse de livraison"
                 info={{

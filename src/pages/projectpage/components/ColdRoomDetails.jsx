@@ -1,7 +1,7 @@
 import SoftTypography from '@components/SoftTypography'
 import { Grid } from '@mui/material'
-import Separator from '@pages/projectpage/components/Separator'
 import React from 'react'
+import SeparatorPreview from '@pages/projectpage/components/SeparatorPreview'
 
 export default function ColdRoomDetails({ coldRoom }) {
 
@@ -39,7 +39,7 @@ export default function ColdRoomDetails({ coldRoom }) {
       <SoftTypography variant='h4' mt={2}>
         {coldRoom.name}
       </SoftTypography>
-      <Separator />
+      <SeparatorPreview />
       <SoftTypography variant='h5' color="primary">
         Informations générales
       </SoftTypography>

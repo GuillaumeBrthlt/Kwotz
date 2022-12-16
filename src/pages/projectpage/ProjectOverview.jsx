@@ -57,6 +57,17 @@ const ProjectOverview = observer(() => {
     )
   } 
 
+  function ButtonProject(id) {
+    const link = `/projects/view/${id}`
+    return (
+      <Link to={link}>
+        <SoftButton variant="gradient" color="info" size="small">
+          Voir projet
+        </SoftButton>
+      </Link>
+    )
+  } 
+
   function handleStatus(status) {
     switch (status) {
       case "sent":
@@ -76,13 +87,13 @@ const ProjectOverview = observer(() => {
     ],
   
     rows: 
-    projectStore.projects.map((project) => 
+    projectStore.projects.map((project) =>
       ({
       name: project.name,
       coldRooms: project.cold_rooms.length,
       created_at: new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
       status: handleStatus(project.status),
-      action: Button(project.id)
+      action: project.status == "sent" ? ButtonProject(project.id) : Button(project.id)
       })
     ),
   };
