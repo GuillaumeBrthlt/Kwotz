@@ -64,7 +64,9 @@ export function createSupplierStore() {
       try {
         await this.getSuppliers(userId)
         let supplierDetails = await this.suppliers.filter(supplier => supplier.id == supplierId)[0]
-        this.details = supplierDetails
+        runInAction(() => {
+          this.details = supplierDetails
+        })
       } catch(error) {
         console.error(error)
       }
