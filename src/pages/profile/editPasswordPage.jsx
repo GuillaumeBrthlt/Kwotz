@@ -18,9 +18,7 @@ import { Card } from '@mui/material'
 import { Grid, Modal, Button } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
 import { useUserStore } from '@contexts/UserContext'
-import DashboardNavbar from '@components/navbars/DashboardNavbar';
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import Footer from "@components/Footer";
 import Switch from "@mui/material/Switch";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";

@@ -22,9 +22,7 @@ import Grid from "@mui/material/Grid";
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import SoftButton from "@components/SoftButton";
-
 import { Link } from "react-router-dom";
-
 
 // Images
 import curved0 from "/assets/images/curved-images/curved0.jpg";

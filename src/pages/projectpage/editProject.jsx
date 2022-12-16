@@ -195,8 +195,8 @@ export const ProjectEdit = observer(() => {
               <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleClose()}}>
                 <CloseIcon />
               </Button>
-              <SoftTypography  variant='h4' textAlign='center' mb={1}>
-                  {sent ? "Votre demande de prix à bien été envoyée!" : "Envoyer la demande prix"}
+              <SoftTypography  variant='h4' textAlign='center' mb={3}>
+                  {sent ? "Votre demande de prix a bien été envoyée!" : "Envoyer la demande prix"}
               </SoftTypography>
               <Grid container spacing={2} justifyContent='center' mb={2} mt={1} sx={sent ? {display: 'none'}: {}}>
                 <Grid item xs={12}>

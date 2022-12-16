@@ -25,8 +25,6 @@ import SoftButton from "@components/SoftButton";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "@components/navbars/DashboardNavbar";
-import Footer from "@components/Footer";
 
 // NewUser page components
 import CompanyInfos from "./components/CompanyInfos/companyInfos";

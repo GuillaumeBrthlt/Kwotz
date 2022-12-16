@@ -88,7 +88,7 @@ function AppRoutes() {
       <Route path="/" element={<Navigate to='/login'/>}/>
       <Route path="/login" element={<LoginPage />}/>
       <Route path="/register" element={<RegisterPage />}/>
-      <Route path="/send_email" element={< ConfirmationPage/>}/>
+      <Route path="/send_email" element={<ConfirmationPage/>}/>
       <Route path="/resetpassword" element={<ResetPasswordPage />}/>
       <Route path="/new_password" element={<NewPasswordPage />}/>
       <Route path="/new_profile" element={<NewUser/>} />
