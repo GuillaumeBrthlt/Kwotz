@@ -150,7 +150,7 @@ const  ConsultationPage = observer(() => {
           </SoftBox>
           <SoftBox display="flex" justifyContent="flex-end" my={3} mx={3}>
             <SoftButton variant="gradient" color="info" onClick={(e) => {handleSubmit()}} disabled={sent}>
-              {sent ? 'Réponse envoyé!' : 'Envoyer réponse'}
+              {sent ? 'Réponse envoyée!' : 'Envoyer réponse'}
             </SoftButton>
           </SoftBox>
         </Card>
