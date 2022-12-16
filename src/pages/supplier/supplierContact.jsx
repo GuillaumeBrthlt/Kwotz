@@ -45,7 +45,6 @@ const SupplierContacts = observer(() => {
 
 
   const columns = [
-    { name: "Avatar", align: "center" },
     { name: "Prénom", align: "left" },
     { name: "Nom", align: "left" },
     { name: "email", align: "center" },
@@ -55,9 +54,7 @@ const SupplierContacts = observer(() => {
     key: contact.id,
     email: contact.email,
     Prénom: contact.first_name,
-    Nom: contact.last_name,
-    Avatar: contact.first_name
-    
+    Nom: contact.last_name,    
   })) : []
 
   
