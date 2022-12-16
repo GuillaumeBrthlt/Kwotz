@@ -136,7 +136,9 @@ export function createProjectStore() {
           throw new Error('impossible de trouver la page demandée')
         }
       } catch(error) {
-        this.hasErrors = true
+        runInAction(() => {
+          this.hasErrors = true
+        })
         console.error(error)
       }
     },
@@ -156,7 +158,9 @@ export function createProjectStore() {
           throw new Error('impossible de trouver la page demandée')
         }
       } catch(error) {
-        this.hasErrors = true
+        runInAction(() => {
+          this.hasErrors = true
+        })
         console.error(error)
       }
     },
@@ -175,7 +179,9 @@ export function createProjectStore() {
           throw new Error('impossible de trouver la page demandée')
         }
       } catch(error) {
-        this.hasErrors = true
+        runInAction(() => {
+          this.hasErrors = true
+        })
         console.error(error)
       }
     },
