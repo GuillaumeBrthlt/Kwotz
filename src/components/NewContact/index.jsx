@@ -1,56 +1,142 @@
-/* import { useState } from "react";
+/**
+=========================================================
+* Soft UI Dashboard PRO React - v4.0.0
+=========================================================
 
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-pro-react
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
-import { Formik, Form } from "formik";
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
+import { useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useSupplierStore } from "../../contexts/SupplierContext";
+import { useUserStore } from "@contexts/UserContext";
+
+// react-router-dom components
+import { Link } from "react-router-dom";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
 import Card from "@mui/material/Card";
-import { MobileStepper } from "@mui/material";
+import Divider from "@mui/material/Divider";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
+import SoftTypography from "@components/SoftTypography";
+import SoftInput from "@components/SoftInput";
 import SoftButton from "@components/SoftButton";
 
+// Soft UI Dashboard PRO React example components
+import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
+import Sidenav from "@components/navbars/Sidenav";
 
-function NewContact({supplier, setNewContact}) {
+export const NewContact = observer(({supplier, handleCloseModal}) => {
+  const [first_name, setFirst_name] = useState(null)
+  const [last_name, setLast_name] = useState(null)
+  const [email, setEmail] = useState(null)
+  
+  const supplierStore = useSupplierStore()
+  const userStore = useUserStore()
 
-}
+    const newContactData = {
+      "supplier_contact": {
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "supplier_id": supplier.id
+      }
+    }
+  
 
+  const handleSubmit = () => {
+    supplierStore.createNewContact(newContactData, userStore.user.id, supplier.id)
+    handleCloseModal()
+  }
 
-<Modal
-  open={open}
-  onClose={handleClose}
-  aria-labelledby="sending-form"
-  aria-describedby="sending-project-form"
-  >
-  <Card sx={modalStyle}>
-    <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleClose()}}>
-      <CloseIcon />
-    </Button>
-    <SoftTypography  variant='h4' textAlign='center' mb={2}>
-        {sent ? "Votre demande de prix à bien été envoyée!" : "Envoyer la demande prix"}
-    </SoftTypography>
-    <Grid container spacing={2} justifyContent='center' mb={2} mt={1} sx={sent ? {display: 'none'}: {}}>
-      <Grid item xs={11} md={8}>
-        <SoftInput 
-          placeholder="email du contact"
-          onChange={e=> setEmail(e.target.value)}
-        />
-      </Grid>
-      <Grid item>
-        <SoftButton 
-          variant="gradient" 
-          color="success" 
-          size="medium"
-          onClick={() => {sendMail()}}
-        >
-          Envoyer
-        </SoftButton>
-      </Grid>
-    </Grid>
-  </Card>
-</Modal> */
+  return (
+    <>
+      <SoftBox p={3}>
+        <Grid container spacing={3} justifyContent="center">
+          <Grid item xs={12} lg={6}>
+            <Card sx={{ overflow: "visible" }}>
+              <SoftBox p={2} lineHeight={1}>
+                <SoftTypography variant="h6" fontWeight="medium">
+                  Nouveau contact fournisseur
+                </SoftTypography>
+                <SoftTypography variant="button" fontWeight="regular" color="text">
+                  Ajouter un nouveau contact
+                </SoftTypography>
+                <Divider />
+                <SoftBox
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="flex-end"
+                  height="100%"
+                >
+                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                      Prénom
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput 
+                    type="text"
+                    placeholder="Prénom" 
+                    onChange={e => setFirst_name(e.target.value)}
+                    />
+                  <Divider />
+                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                      Nom
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput 
+                    type="text"
+                    placeholder="Nom" 
+                    onChange={e => setLast_name(e.target.value)}
+                    />
+                  <Divider />
+                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                    <SoftTypography component="label" variant="caption" fontWeight="bold">
+                      email
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput 
+                    type="text"
+                    placeholder="email" 
+                    onChange={e => setEmail(e.target.value)}
+                    />
+                  <Divider />
+                  
+                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
+                    <SoftBox display="flex" justifyContent="flex-end" mt={3}>
+                      <SoftBox mr={1}>
+                        <SoftButton 
+                          color="light"
+                          onClick={handleCloseModal}
+                        >
+                          Annuler
+                        </SoftButton>
+                      </SoftBox>
+                        <SoftButton
+                          variant="gradient" 
+                          color="info"
+                          onClick={handleSubmit}
+                        >
+                          Valider
+                        </SoftButton>
+                    </SoftBox>
+                  </SoftBox>
+                </SoftBox>
+              </SoftBox>
+            </Card>
+          </Grid>
+        </Grid>
+      </SoftBox>
+    </>
+  );
+})
