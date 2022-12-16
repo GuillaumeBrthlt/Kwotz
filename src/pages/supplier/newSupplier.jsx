@@ -33,8 +33,6 @@ import SoftButton from "@components/SoftButton";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "@components/navbars/DashboardNavbar";
-import Footer from "@components/Footer";
 import Sidenav from "@components/navbars/Sidenav";
 
 export const NewSupplier = observer(() => {

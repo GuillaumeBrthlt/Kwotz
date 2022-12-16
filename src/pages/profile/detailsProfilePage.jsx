@@ -18,7 +18,7 @@ import { useUserStore } from "@contexts/UserContext";
 import { useUserProfileStore } from "@contexts/UserProfileContext";
 
 //import react-spinner animation loading
- import {PropagateLoader} from 'react-spinners'
+import {PropagateLoader} from 'react-spinners'
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -29,13 +29,11 @@ import SoftBox from "@components/SoftBox";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import Footer from "@components/Footer";
 import ProfileInfoCard from "@pages/profile/components/ProfileInfoCard";
 
 // Overview page components
 import Header from "@pages/profile/components/Header";
 import Sidenav from '@components/navbars/Sidenav';
-import DashboardNavbar from '@components/navbars/DashboardNavbar';
 
 const ProfileOverview = observer(() => {
   const userProfileStore = useUserProfileStore()

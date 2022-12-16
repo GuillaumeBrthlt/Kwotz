@@ -17,9 +17,6 @@ import { observer } from "mobx-react-lite";
 import { useSupplierStore } from "../../contexts/SupplierContext";
 import { useUserStore } from "@contexts/UserContext";
 
-// react-router-dom components
-import { Link } from "react-router-dom";
-
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -30,10 +27,6 @@ import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import SoftInput from "@components/SoftInput";
 import SoftButton from "@components/SoftButton";
-
-// Soft UI Dashboard PRO React example components
-import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import Sidenav from "@components/navbars/Sidenav";
 
 export const NewContact = observer(({supplier, handleCloseModal}) => {
   const [first_name, setFirst_name] = useState(null)

@@ -20,36 +20,22 @@ import { useProjectStore } from "@contexts/ProjectContext"
 import { useState } from "react"
 import {Previews} from "./components/previews"
 import { observer } from "mobx-react-lite"
-import SoftButton from "@components/SoftButton"
-import { Grid, Modal } from "@mui/material"
-import { Button } from "@mui/material"
-import NewColdRoom from "@components/NewColdRoom"
+import { Grid } from "@mui/material"
 import { useColdRoomStore } from "@contexts/ColdRoomContext"
-import ColdRoomsList from "@pages/projectpage/components/ColdRoomsList"
-import SendIcon from '@mui/icons-material/Send';
-import SoftInput from "@components/SoftInput"
-import { Card } from "@mui/material"
-import SoftTypography from "@components/SoftTypography"
-import CloseIcon from '@mui/icons-material/Close';
 import { useUserStore } from "@contexts/UserContext"
 import { useUserProfileStore } from "@contexts/UserProfileContext"
 import Sidenav from "@components/navbars/Sidenav"
-import CommentSection from "@pages/projectpage/components/CommentSection"
 import QuoteResponse from "@pages/projectpage/components/QuoteResponse"
 
 export const ProjectView = observer(() => {
   const {id} = useParams()
   const projectStore = useProjectStore()
-  const [newColdRoom, setNewColdRoom] = useState(false)
   const coldRoomStore = useColdRoomStore()
   const [coldRooms, setColdRooms] = useState([])
-  const [email, setEmail] = useState(null)
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const userId = userStore.user.id
-  const [open, setOpen] = useState(false)
   const [project, setProject] = useState(null)
-  const [sent, setSent] = useState(false)
 
   useEffect(() => {
     projectStore.getDetails(id)
@@ -69,15 +55,6 @@ export const ProjectView = observer(() => {
     }
   }, [projectStore.projectDetails])
 
-  function handleOpen() {
-    setSent(false)
-    setOpen(true)
-  }
-
-  function handleClose() {
-    setOpen(false)
-  }
-
   useEffect(() => {
     return async() => {
       let thoseColdRooms = coldRoomStore.coldRooms.filter(coldRoom => coldRoom.project_id == id)
@@ -85,17 +62,7 @@ export const ProjectView = observer(() => {
     }
   },[coldRoomStore.coldRooms])
 
-  function sendMail() {
-    const payload = {
-      project_id: id,
-      email: email
-    }
-    projectStore.sendProject(payload)
-    setSent(true)
-  }
-
   if (project) {
-
 
     return (
       <>

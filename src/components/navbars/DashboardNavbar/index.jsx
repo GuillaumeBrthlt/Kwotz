@@ -47,7 +47,6 @@ import {
   setMiniSidenav,
 } from "@contexts/SoftUIContext";
 import { useUserStore } from "@contexts/UserContext";
-import { Grid } from "@mui/material";
 
 
 function DashboardNavbar({ absolute, light, isMini }) {
@@ -69,8 +68,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
       setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
     }
     /** 
-     The event listener that's calling the handleTransparentNavbar function when 
-     scrolling the window.
+    The event listener that's calling the handleTransparentNavbar function when 
+    scrolling the window.
     */
     window.addEventListener("scroll", handleTransparentNavbar);
 
