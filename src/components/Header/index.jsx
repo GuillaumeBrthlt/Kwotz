@@ -22,9 +22,6 @@ import Grid from "@mui/material/Grid";
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 
-// Soft UI Dashboard PRO React example components
-import DashboardNavbar from "@components/navbars/DashboardNavbar";
-
 // Images
 import curved0 from "/assets/images/curved-images/curved0.jpg";
 

@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie'
 import { runInAction } from 'mobx'
 import axios from 'axios'
-import { FamilyRestroomRounded } from '@mui/icons-material';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 

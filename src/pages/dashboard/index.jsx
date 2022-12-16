@@ -50,7 +50,7 @@ const Dashboard = observer(() => {
     projectStore.getConsultations(userStore.user.id)
     supplierStore.getContacts(userStore.user.id)
   }, [])
- 
+
 
   function handleProjectStatus(status) {
     switch (status) {

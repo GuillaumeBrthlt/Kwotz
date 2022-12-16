@@ -11,8 +11,6 @@ import SoftButton from "@components/SoftButton";
 // Soft UI Dashboard PRO React example components
 import DataTable from "@components/Tables/DataTable";
 
-// Data
-// import dataTableData from "@pages/dashboard/data/dataTableData";
 
 function ColdRoomsList ({ coldRooms }) {
   const coldRoomStore = useColdRoomStore()
