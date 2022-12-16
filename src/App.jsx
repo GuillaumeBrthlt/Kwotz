@@ -30,7 +30,6 @@ import ProjectOverview from "@pages/projectpage/ProjectOverview"
 import { ProjectView } from "@pages/projectpage/ViewProject"
 import { Suppliers } from "@pages/suppliers_list/suppliersList";
 import SupplierContacts from "@pages/supplier/supplierContact";
-import "./App.css"
 
 
 export const App = observer(() => {
