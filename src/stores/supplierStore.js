@@ -126,8 +126,10 @@ export function createSupplierStore() {
       })
       try {
         await this.getSuppliers(id)
-        let contacts = this.suppliers.map(supplier => supplier.supplier_contacts).flat()
-        this.contacts = contacts
+        runInAction(() => {
+          let contacts = this.suppliers.map(supplier => supplier.supplier_contacts).flat()
+          this.contacts = contacts
+        })    
       } catch(error) {
         console.error(error)
       }
