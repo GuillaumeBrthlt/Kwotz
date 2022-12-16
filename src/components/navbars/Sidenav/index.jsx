@@ -18,10 +18,8 @@ import { useEffect, useState } from "react";
 // react-router-dom components
 import { useLocation, NavLink } from "react-router-dom";
 
-
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
-
 
 // @mui material components
 import List from "@mui/material/List";
@@ -45,7 +43,6 @@ import sidenavLogoLabel from "@components/navbars/Sidenav/styles/sidenav";
 // Soft Icons
 import Office from "@theme/Icons/Office";
 import Shop from "@theme/Icons/Shop";
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 // Soft UI Dashboard PRO React context
 import { useSoftUIController, setMiniSidenav } from "@contexts/SoftUIContext";

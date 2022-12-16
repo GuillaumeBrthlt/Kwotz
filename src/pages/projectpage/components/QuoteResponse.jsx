@@ -9,8 +9,6 @@ import SoftTypography from "@components/SoftTypography";
 import {Link} from '@mui/material';
 import { Grid } from '@mui/material';
 import Document from '@theme/Icons/Document';
-// Data
-// import dataTableData from "@pages/dashboard/data/dataTableData";
 
 const QuoteResponse = observer(({project}) => {
   const projectStore = useProjectStore()

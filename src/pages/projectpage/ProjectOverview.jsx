@@ -26,13 +26,11 @@ import SoftButton from "@components/SoftButton";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "@components/navbars/DashboardNavbar";
 import DataTable from "@components/Tables/DataTable";
 
 // Data
 // import dataTableData from "@pages/dashboard/data/dataTableData";
 import { observer } from "mobx-react-lite";
-import Footer from "@components/Footer";
 import { useProjectStore } from "@contexts/ProjectContext";
 import { useEffect } from "react";
 import Sidenav from "@components/navbars/Sidenav";

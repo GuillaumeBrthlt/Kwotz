@@ -23,7 +23,6 @@ import SoftButton from "@components/SoftButton";
 
 // Authentication layout components
 import BasicLayout from "@pages/authentification/components/BasicLayout";
-
 import curved8 from "/assets/images/curved-images/curved8.jpg"
 import DefaultNavbar from '@components/navbars/defaultNavbar'
 

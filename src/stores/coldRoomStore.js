@@ -65,7 +65,7 @@ export function createColdRoomStore() {
           runInAction (() => {
             this.loading = false
             this.getColdRooms()
-         })
+        })
         } else {
           throw new Error('annonce non supprimée')
         }  
