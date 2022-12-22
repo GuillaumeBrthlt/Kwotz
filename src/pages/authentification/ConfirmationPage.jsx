@@ -13,13 +13,11 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { Card } from '@mui/material'
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-import SoftButton from "@components/SoftButton";
 
 // Authentication layout components
 import BasicLayout from "@pages/authentification/components/BasicLayout";
@@ -32,32 +30,19 @@ export default function ConfirmationPage() {
     <>
       <DefaultNavbar />
       <BasicLayout
-        title="Dernière étape !"
-        description="un email de confirmation vient de vous être envoyé: veuillez vérifier votre boîte de réception email"
+        title="Merci pour votre inscription!"
+        description="un email de confirmation vient de vous être envoyé! veuillez vérifier votre boîte de réception email"
         image={curved8}
       >
         <Card>
           <SoftBox p={3} mb={1} textAlign="center">
-            <SoftTypography variant="h5" fontWeight="medium">
-              Veuillez vous connecter
+            <SoftTypography variant="h4" fontWeight="medium">
+              Dernière étape:
             </SoftTypography>
-            <SoftTypography variant="h5" fontWeight="medium">
-              Après avoir confirmé votre inscription
+            <SoftTypography variant="h5" fontWeight="light" mt={2}>
+              Rendez-vous sur l'email qui vous à été envoyé, vous pourrez vous connecter après avoir cliqué sur le lien qui s'y trouve.
             </SoftTypography>
           </SoftBox>
-          <SoftBox mt={4} p={3}>
-              <SoftBox>
-                <SoftButton
-                  component={Link}
-                  to="/login"
-                  variant="gradient"
-                  color="info"
-                  fullWidth
-                >
-                  se connecter
-                </SoftButton>
-              </SoftBox>
-            </SoftBox>
         </Card>
       </BasicLayout>
     </>
