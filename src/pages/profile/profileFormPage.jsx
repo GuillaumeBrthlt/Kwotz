@@ -45,6 +45,7 @@ import ProfileInfos from "./components/ProfileInfos/profileInfos";
 import validations from "./schemas/validations";
 import form from "./schemas/form";
 import initialValues from "./schemas/initialValues";
+import SoftTypography from "@components/SoftTypography";
 
 function getSteps() {
   return ["Ma société", "Adresse Livraison", "Mes infos"];
@@ -99,6 +100,12 @@ const NewUser = observer(() => {
     <>
       <DashboardLayout>
         <SoftBox py={3} mb={20}>
+          <SoftTypography textAlign="center" variant="h4">
+            Avant de commencer à utiliser l'application, nous avons besoin de quelques informations vous concernant.
+          </SoftTypography>
+          <SoftTypography textAlign="center" variant="body2" mt={1}>
+            Ces informations seront transmises à vos fournisseur avec vos demandes de prix.
+          </SoftTypography>
           <Grid container justifyContent="center" sx={{ height: "100%" }}>
             <Grid item xs={12} lg={8}>
               <Stepper activeStep={activeStep} alternativeLabel sx={{ display: { xs: 'none', sm: 'flex'} }}>

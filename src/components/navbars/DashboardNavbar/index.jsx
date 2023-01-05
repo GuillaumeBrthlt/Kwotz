@@ -82,6 +82,12 @@ function DashboardNavbar({ absolute, light, isMini }) {
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
 
+  useEffect(() => {
+    if (!userStore.user.has_profile) {
+      setMiniSidenav(dispatch, true)
+    }
+  }, [userStore.user])
+
 
   const Logout = () => {
     userStore.logoutUser()

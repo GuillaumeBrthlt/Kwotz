@@ -74,34 +74,40 @@ function AppRoutes() {
     if (!userStore.authenticated) {
       return <Navigate to="/login" />;
     } else if (!userStore.user.has_profile) {
-      return <Navigate to="/new_profile" />;
+      return <Navigate to="/profile/create" />;
     }
     return component;
   }
 
   return(
     <Routes>
-      <Route path="/projects/edit/:id" element={<PrivateRoute component={<ProjectEdit />}/>}/>
-      <Route path="/projects/view/:id" element={<PrivateRoute component={<ProjectView />}/>}/>      
-      <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
-      <Route path="/consultation/:id" element={<ConsultationPage />}/>
+      <Route path="/404" element={<Error404/>}/>
+      {/* authentification pages */}
       <Route path="/" element={<Navigate to='/login'/>}/>
       <Route path="/login" element={<LoginPage />}/>
       <Route path="/register" element={<RegisterPage />}/>
-      <Route path="/send_email" element={<ConfirmationPage/>}/>
+      <Route path="/register/confirmed" element={<ConfirmationPage/>}/>
       <Route path="/resetpassword" element={<ResetPasswordPage />}/>
       <Route path="/new_password" element={<NewPasswordPage />}/>
-      <Route path="/new_profile" element={<NewUser/>} />
-      <Route path="/new_project" element={<PrivateRoute component={<NewProject />}/>}/>
-      <Route path="/suppliers/new" element={<PrivateRoute component={<NewSupplier />}/>}/>
-      <Route path="/profile" element={<ProfileOverview />} />
-      <Route path="/edit_informations" element={<PrivateRoute component={<EditInformations />}/>}/>
-      <Route path="/edit_shipping" element={<PrivateRoute component={<EditShipping />}/>}/>
-      <Route path="/404" element={<Error404/>}/>
-      <Route path="/confirmation" element={<EmailValidation/>}/>
-      <Route path="/profile/account/edit" element={<EditPasswordPage/>}/>
-      <Route path="/suppliers" element={<PrivateRoute component={<Suppliers/>}/>}/>
+      <Route path="/register/confirmation" element={<EmailValidation/>}/>
+      {/* Dashboard */}
+      <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
+      {/* projects pages */}
       <Route path="/projects" element={<PrivateRoute component={<ProjectOverview />}/>}/>
+      <Route path="/projects/new" element={<PrivateRoute component={<NewProject />}/>}/>
+      <Route path="/projects/edit/:id" element={<PrivateRoute component={<ProjectEdit />}/>}/>
+      <Route path="/projects/view/:id" element={<PrivateRoute component={<ProjectView />}/>}/>      
+      {/* profile pages */}
+      <Route path="/profile" element={<ProfileOverview />} />
+      <Route path="/profile/create" element={<NewUser/>} />
+      <Route path="/profile/informations/edit" element={<PrivateRoute component={<EditInformations />}/>}/>
+      <Route path="/profile/shipping/edit" element={<PrivateRoute component={<EditShipping />}/>}/>
+      <Route path="/profile/account/edit" element={<PrivateRoute component={<EditPasswordPage/>}/>}/>
+      {/* consultations pages */}
+      <Route path="/consultation/:id" element={<ConsultationPage />}/>
+      {/* suppliers pages */}
+      <Route path="/suppliers" element={<PrivateRoute component={<Suppliers/>}/>}/>
+      <Route path="/suppliers/new" element={<PrivateRoute component={<NewSupplier />}/>}/>
       <Route path="/suppliers/:id" element={<PrivateRoute component={<SupplierContacts/>}/>}/>
     </Routes>
   )
