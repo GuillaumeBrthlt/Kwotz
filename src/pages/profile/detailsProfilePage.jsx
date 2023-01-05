@@ -72,7 +72,7 @@ const ProfileOverview = observer(() => {
                   codePostal: details.zipcode,
                   telephone: details.phone_number,
                 }}
-                action={{ route: "/edit_informations", tooltip: "Modifier le profil" }}
+                action={{ route: "/profile/informations/edit", tooltip: "Modifier le profil" }}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -84,7 +84,7 @@ const ProfileOverview = observer(() => {
                   ville: details.shipping_city,
                   codePostal: details.shipping_zipcode,
                 }}
-                action={{ route: "/edit_shipping", tooltip: "Modifier le profil" }}
+                action={{ route: "/profile/shipping/edit", tooltip: "Modifier le profil" }}
               />
             </Grid>
           </Grid>

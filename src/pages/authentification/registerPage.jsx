@@ -52,7 +52,7 @@ export const RegisterPage = observer(() => {
         }
       };
       userStore.register(registerData)
-      navigate('/send_email')
+      navigate('/register/confirmed')
     } else {
       setPasswordError(true)
     }

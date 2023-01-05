@@ -5,13 +5,10 @@ import PropTypes from "prop-types";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-import SoftInput from "@components/SoftInput";
 
 // NewUser page components
 import FormField from "../FormField/formField";
@@ -27,7 +24,7 @@ function ShippingInfos({ formData }) {
   return (
     <SoftBox>
       <SoftTypography variant="h5" fontWeight="bold">
-        Adresse de livraison
+        Adresse de livraison par défaut
       </SoftTypography>
       <SoftBox mt={1.625}>
         <Grid container spacing={3}>

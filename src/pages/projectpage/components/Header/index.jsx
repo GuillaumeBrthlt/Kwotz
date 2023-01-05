@@ -71,7 +71,7 @@ function Header({ title }) {
             </SoftBox>
           </Grid>
           <Grid item xs={12} md={4} display='flex' justifyContent={{xs: 'center', md:'flex-end'}}>
-            <Link to="/new_project">
+            <Link to="/projects/new">
               <SoftButton variant="gradient" color="info" size="small">
                 + nouveau projet
               </SoftButton>
