@@ -45,7 +45,7 @@ export const ProjectEdit = observer(() => {
   const [newColdRoom, setNewColdRoom] = useState(false)
   const coldRoomStore = useColdRoomStore()
   const [coldRooms, setColdRooms] = useState([])
-  const [email, setEmail] = useState(null)
+  const [email, setEmail] = useState("")
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const userId = userStore.user.id
@@ -53,6 +53,7 @@ export const ProjectEdit = observer(() => {
   const [project, setProject] = useState(null)
   const [sent, setSent] = useState(false)
   const [supplier, setSupplier] = useState(null)
+  const [contact, setContact] = useState(null)
   const supplierStore = useSupplierStore()
 
   useEffect(() => {
@@ -111,12 +112,15 @@ export const ProjectEdit = observer(() => {
   };
 
   function SupplierSelector() {
+    const supplierOptions = supplierStore.suppliers.map(supplier => (
+      {value: supplier, label: supplier.alias}
+    ))
+
     return(
-      <SoftSelect 
-        options={supplierStore.suppliers.map(supplier => (
-          {value: supplier, label: supplier.alias}
-        ))} 
-        onChange={(e) => setSupplier(e.value)}
+      <SoftSelect
+        options={supplierOptions} 
+        value={supplier ? {label: supplier.alias} : null}
+        onChange={selectedSupplier => {setSupplier(selectedSupplier.value)}}
       />
     )
   }
@@ -129,21 +133,21 @@ export const ProjectEdit = observer(() => {
     }
 
     if (supplier) {
+      const contactOptions = supplier.supplier_contacts.map(contact => (
+        {value: contact, label: displayContact(contact)}
+      ))
+
       return(
         <SoftSelect 
-          options={supplier.supplier_contacts.map(contact => (
-            {value: contact.email, label: displayContact(contact)}
-          ))}
-          onChange={(e) => setEmail(e.value)}
+          options={contactOptions}
+          value={contact ? {label: displayContact(contact)} : null}
+          onChange={selectedContact => {setContact(selectedContact.value); setEmail(selectedContact.value.email)}}
         />
       )
     }
   }
 
-  
-
   if (project) {
-
 
     return (
       <>
