@@ -158,8 +158,23 @@ function Sidenav({ color, brand, brandName, ...rest }) {
       name: "Mes projets",
       key: "projects",
       icon: <Document size="12px" />,
-      route: "/projects",
-      noCollapse: true,
+      collapse: [
+        {
+          name: "Historique",
+          key: "history",
+          route: "/projects",
+        },
+        {
+          name: "Mes demandes de prix",
+          key: "login",
+          route: "/profile/account/edit"
+        },
+        {
+          name: "Mes devis reçus",
+          key: "login",
+          route: "/profile/account/edit"
+        },
+      ]
     }, 
     {
       type: "collapse",
