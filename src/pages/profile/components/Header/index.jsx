@@ -19,18 +19,10 @@ import { useState, useEffect } from "react";
 // @mui material components
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
-import AppBar from "@mui/material/AppBar";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-
-// Soft UI Dashboard PRO React example components
-import DashboardNavbar from "@components/navbars/DashboardNavbar";
-
-// Soft UI Dashboard PRO React icons
 
 // Soft UI Dashboard PRO React base styles
 import breakpoints from "@assets/theme/base/breakpoints";
@@ -42,8 +34,7 @@ import { useUserProfileStore } from "@contexts/UserProfileContext";
 
 
 function Header() {
-  const [tabsOrientation, setTabsOrientation] = useState("horizontal");
-  const [tabValue, setTabValue] = useState(0);  
+  const [tabsOrientation, setTabsOrientation] = useState("horizontal"); 
   const userProfileStore = useUserProfileStore()
   const userStore = useUserStore()
   const userID = userStore.user.id
@@ -80,7 +71,7 @@ const details = userProfileStore.profileDetails
         display="flex"
         alignItems="center"
         position="relative"
-        minHeight="10rem"
+        minHeight="5rem"
         borderRadius="xl"
         sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>

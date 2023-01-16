@@ -103,8 +103,8 @@ const Dashboard = observer(() => {
   
   const ProjectsTable = {
     columns: [
-      { Header: "Nom", accessor: "name" },
       { Header: "Date de creation", accessor: "created_at" },
+      { Header: "Nom", accessor: "name" },
       { Header: "Statut", accessor: "status" },
     ],
   
@@ -120,8 +120,8 @@ const Dashboard = observer(() => {
 
   const ConsultationsTable = {
     columns: [
-      { Header: "Nom du projet", accessor: "name" },
       { Header: "Date d'envoi", accessor: "created_at" },
+      { Header: "Nom du projet", accessor: "name" },
       { Header: "envoyé à", accessor: "email" },
       { Header: "statut", accessor: "status" },
     ],
@@ -184,10 +184,15 @@ const Dashboard = observer(() => {
                       liste des derniers projets
                     </SoftTypography>
                   </SoftBox>
-                  <Stack spacing={1} direction="row">
+                  <Stack spacing={2} direction="row">
+                    <Link to="/projects/new">
+                      <SoftButton variant="gradient" color="success" size="medium">
+                        Nouveau
+                      </SoftButton>
+                    </Link>
                     <Link to="/projects">
                       <SoftButton variant="gradient" color="light" size="medium">
-                        Voir mes projets
+                        mes projets
                       </SoftButton>
                     </Link>
                   </Stack>
@@ -214,6 +219,13 @@ const Dashboard = observer(() => {
                       dernières demandes de prix envoyées
                     </SoftTypography>
                   </SoftBox>
+                  <Stack spacing={1} direction="row">
+                    <Link to="/projects/consultations">
+                      <SoftButton variant="gradient" color="light" size="medium">
+                        mes demandes de prix
+                      </SoftButton>
+                    </Link>
+                  </Stack>
                 </SoftBox>
                 <DataTable
                   table={ConsultationsTable}
@@ -234,6 +246,13 @@ const Dashboard = observer(() => {
                       Mes Contacts
                     </SoftTypography>
                   </SoftBox>
+                  <Stack spacing={1} direction="row">
+                    <Link to="/suppliers">
+                      <SoftButton variant="gradient" color="light" size="medium">
+                        mes contacts
+                      </SoftButton>
+                    </Link>
+                  </Stack>
                 </SoftBox>
                 <DataTable
                   table={ContactsTable}

@@ -15,6 +15,7 @@ export function createProjectStore() {
     created: null,
     consultation: null,
     consultations: [],
+    reponse: null,
 
     async createProject(projectData) {
 
@@ -40,6 +41,11 @@ export function createProjectStore() {
           this.hasErrors = true
         })
       }
+    },
+
+    setResponse(consultationID) {
+      const filteredConsultation = this.consultations.filter(consultation => consultation.id == consultationID)[0]
+      this.response = filteredConsultation
     },
 
     async sendProject(payload) {
