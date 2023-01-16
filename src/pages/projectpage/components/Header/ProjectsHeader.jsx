@@ -27,7 +27,7 @@ import { Link } from "react-router-dom";
 // Images
 import curved0 from "/assets/images/curved-images/curved0.jpg";
 
-function Header({ title }) {
+function ProjectsHeader({ title }) {
 
   return (
     <Grid>
@@ -36,7 +36,7 @@ function Header({ title }) {
         display="flex"
         alignItems="center"
         position="relative"
-        minHeight="10rem"
+        minHeight="5rem"
         borderRadius="xl"
         sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
@@ -84,4 +84,4 @@ function Header({ title }) {
   );
 }
 
-export default Header;
+export default ProjectsHeader;

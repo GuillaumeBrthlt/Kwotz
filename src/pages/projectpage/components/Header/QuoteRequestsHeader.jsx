@@ -25,7 +25,7 @@ import SoftTypography from "@components/SoftTypography";
 // Images
 import curved0 from "/assets/images/curved-images/curved0.jpg";
 
-function Header({ title }) {
+function QuoteRequestsHeader({ title }) {
 
   return (
     <Grid>
@@ -59,8 +59,9 @@ function Header({ title }) {
           px: 2,
         }}
       >
-        <Grid container spacing={3} alignItems="center" justifyContent='center'>
-          <Grid item>
+        <Grid container spacing={3} alignItems="center" >
+          <Grid item xs={4}></Grid>
+          <Grid item xs={12} md={4} justifyContent='center' display='flex'>
             <SoftBox height="100%" mt={0.5} lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
                 {title}
@@ -74,4 +75,4 @@ function Header({ title }) {
   );
 }
 
-export default Header;
+export default QuoteRequestsHeader;

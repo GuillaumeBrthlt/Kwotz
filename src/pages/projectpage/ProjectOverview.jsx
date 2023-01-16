@@ -46,7 +46,7 @@ import { useProjectStore } from "@contexts/ProjectContext";
 import { useSupplierStore } from "@contexts/SupplierContext";
 import { useEffect } from "react";
 import Sidenav from "@components/navbars/Sidenav";
-import Header from "@pages/projectpage/components/Header";
+import ProjectsHeader from "@pages/projectpage/components/Header/ProjectsHeader";
 import { useState } from "react";
 import { useUserStore } from "@contexts/UserContext";
 
@@ -168,23 +168,19 @@ const ProjectOverview = observer(() => {
       <>
         <Link to={link}>
           <SoftButton variant="gradient" color="info" size="small">
-            <VisibilityIcon sx={{marginRight: 1}}/>
-            Voir
+            <VisibilityIcon />
           </SoftButton>
         </Link>
         <Link to={editLink}>
           <SoftButton variant="gradient" color="dark" size="small" sx={{marginLeft: 2}}>
-          <EditIcon sx={{marginRight: 1}}/>
-            Modifier
+            <EditIcon />
           </SoftButton>
         </Link>
         <SoftButton color='success' size='small' sx={{marginLeft: 2}} onClick={() => {setProjectToSend(id); handleOpen()}}>
-        <SendIcon sx={{marginRight: 1}}/>
-          Demander un prix
+          <SendIcon />
         </SoftButton>
         <SoftButton color='error' size='small' sx={{marginLeft: 2}} onClick={() => {if(window.confirm("Etes-vous sûr de vouloir archiver ce projet ? vous ne pourrez plus l'envoyer ou le supprimer")){ArchiveProject(id)}}}>
-        <DeleteIcon sx={{marginRight: 1}}/>
-          Archiver
+          <DeleteIcon />
         </SoftButton>
       </>  
     )
@@ -214,9 +210,9 @@ const ProjectOverview = observer(() => {
 
   const unarchivedProjectsTable = {
     columns: [
-      { Header: "name", accessor: "name" },
-      { Header: "nombre de Chambres froides", accessor: "coldRooms" },
       { Header: "Date de creation", accessor: "created_at" },
+      { Header: "nom du projet", accessor: "name" },
+      { Header: "nombre de Chambres froides", accessor: "coldRooms" },
       { Header: "statut", accessor: "status" },
       { Header: "Actions", accessor: "action" }
     ],
@@ -235,9 +231,9 @@ const ProjectOverview = observer(() => {
 
   const ArchivedProjectsTable = {
     columns: [
-      { Header: "name", accessor: "name" },
-      { Header: "nombre de Chambres froides", accessor: "coldRooms" },
       { Header: "Date de creation", accessor: "created_at" },
+      { Header: "nom du projet", accessor: "name" },
+      { Header: "nombre de Chambres froides", accessor: "coldRooms" },
       { Header: "Actions", accessor: "action" }
     ],
   
@@ -318,7 +314,7 @@ const ProjectOverview = observer(() => {
             </Grid>
           </Card>
         </Modal>
-        <Header title="MES PROJETS"/>
+        <ProjectsHeader title="MES PROJETS"/>
         <SoftBox my={3}>
           <Card>
             <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
@@ -337,6 +333,7 @@ const ProjectOverview = observer(() => {
                 defaultValue: 5,
                 entries: [5, 10, 25],
               }}
+              canSearch
             />
           </Card>
         </SoftBox>
@@ -356,6 +353,7 @@ const ProjectOverview = observer(() => {
                 defaultValue: 5,
                 entries: [5, 10, 25],
               }}
+              canSearch
             />
           </Card>
         </SoftBox>
