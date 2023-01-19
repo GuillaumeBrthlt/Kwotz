@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import {Avatar} from "@mui/material";
+import { Link as ExternalLink } from "@mui/material"
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -192,18 +193,22 @@ const Dashboard = observer(() => {
   const ContactsTable = {
     columns: [
       { Header: "Entreprise", accessor: "company" },
-      { Header: "Prénom", accessor: "first_name" },
-      { Header: "Nom", accessor: "last_name" },
+      { Header: "nom", accessor: "name" },
       { Header: "email", accessor: "email" },
+      { Header: "téléphone", accessor: "phone" },
+      { Header: "Adresse", accessor: "address" },
+      { Header: "Ville", accessor: "city" },
     ],
   
     rows: 
     supplierStore.contacts.map((contact) => 
       ({
       company: companyAvatar(contact),
-      first_name: contact.first_name,
-      last_name: contact.last_name,
-      email: contact.email
+      name: `${contact.first_name} ${contact.last_name}`,
+      email: <ExternalLink href={`mailto:${contact.email}`}>{contact.email}</ExternalLink>,
+      phone: <ExternalLink href={`tel:${contact.phone}`}>{contact.phone}</ExternalLink>,
+      address: contact.adress,
+      city: contact.city ? `${contact.city} (${contact.zipcode})` : ''
       })
     ),
   };
@@ -358,7 +363,10 @@ const Dashboard = observer(() => {
                 <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
                   <SoftBox lineHeight={1}>
                     <SoftTypography variant="h5" fontWeight="medium">
-                      Mes Contacts
+                      Mon carnet d'adresses
+                    </SoftTypography>
+                    <SoftTypography variant="button" fontWeight="regular" color="text">
+                      liste de mes contacts
                     </SoftTypography>
                   </SoftBox>
                   <Stack spacing={1} direction="row">
