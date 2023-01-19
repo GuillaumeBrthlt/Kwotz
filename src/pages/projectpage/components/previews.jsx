@@ -127,7 +127,7 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
                       >
                         <SoftBox >
                           <SoftTypography variant="h6" color="secondary" fontWeight="medium">
-                            consultation du:
+                            demande de prix du:
                           </SoftTypography>
                         </SoftBox>
                         <SoftBox marginLeft={{xs: 0, md:1}}>

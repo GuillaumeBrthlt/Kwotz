@@ -101,6 +101,8 @@ const ProjectOverview = observer(() => {
   function handleOpen() {
     setSent(false)
     setOpen(true)
+    setSupplier(null)
+    setContact(null)
   }
 
   function handleClose() {
@@ -263,7 +265,7 @@ const ProjectOverview = observer(() => {
               <CloseIcon />
             </Button>
             <SoftTypography  variant='h4' textAlign='center' mb={3}>
-                {sent ? "Votre demande de prix a bien été envoyée!" : "Envoyer la demande prix"}
+                {sent ? "Votre demande de prix a bien été envoyée!" : "Envoyer une demande prix"}
             </SoftTypography>
             <Grid container spacing={2} justifyContent='center' mb={2} mt={1} sx={sent ? {display: 'none'}: {}}>
               <Grid item xs={12}>

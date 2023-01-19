@@ -43,9 +43,30 @@ export function createProjectStore() {
       }
     },
 
-    setResponse(consultationID) {
+    async setResponse(consultationID) {
       const filteredConsultation = this.consultations.filter(consultation => consultation.id == consultationID)[0]
-      this.response = filteredConsultation
+      runInAction(() => {
+        this.response = filteredConsultation
+        this.loading = true
+      })
+      if (!filteredConsultation.read) {
+        let payload = {
+          quote_request: {
+            read: true
+          }
+        }
+        try {
+          let response = await axios.put(`${BASE_URL}quote_requests/${consultationID}`, payload)
+          let data = await response.data
+          if (data) {
+            runInAction(() => {
+              this.loading = false
+            })
+          }    
+        } catch(error) {
+          console.error(error)
+        }
+      }
     },
 
     async sendProject(payload) {

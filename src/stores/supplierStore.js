@@ -12,7 +12,7 @@ export function createSupplierStore() {
     details: null,
     contacts: [],
 
-    async createSupplier(supplierData) {
+    async createSupplier(supplierData, userID) {
 
       runInAction (() => {
         this.loading = true
@@ -25,6 +25,7 @@ export function createSupplierStore() {
           runInAction (() => {
             this.loading = false
             this.created = true
+            this.getSuppliers(userID)
           })
         } else {
           throw new Error('informations non valides')

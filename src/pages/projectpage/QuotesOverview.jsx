@@ -15,7 +15,7 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Card from "@mui/material/Card";
-import { Modal } from "@mui/material";
+import { Modal, Button, Grid } from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -27,6 +27,9 @@ import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import DataTable from "@components/Tables/DataTable";
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import MarkunreadIcon from '@mui/icons-material/Markunread';
+import CloseIcon from '@mui/icons-material/Close';
 
 // import dataTableData from "@pages/dashboard/data/dataTableData";
 import { observer } from "mobx-react-lite";
@@ -37,13 +40,12 @@ import QuoteRequestsHeader from "@pages/projectpage/components/Header/QuoteReque
 import { useState } from "react";
 import { useUserStore } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
-import { useUserProfileStore } from "@contexts/UserProfileContext";
 import { Previews } from "@pages/projectpage/components/previews";
+import { useUserProfileStore } from "@contexts/UserProfileContext";
 
-const QuoteRequestOverview = observer(() => {
+const QuotesOverview = observer(() => {
   const projectStore = useProjectStore()
-  const [unarchivedConsultations, setUnarchivedConsultations] = useState([])
-  const [archivedConsultations, setArchivedConsultations] = useState([])
+  const [quotes, setQuotes] = useState([])
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const userID = userStore.user.id
@@ -58,13 +60,9 @@ const QuoteRequestOverview = observer(() => {
   }, [])
 
   useEffect(() => {
-    if (projectStore.projects) {
-      const archived = projectStore.consultations.filter((consultation) => consultation.project.status === "archived")
-      const unarchived = projectStore.consultations.filter((consultation) => consultation.project.status !== "archived")
-      setUnarchivedConsultations(unarchived)
-      setArchivedConsultations(archived)
-    }
-  }, [projectStore.projects])
+    const answeredConsultations = projectStore.consultations.filter(consultation => consultation.response_status)
+    setQuotes(answeredConsultations)
+  }, [projectStore.consultations])
 
   function handleOpen(consultation) {
     setConsultationToPreview(consultation)
@@ -75,75 +73,51 @@ const QuoteRequestOverview = observer(() => {
     setOpenPreview(false)
   }
 
-  function Buttons(consultation, response_status, consultationId) {
+  function UnreadConsultation(read) {
+    switch (read) {
+      case true:
+        return <DraftsIcon color="dark" fontSize="medium"/>
+      case false:
+        return <MarkunreadIcon color="success" fontSize="medium"/>
+    }
+  }
+
+  function Buttons(consultation, consultationId) {
     return (
       <>
         <SoftButton variant="gradient" color="info" size="small" onClick={() => {handleOpen(consultation);}}>
           <VisibilityIcon sx={{marginRight: 1}}/>
           aperçu projet
         </SoftButton>
-        {
-          response_status ?
-            <Link to={`/projects/response/${consultationId}`}>
-              <SoftButton variant="gradient" color="success" size="small" sx={{marginLeft: 2}}>
-                <VisibilityIcon sx={{marginRight: 1}}/>
-                Voir le devis
-              </SoftButton>
-            </Link>
-          :
-            <></>
-        }
+        <Link to={`/projects/response/${consultationId}`}>
+          <SoftButton variant="gradient" color="success" size="small" sx={{marginLeft: 2}}>
+            <VisibilityIcon sx={{marginRight: 1}}/>
+            Voir le devis
+          </SoftButton>
+        </Link>
       </>  
     )
   } 
 
-  function handleProjectStatus(status) {
-    switch (status) {
-      case true:
-        return <SoftTypography color='success' fontWeight="medium" variant="body2">devis reçu</SoftTypography>
-      case false:
-        return <SoftTypography color='error' fontWeight="medium" variant="body2">En attente de réception</SoftTypography>
-    }
-  }
-
-  const unarchivedConsultationsTable = {
+  const QuotesTable = {
     columns: [
+      { Header: "lu / non lu", accessor: "read" },
+      { Header: "Date de réception", accessor: "updated_at" },
       { Header: "Date d'envoi", accessor: "created_at" },
-      { Header: "nom du projet", accessor: "name" },
-      { Header: "Destinataire", accessor: "sent_to" },
-      { Header: "statut", accessor: "status" },
-      { Header: "Actions", accessor: "action" }
+      { Header: "Nom du projet", accessor: "name" },
+      { Header: "envoyé à", accessor: "email" },
+      { Header: "Actions", accessor: "actions" },
     ],
   
     rows: 
-    unarchivedConsultations.map((consultation) =>
+    quotes.map((consultation) => 
       ({
+      read: UnreadConsultation(consultation.read),
+      updated_at: new Date(consultation.received_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
       name: consultation.project.name,
       created_at: new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
-      sent_to: consultation.email,
-      status: handleProjectStatus(consultation.response_status),
-      action: Buttons(consultation, consultation.response_status, consultation.id) 
-      })
-    ),
-  };
-
-  const ArchivedConsultationsTable = {
-    columns: [
-      { Header: "Date d'envoi", accessor: "created_at" },
-      { Header: "nom du projet", accessor: "name" },
-      { Header: "Destinataire", accessor: "sent_to" },
-      { Header: "statut", accessor: "status" },
-      { Header: "Actions", accessor: "action" }
-    ],
-  
-    rows: 
-    archivedConsultations.map((consultation) =>
-      ({
-      name: consultation.project.name,
-      created_at: new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
-      sent_to: consultation.email,
-      status: handleProjectStatus(consultation.response_status),
-      action: Buttons(consultation.project.id, consultation.response_status) 
+      email: consultation.email,
+      actions: Buttons(consultation, consultation.id)
       })
     ),
   };
@@ -184,35 +158,15 @@ const QuoteRequestOverview = observer(() => {
             <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
               <SoftBox lineHeight={1}>
                 <SoftTypography variant="h5" fontWeight="medium">
-                  Mes demandes de prix
+                  Mes devis reçus
                 </SoftTypography>
                 <SoftTypography variant="button" fontWeight="regular" color="text">
-                  Liste complète des projets qui n'ont pas été archivés
+                  Liste complète des devis reçus
                 </SoftTypography>
               </SoftBox>
             </SoftBox>
             <DataTable
-              table={unarchivedConsultationsTable}
-              entriesPerPage={{
-                defaultValue: 5,
-                entries: [5, 10, 25],
-              }}
-              canSearch
-            />
-          </Card>
-        </SoftBox>
-        <SoftBox my={3}>
-          <Card>
-            <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
-              <SoftBox lineHeight={1}>
-                <SoftTypography variant="h5" fontWeight="medium">
-                  Demandes de prix des projets archivés
-                </SoftTypography>
-
-              </SoftBox>
-            </SoftBox>
-            <DataTable
-              table={ArchivedConsultationsTable}
+              table={QuotesTable}
               entriesPerPage={{
                 defaultValue: 5,
                 entries: [5, 10, 25],
@@ -226,4 +180,4 @@ const QuoteRequestOverview = observer(() => {
   );
 })
 
-export default QuoteRequestOverview;
+export default QuotesOverview;

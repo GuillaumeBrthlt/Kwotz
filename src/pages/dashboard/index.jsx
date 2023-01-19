@@ -24,12 +24,15 @@ import {Avatar} from "@mui/material";
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import SoftButton from "@components/SoftButton";
+import DefaultCounterCard from "@pages/dashboard/components/DefaultCounterCard";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import DataTable from "@components/Tables/DataTable";
 
-// Data
+import DraftsIcon from '@mui/icons-material/Drafts';
+import MarkunreadIcon from '@mui/icons-material/Markunread';
+
 // import dataTableData from "@pages/dashboard/data/dataTableData";
 import { observer } from "mobx-react-lite";
 import { useProjectStore } from "../../contexts/ProjectContext";
@@ -39,17 +42,24 @@ import Header from "@components/Header";
 import { Grid } from "@mui/material";
 import { useUserStore } from "@contexts/UserContext";
 import { useSupplierStore } from "@contexts/SupplierContext";
+import { useState } from "react";
 
 const Dashboard = observer(() => {
   const projectStore = useProjectStore()
   const userStore = useUserStore()
   const supplierStore = useSupplierStore()
+  const [quotes, setQuotes] = useState([])
   
   useEffect(() => {
     projectStore.getProjects()
     projectStore.getConsultations(userStore.user.id)
     supplierStore.getContacts(userStore.user.id)
   }, [])
+
+  useEffect(() => {
+    const answeredConsultations = projectStore.consultations.filter(consultation => consultation.response_status)
+    setQuotes(answeredConsultations)
+  }, [projectStore.consultations])
 
 
   function handleProjectStatus(status) {
@@ -66,9 +76,20 @@ const Dashboard = observer(() => {
       case true:
         return <SoftTypography color='success' fontWeight="medium" variant="body2">devis reçu</SoftTypography>
       case false:
-        return <SoftTypography color='error' fontWeight="medium" variant="body2">En attente de réception</SoftTypography>
+        return <SoftTypography color='error' fontWeight="regular" variant="body2">En attente de réception</SoftTypography>
     }
   }
+
+  function UnreadConsultation(read) {
+    switch (read) {
+      case true:
+        return <DraftsIcon color="dark" fontSize="medium"/>
+      case false:
+        return <MarkunreadIcon color="success" fontSize="medium"/>
+    }
+  }
+  
+
 
   function stringToColor(string) {
     let hash = 0;
@@ -104,7 +125,7 @@ const Dashboard = observer(() => {
   const ProjectsTable = {
     columns: [
       { Header: "Date de creation", accessor: "created_at" },
-      { Header: "Nom", accessor: "name" },
+      { Header: "Nom du projet", accessor: "name" },
       { Header: "Statut", accessor: "status" },
     ],
   
@@ -133,6 +154,27 @@ const Dashboard = observer(() => {
       created_at: new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
       email: consultation.email,
       status: handleConsultationStatus(consultation.response_status)
+      })
+    ),
+  };
+
+  const QuotesTable = {
+    columns: [
+      { Header: "lu / non lu", accessor: "read" },
+      { Header: "Date de réception", accessor: "updated_at" },
+      { Header: "Date d'envoi", accessor: "created_at" },
+      { Header: "Nom du projet", accessor: "name" },
+      { Header: "envoyé à", accessor: "email" },
+    ],
+  
+    rows: 
+    quotes.map((consultation) => 
+      ({
+      read: UnreadConsultation(consultation.read),
+      updated_at: new Date(consultation.received_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
+      name: consultation.project.name,
+      created_at: new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
+      email: consultation.email,
       })
     ),
   };
@@ -166,11 +208,84 @@ const Dashboard = observer(() => {
     ),
   };
 
+  const nbrProjects = projectStore.projects.length
+
+  const nbrSavedProjects = projectStore.projects.filter(project => project.status == "pending").length
+
+  const nbrSentConsultations = projectStore.consultations.filter(consultation => consultation.response_status == false).length
+
+  const nbrUnreadQuotes = projectStore.consultations.filter(consultation => consultation.response_status == true && consultation.read == false).length
+
   return (
     <>
       <Sidenav />
       <DashboardLayout>
         <Header title="MON TABLEAU DE BORD"/>
+        <Grid container spacing={3} mt={2}>     
+          <Grid item xs={6} md={3}>
+            <DefaultCounterCard
+              count={nbrProjects}
+              title="Projets"
+              description="Nombre total de projets"
+            />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <DefaultCounterCard
+              count={nbrSavedProjects}
+              title="Projets sauvegardés"
+              description="Demandes de prix à envoyer"
+              color="warning"
+            />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <DefaultCounterCard
+              count={nbrSentConsultations}
+              title="Réponses attendues"
+              description="demandes de prix non répondues"
+              color="error"
+            />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <DefaultCounterCard
+              count={nbrUnreadQuotes}
+              title="devis reçus"
+              description="non lus"
+              color="success"
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={4}>
+          <Grid item xs={12} mt={3}>
+            <SoftBox sx={{height: '100%'}}>
+              <Card sx={{height: '100%'}}>
+                <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
+                  <SoftBox lineHeight={1}>
+                    <SoftTypography variant="h5" fontWeight="medium">
+                      Mes devis reçus
+                    </SoftTypography>
+                    <SoftTypography variant="button" fontWeight="regular" color="text">
+                      Mes derniers devis reçus
+                    </SoftTypography>
+                  </SoftBox>
+                  <Stack spacing={2} direction="row">
+                    <Link to="/projects/quotes">
+                      <SoftButton variant="gradient" color="light" size="medium">
+                        mes devis
+                      </SoftButton>
+                    </Link>
+                  </Stack>
+                </SoftBox>
+                <DataTable
+                  table={QuotesTable}
+                  entriesPerPage={{
+                    defaultValue: 5,
+                    entries: [5, 10, 25],
+                  }}
+                />
+              </Card>
+            </SoftBox>
+          </Grid>
+        </Grid>
         <Grid container spacing={4}>
           <Grid item xs={12} md={6} mt={3}>
             <SoftBox sx={{height: '100%'}}>
@@ -190,7 +305,7 @@ const Dashboard = observer(() => {
                         Nouveau
                       </SoftButton>
                     </Link>
-                    <Link to="/projects">
+                    <Link to="/projects/all">
                       <SoftButton variant="gradient" color="light" size="medium">
                         mes projets
                       </SoftButton>
@@ -237,7 +352,7 @@ const Dashboard = observer(() => {
               </Card>
             </SoftBox>
           </Grid>
-          <Grid item xs={12} md={6} my={3}>
+          <Grid item xs={12} md={12} my={1}>
             <SoftBox sx={{height: '100%'}}>
               <Card sx={{height: '100%'}}>
                 <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
@@ -260,6 +375,7 @@ const Dashboard = observer(() => {
                     defaultValue: 5,
                     entries: [5, 10, 25],
                   }}
+                  canSearch
                 />
               </Card>
             </SoftBox>
