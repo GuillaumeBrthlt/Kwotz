@@ -19,9 +19,11 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSupplierStore } from "@contexts/SupplierContext";
 import { useUserStore } from "@contexts/UserContext";
-import Table from "@components/Tables/DataTable/Table";
+import DataTable from "@components/Tables/DataTable";
 import {NewContact} from "@components/NewContact"
 import Sidenav from "@components/navbars/Sidenav";
+import {Link} from "@mui/material";
+import { Height } from "@mui/icons-material";
 
 
 const SupplierContacts = observer(() => {
@@ -44,19 +46,6 @@ const SupplierContacts = observer(() => {
   }, [supplierStore.details])
 
 
-  const columns = [
-    { name: "Prénom", align: "left" },
-    { name: "Nom", align: "left" },
-    { name: "email", align: "center" },
-  ]
-
-  const rows = contacts.length > 0 ? contacts.map(contact => ({
-    key: contact.id,
-    email: contact.email,
-    Prénom: contact.first_name,
-    Nom: contact.last_name,    
-  })) : []
-
   const [openModal, setOpenModal] = useState(false)
 
   function handleOpenModal() {
@@ -72,7 +61,29 @@ const SupplierContacts = observer(() => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width:{xs: 350, md:600}
+    width:{xs: 350, md:'60%'},
+    height:'auto'
+  };
+
+  const ContactsTable = {
+    columns: [
+      { Header: "nom", accessor: "name" },
+      { Header: "email", accessor: "email" },
+      { Header: "téléphone", accessor: "phone" },
+      { Header: "Adresse", accessor: "address" },
+      { Header: "Ville", accessor: "city" },
+    ],
+  
+    rows: 
+    contacts.map((contact) =>
+      ({
+      name: `${contact.first_name} ${contact.last_name}`,
+      email: <Link href={`mailto:${contact.email}`}>{contact.email}</Link>,
+      phone: <Link href={`tel:${contact.phone}`}>{contact.phone}</Link>,
+      address: contact.adress,
+      city: contact.city ? `${contact.city} (${contact.zipcode})` : ''
+      })
+    ),
   };
       
   return (
@@ -106,7 +117,14 @@ const SupplierContacts = observer(() => {
           {newContact ? <NewContact supplier={supplier.id} setNewContact={setNewContact}/> : <></>}
         
         <Grid container my={3}>
-          <Table columns={columns} rows={rows} />
+          <DataTable
+            table={ContactsTable}
+            entriesPerPage={{
+              defaultValue: 5,
+              entries: [5, 10, 25],
+            }}
+            canSearch
+          />
         </Grid>
       </DashboardLayout>
     </>

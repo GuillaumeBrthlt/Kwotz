@@ -12,7 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useSupplierStore } from "../../contexts/SupplierContext";
 import { useUserStore } from "@contexts/UserContext";
@@ -27,11 +27,17 @@ import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import SoftInput from "@components/SoftInput";
 import SoftButton from "@components/SoftButton";
+import { Switch } from "@mui/material";
 
 export const NewContact = observer(({supplier, handleCloseModal}) => {
   const [first_name, setFirst_name] = useState(null)
   const [last_name, setLast_name] = useState(null)
   const [email, setEmail] = useState(null)
+  const [phone, setPhone] = useState(null)
+  const [supplierAdress, setSupplierAdress] = useState(true)
+  const [adress, setAdress] = useState(null)
+  const [zipcode, setZipcode] = useState(null)
+  const [city, setCity] = useState(null)
   
   const supplierStore = useSupplierStore()
   const userStore = useUserStore()
@@ -41,9 +47,25 @@ export const NewContact = observer(({supplier, handleCloseModal}) => {
         "first_name": first_name,
         "last_name": last_name,
         "email": email,
+        "phone": phone,
+        "adress": adress,
+        "zipcode": zipcode,
+        "city": city,
         "supplier_id": supplier.id
       }
     }
+  
+  useEffect(() => {
+    if (supplierAdress) {
+      setAdress(supplier.address)
+      setZipcode(supplier.zipcode)
+      setCity(supplier.city)
+    } else {
+      setAdress("")
+      setZipcode("")
+      setCity("")
+    }
+  }, [supplierAdress])
   
 
   const handleSubmit = () => {
@@ -52,84 +74,128 @@ export const NewContact = observer(({supplier, handleCloseModal}) => {
   }
 
   return (
-    <>
-      <SoftBox p={3}>
-        <Grid container spacing={3} justifyContent="center">
-          <Grid item xs={12} lg={6}>
-            <Card sx={{ overflow: "visible" }}>
-              <SoftBox p={2} lineHeight={1}>
-                <SoftTypography variant="h6" fontWeight="medium">
-                  Nouveau contact fournisseur
-                </SoftTypography>
-                <SoftTypography variant="button" fontWeight="regular" color="text">
-                  Ajouter un nouveau contact
-                </SoftTypography>
-                <Divider />
-                <SoftBox
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="flex-end"
-                  height="100%"
-                >
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Prénom
-                    </SoftTypography>
-                  </SoftBox>
-                  <SoftInput 
-                    type="text"
-                    placeholder="Prénom" 
-                    onChange={e => setFirst_name(e.target.value)}
-                    />
-                  <Divider />
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      Nom
-                    </SoftTypography>
-                  </SoftBox>
-                  <SoftInput 
-                    type="text"
-                    placeholder="Nom" 
-                    onChange={e => setLast_name(e.target.value)}
-                    />
-                  <Divider />
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftTypography component="label" variant="caption" fontWeight="bold">
-                      email
-                    </SoftTypography>
-                  </SoftBox>
-                  <SoftInput 
-                    type="text"
-                    placeholder="email" 
-                    onChange={e => setEmail(e.target.value)}
-                    />
-                  <Divider />
-                  
-                  <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
-                    <SoftBox display="flex" justifyContent="flex-end" mt={3}>
-                      <SoftBox mr={1}>
-                        <SoftButton 
-                          color="light"
-                          onClick={handleCloseModal}
-                        >
-                          Annuler
-                        </SoftButton>
-                      </SoftBox>
-                        <SoftButton
-                          variant="gradient" 
-                          color="info"
-                          onClick={handleSubmit}
-                        >
-                          Valider
-                        </SoftButton>
-                    </SoftBox>
-                  </SoftBox>
-                </SoftBox>
-              </SoftBox>
-            </Card>
+    <SoftBox p={3}>
+      <Card sx={{ overflow: "auto" }}>
+        <SoftBox p={3}>
+          <SoftTypography variant="h6" fontWeight="medium">
+            Nouveau contact fournisseur
+          </SoftTypography>
+          <SoftTypography variant="button" fontWeight="regular" color="text">
+            Ajouter un nouveau contact
+          </SoftTypography>
+          <Divider />
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                Prénom
+              </SoftTypography>
+              <SoftInput 
+              type="text"
+              placeholder="Prénom" 
+              onChange={e => setFirst_name(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                Nom
+              </SoftTypography>
+              <SoftInput 
+                type="text"
+                placeholder="Nom" 
+                onChange={e => setLast_name(e.target.value)}
+              />
+            </Grid>
           </Grid>
-        </Grid>
-      </SoftBox>
-    </>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} md={6}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                email
+              </SoftTypography>
+              <SoftInput 
+                type="text"
+                placeholder="adresse email" 
+                onChange={e => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                téléphone
+              </SoftTypography>
+              <SoftInput 
+                type="text"
+                placeholder="numéro de téléphone" 
+                onChange={e => setPhone(e.target.value)}
+              />
+            </Grid>
+          </Grid> 
+          <Divider />
+          <Grid container spacing={2} mt={1}>
+            <Switch checked={supplierAdress} onClick={() => {setSupplierAdress(!supplierAdress)}}/>
+            <SoftTypography
+                variant="button"
+                fontWeight="regular"
+                onClick={() => {setSupplierAdress(!supplierAdress)}}
+                sx={{ cursor: "pointer", userSelect: "none" }}
+              >
+                &nbsp;&nbsp;Reprendre l'adresse du fournisseur
+              </SoftTypography>
+              <Grid item xs={12}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                Adresse
+              </SoftTypography>
+              <SoftInput 
+                type="text"
+                placeholder="adresse" 
+                value={adress}
+                disabled={supplierAdress}
+                onChange={e => setAdress(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                Code postal
+              </SoftTypography>
+              <SoftInput 
+                type="text"
+                placeholder="code postal" 
+                value={zipcode}
+                disabled={supplierAdress}
+                onChange={e => setZipcode(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SoftTypography component="label" variant="caption" fontWeight="bold">
+                Ville
+              </SoftTypography>
+              <SoftInput 
+                type="text"
+                placeholder="Ville" 
+                value={city}
+                disabled={supplierAdress}
+                onChange={e => setCity(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Divider />
+          <SoftBox display="flex" justifyContent="space-between" mt={3}>
+            <SoftBox mr={1}>
+              <SoftButton 
+                color="light"
+                onClick={handleCloseModal}
+              >
+                Annuler
+              </SoftButton>
+            </SoftBox>
+              <SoftButton
+                variant="gradient" 
+                color="info"
+                onClick={handleSubmit}
+              >
+                Valider
+              </SoftButton>
+          </SoftBox>
+        </SoftBox>
+      </Card>
+    </SoftBox>
   );
 })
