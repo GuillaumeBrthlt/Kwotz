@@ -52,12 +52,14 @@ export const ProjectEdit = observer(() => {
   const [open, setOpen] = useState(false)
   const [project, setProject] = useState(null)
   const [sent, setSent] = useState(false)
+  const [alreadySent, setAlreadySent] = useState(false)
   const [supplier, setSupplier] = useState(null)
   const [contact, setContact] = useState(null)
   const supplierStore = useSupplierStore()
 
   useEffect(() => {
     projectStore.getDetails(id)
+    projectStore.getConsultations(userId)
   }, [id])
 
   useEffect(() => {
@@ -81,10 +83,22 @@ export const ProjectEdit = observer(() => {
   function handleOpen() {
     setSent(false)
     setOpen(true)
+    setSupplier(null)
+    setContact(null)
   }
 
   function handleClose() {
     setOpen(false)
+  }
+
+  function CheckAlreadySent(contactEmail) {
+    const sameConsultation = projectStore.consultations.filter(consultation => consultation.email === contactEmail && consultation.project.id == id)
+    console.log(sameConsultation)
+    if (sameConsultation.length > 0) {
+      setAlreadySent(true)
+    } else {
+      setAlreadySent(false)
+    }
   }
 
   useEffect(() => {
@@ -141,7 +155,7 @@ export const ProjectEdit = observer(() => {
         <SoftSelect 
           options={contactOptions}
           value={contact ? {label: displayContact(contact)} : null}
-          onChange={selectedContact => {setContact(selectedContact.value); setEmail(selectedContact.value.email)}}
+          onChange={selectedContact => {setContact(selectedContact.value); setEmail(selectedContact.value.email); CheckAlreadySent(selectedContact.value.email)}}
         />
       )
     }
@@ -234,7 +248,7 @@ export const ProjectEdit = observer(() => {
                   <SoftInput 
                     placeholder="email du contact"
                     value={email}
-                    onChange={e=> setEmail(e.target.value)}
+                    onChange={(e) => {setEmail(e.target.value); CheckAlreadySent(e.target.value)}}
                   />
                 </Grid>
                 <Grid item>
@@ -242,9 +256,10 @@ export const ProjectEdit = observer(() => {
                     variant="gradient" 
                     color="success" 
                     size="medium"
+                    disabled={alreadySent}
                     onClick={() => {sendMail()}}
                   >
-                    Envoyer
+                    {alreadySent ? "Déjà envoyée à ce contact" : "Envoyer"}
                   </SoftButton>
                 </Grid>
               </Grid>

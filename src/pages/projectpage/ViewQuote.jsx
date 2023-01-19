@@ -9,58 +9,72 @@ import SoftTypography from "@components/SoftTypography";
 import Sidenav from '@components/navbars/Sidenav';
 import DashboardLayout from '@components/LayoutContainers/DashboardLayout';
 
-
-import {Link} from '@mui/material';
 import { Grid } from '@mui/material';
+import { Link } from '@mui/material';
 
 import Document from '@theme/Icons/Document';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import { useParams } from 'react-router-dom';
+import Header from '@components/Header';
+import { Previews } from './components/previews';
 import { useUserStore } from '@contexts/UserContext';
+import { useUserProfileStore } from '@contexts/UserProfileContext';
+import SoftButton from '@components/SoftButton';
+import { useNavigate } from 'react-router-dom';
 
 const ViewQuote = observer(() => {
   const {consultationID} = useParams()
   const projectStore = useProjectStore()
+  const userStore = useUserStore()
+  const userProfileStore = useUserProfileStore()
+  const navigate = useNavigate()
 
   useEffect(() => {
    projectStore.getConsultation(consultationID)
+   projectStore.getConsultations(userStore.user.id)
+   userProfileStore.getProfileDetails(userStore.user.id)
   }, [])
 
-  useEffect(() => {
-    if (projectStore.consultation) {
-      projectStore.getConsultations(projectStore.consultation.project.id)
-    }
-  },[projectStore.consultation])
 
   useEffect(() => {
-    projectStore.setResponse(consultationID)
+    if (projectStore.consultations.length > 0) {
+      projectStore.setResponse(consultationID)
+    }
   }, [projectStore.consultations])
 
   return ( 
     <>
     <Sidenav />
     <DashboardLayout>
+      <Header title={`Offre de prix pour le projet: ${projectStore.consultation ? projectStore.consultation.project.name : ''}`} />
       {projectStore.response ?
         <SoftBox my={3}>
           <Card>
+            <Grid m={2}>
+              <SoftButton color="error" onClick={() => {navigate(-1)}}>
+                <ArrowBackIcon sx={{marginRight: 1}}/>
+                Retour
+              </SoftButton>
+            </Grid>
             <SoftBox p={3}>
-              <SoftBox lineHeight={1}>
-                <SoftTypography variant="h5" fontWeight="medium" color="primary">
-                  Réponse de {projectStore.response.email}
-                </SoftTypography>            
+              <SoftBox lineHeight={1}>        
                 <Grid>
-                <SoftBox p={1} mt={2}>
+                  <SoftTypography variant="h5" fontWeight="medium" color="primary">
+                    Devis reçu de la part de {projectStore.response.email}
+                  </SoftTypography>
+                  <SoftBox p={1} mt={2}>
+                    <SoftTypography variant="h5" fontWeight="bold" color="dark" mb={2}>
+                      Message du fournisseur:
+                    </SoftTypography>    
                     <SoftBox
                       bgColor="light"
                       borderRadius="lg"
                       shadow="lg"
                       p={2}
-                      variant="gradient"
                       lineHeight={1}
                     >
-                      <SoftTypography variant="h5" fontWeight="bold" color="dark" mb={2}>
-                        Message du fournisseur:
-                      </SoftTypography>
                       <SoftTypography variant="body2" fontWeight="regular" color="dark">
                         {projectStore.response.response_comment}
                       </SoftTypography>
@@ -68,15 +82,17 @@ const ViewQuote = observer(() => {
                   </SoftBox>
                   {projectStore.response.document_url ? 
                   <SoftBox  pt={2} px={1}>
-                    <SoftTypography variant="h6" fontWeight="medium" mb={2}>
+                    <SoftTypography variant="h5" fontWeight="bold" mb={2}>
                       Voir pièce(s) jointe(s):
                     </SoftTypography>
-                    <Grid display='flex' flexDirection="column" rowSpacing={2}>
+                    <Grid display='flex' flexDirection="column" rowSpacing={2} width={200}>
                       {projectStore.response.document_url.map(document => {
                         return (
-                        <Link rel="noopener noreferrer" target="_blank" href={document} key={document} variant="body2">
-                          <Document /> Ouvrir
-                        </Link>
+                          <SoftButton variant="outlined" color="dark" size="small" key={document}>
+                            <Link rel="noopener noreferrer" target="_blank" href={document} variant="body2">
+                              <Document /> Ouvrir
+                            </Link>
+                          </SoftButton>
                         )
                       })}
                     </Grid>
@@ -88,6 +104,12 @@ const ViewQuote = observer(() => {
               </SoftBox>
             </SoftBox>
           </Card>
+          <Grid item sm={12} xl={6}>
+            <SoftTypography variant="h4" mb={-2} mt={3}>
+              Rappel du projet:
+            </SoftTypography>
+              <Previews project={projectStore.response.project} coldRooms={projectStore.response.cold_rooms} user={userStore.user} profile={userProfileStore.profileDetails}/> 
+            </Grid>
         </SoftBox>
       :
         <></>

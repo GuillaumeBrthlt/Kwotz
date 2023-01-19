@@ -42,18 +42,18 @@ const QuoteResponse = observer(({project}) => {
   }
 
   function Buttons(consultationId, response_status) {
-    const link = `/consultation/response/${consultationId}`
-
-    return (
-      <>
-        <Link to={link}>
-          <SoftButton variant="gradient" color="info" size="small">
-            <VisibilityIcon sx={{marginRight: 1}}/>
-            Voir
-          </SoftButton>
-        </Link>
-      </>  
-    )
+    const link = `/projects/response/${consultationId}`
+    if (response_status) {
+      return (
+        <>
+          <Link to={link}>
+            <SoftButton variant="gradient" color="info" size="small">
+              <VisibilityIcon />
+            </SoftButton>
+          </Link>
+        </>  
+      )
+    }
   } 
 
   const ConsultationsTable = {
@@ -99,72 +99,7 @@ const QuoteResponse = observer(({project}) => {
           />
         </Card>
       </SoftBox>
-      {/* {projectStore.consultations.map(consultation => {
-        if (consultation.project.id == project.id) {
-          return (
-            <SoftBox my={3} key={consultation.created_at}>
-              <Card>
-                <SoftBox p={3}>
-                  <SoftBox lineHeight={1}>
-                    {consultation.document_url || consultation.response_comment ? 
-                      <>
-                        <SoftTypography variant="h5" fontWeight="medium" color="primary">
-                          Réponse de {consultation.email}
-                        </SoftTypography>            
-                        <Grid>
-                          {consultation.document_url ? 
-                          <SoftBox  pt={2} px={1}>
-                            <SoftTypography variant="h6" fontWeight="medium" mb={2}>
-                              Voir pièce(s) jointe(s):
-                            </SoftTypography>
-                            <Grid display='flex' flexDirection="column" rowSpacing={2}>
-                              {consultation.document_url.map(document => {
-                                return (
-                                <Link rel="noopener noreferrer" target="_blank" href={document} key={document} variant="body2">
-                                  <Document /> Ouvrir
-                                </Link>
-                                )
-                              })}
-                            </Grid>
-                          </SoftBox>
-                          :
-                            <></>
-                          }
-                          <SoftBox p={1} mt={2}>
-                            <SoftBox
-                              bgColor="dark"
-                              borderRadius="lg"
-                              shadow="lg"
-                              p={2}
-                              variant="gradient"
-                              lineHeight={1}
-                            >
-                              <SoftTypography variant="h6" fontWeight="medium" color="white">
-                                Message:
-                              </SoftTypography>
-                              <SoftTypography variant="body2" fontWeight="regular" color="white">
-                                {consultation.response_comment}
-                              </SoftTypography>
-                            </SoftBox>
-                          </SoftBox>
-                        </Grid>
-                      </>
-                    :
-                      <>
-                      <SoftTypography variant="h5" fontWeight="medium" color="secondary">
-                        Pas encore de réponse de {consultation.email}
-                      </SoftTypography>
-                      </>
-                    }
-                  </SoftBox>
-                </SoftBox>
-              </Card>
-            </SoftBox>
-          )
-        }
-      }
-    )} */}
-  </>
+    </>
   )
 })
 

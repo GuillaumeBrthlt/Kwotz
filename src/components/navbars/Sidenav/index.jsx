@@ -155,29 +155,29 @@ function Sidenav({ color, brand, brandName, ...rest }) {
     }, 
     {
       type: "collapse",
-      name: "Mes projets",
+      name: "Projets",
       key: "projects",
       icon: <Document size="12px" />,
       collapse: [
         {
           name: "Créer un projet",
-          key: "newProject",
+          key: "new",
           route: "/projects/new",
         },
         {
-          name: "Historique",
-          key: "history",
-          route: "/projects",
+          name: "Mes projets",
+          key: "all",
+          route: "/projects/all",
         },
         {
           name: "Mes demandes de prix",
-          key: "requests",
+          key: "consultations",
           route: "/projects/consultations"
         },
         {
           name: "Mes devis reçus",
           key: "quotes",
-          route: "/profile/account/edit"
+          route: "/projects/quotes"
         },
       ]
     }, 
