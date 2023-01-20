@@ -4,12 +4,19 @@ import SoftInput from '@components/SoftInput'
 import SoftTypography from '@components/SoftTypography'
 import { useProjectStore } from '@contexts/ProjectContext'
 import { Card } from '@mui/material'
+import { observer } from 'mobx-react-lite'
 import React, {useState} from 'react'
 import { useEffect } from 'react'
 
-export default function CommentSection({ comment, projectId }) {
-  const [newComment, setNewComment] = useState("")
+export const CommentSection = observer(({ comment, projectId }) => {
+  const [newComment, setNewComment] = useState('')
   const projectStore = useProjectStore()
+
+  useEffect(() => {
+    if (comment) {
+      setNewComment(comment)
+    }
+  }, [comment])
 
   function handleSubmit() {
     const payload= {
@@ -19,23 +26,21 @@ export default function CommentSection({ comment, projectId }) {
     }
     projectStore.updateProject(projectId, payload)
   }
-  useEffect(() => {
-    if (comment) {
-      setNewComment(comment)
-    }
-  }, [])
 
   return (
-    <SoftBox mt={3}>
+    <SoftBox>
       <Card >
         <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
           <SoftBox lineHeight={1}>
             <SoftTypography variant="h5" fontWeight="medium">
               Ajouter un commentaire au projet
             </SoftTypography>
+            <SoftTypography variant="button" fontWeight="regular" color="text">
+              Message à destination du fournisseur
+            </SoftTypography>
           </SoftBox>
         </SoftBox>
-        <SoftBox p={3}>
+        <SoftBox p={2}>
           <SoftInput
             multiline
             rows={5}
@@ -47,6 +52,7 @@ export default function CommentSection({ comment, projectId }) {
         <SoftBox textAlign='center' mb={2}>
           <SoftButton
             color="info"
+            variant="gradient"
             onClick={() => {handleSubmit()}}
           >
             Enregister
@@ -56,4 +62,4 @@ export default function CommentSection({ comment, projectId }) {
     </SoftBox>
     
   )
-}
+})

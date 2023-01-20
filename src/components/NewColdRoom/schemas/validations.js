@@ -15,6 +15,7 @@ const {
     product_types,
     entries_frequency,
     entries_quantity,
+    entry_temperature,
     heat_sources_power,
     heat_sources,
     comment,
@@ -39,6 +40,7 @@ const validations = [
     [product_types.name]: Yup.string().required(product_types.errorMsg),
     [entries_frequency.name]: Yup.string(),
     [entries_quantity.name]: Yup.number(),
+    [entry_temperature.name]: Yup.number(),
   }),
   Yup.object().shape({
     [heat_sources_power.name]: Yup.number(),

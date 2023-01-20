@@ -64,7 +64,7 @@ function getStepContent(stepIndex, formData) {
 
 
 
-function NewColdRoom({project, setNewColdRoom}) {
+function NewColdRoom({project, handleCloseColdRoom}) {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
   const { formId, formField } = form;
@@ -92,6 +92,7 @@ function NewColdRoom({project, setNewColdRoom}) {
           product_types: values.product_types,
           entries_frequency: values.entries_frequency,
           entries_quantity: values.entries_quantity,
+          entry_temperature: values.entry_temperature,
           heat_sources_power: values.heat_sources_power,
           heat_sources: values.heat_sources,
           comment: values.comment,
@@ -99,7 +100,7 @@ function NewColdRoom({project, setNewColdRoom}) {
         },
       }
       coldRoomStore.createColdRoom(payload)
-      setNewColdRoom(false)
+      handleCloseColdRoom()
     } else {
       setActiveStep(activeStep + 1);
       actions.setTouched({});
@@ -108,9 +109,9 @@ function NewColdRoom({project, setNewColdRoom}) {
   }
 
   return (
-      <SoftBox mt={1} mb={5}>
+      <SoftBox >
         <Grid container justifyContent="center">
-          <Grid item xs={12} lg={8}>
+          <Grid item xs={12} lg={12}>
             <Stepper activeStep={activeStep} alternativeLabel sx={{ display: { xs: 'none', sm: 'flex'} }}>
               {steps.map((label) => (
                 <Step key={label}>

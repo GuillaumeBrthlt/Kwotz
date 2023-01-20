@@ -64,6 +64,10 @@ const form = {
     entries_quantity: {
       name: "entries_quantity",
     },
+    entry_temperature: {
+      type: 'number',
+      name: "entry_temperature",
+    },
     heat_sources_power: {
       name: "heat_sources_power",
     },

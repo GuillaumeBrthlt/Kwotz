@@ -45,13 +45,11 @@ const QuoteResponse = observer(({project}) => {
     const link = `/projects/response/${consultationId}`
     if (response_status) {
       return (
-        <>
+        <SoftTypography variant="body2">
           <Link to={link}>
-            <SoftButton variant="gradient" color="info" size="small">
-              <VisibilityIcon />
-            </SoftButton>
+            <VisibilityIcon color="dark"/>
           </Link>
-        </>  
+        </SoftTypography>  
       )
     }
   } 

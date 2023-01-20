@@ -28,16 +28,18 @@ import SoftTypography from "@components/SoftTypography";
 import SoftInput from "@components/SoftInput";
 import SoftButton from "@components/SoftButton";
 import { Switch } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import {Button} from "@mui/material";
 
 export const NewContact = observer(({supplier, handleCloseModal}) => {
-  const [first_name, setFirst_name] = useState(null)
-  const [last_name, setLast_name] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [phone, setPhone] = useState(null)
+  const [first_name, setFirst_name] = useState("")
+  const [last_name, setLast_name] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
   const [supplierAdress, setSupplierAdress] = useState(true)
-  const [adress, setAdress] = useState(null)
-  const [zipcode, setZipcode] = useState(null)
-  const [city, setCity] = useState(null)
+  const [adress, setAdress] = useState("")
+  const [zipcode, setZipcode] = useState("")
+  const [city, setCity] = useState("")
   
   const supplierStore = useSupplierStore()
   const userStore = useUserStore()
@@ -77,12 +79,21 @@ export const NewContact = observer(({supplier, handleCloseModal}) => {
     <SoftBox p={3}>
       <Card sx={{ overflow: "auto" }}>
         <SoftBox p={3}>
-          <SoftTypography variant="h6" fontWeight="medium">
-            Nouveau contact fournisseur
-          </SoftTypography>
-          <SoftTypography variant="button" fontWeight="regular" color="text">
-            Ajouter un nouveau contact
-          </SoftTypography>
+          <Grid container justifyContent='space-between'>
+            <Grid item>
+              <SoftTypography variant="h6" fontWeight="medium">
+                Nouveau contact fournisseur
+              </SoftTypography>
+              <SoftTypography variant="button" fontWeight="regular" color="text">
+                Ajouter un nouveau contact
+              </SoftTypography>
+            </Grid>
+            <Grid item>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseModal()}}>
+                <CloseIcon />
+              </Button>
+            </Grid>
+          </Grid>
           <Divider />
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
