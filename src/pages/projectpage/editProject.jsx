@@ -34,22 +34,26 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useUserStore } from "@contexts/UserContext"
 import { useUserProfileStore } from "@contexts/UserProfileContext"
 import Sidenav from "@components/navbars/Sidenav"
-import CommentSection from "@pages/projectpage/components/CommentSection"
+import {CommentSection} from "@pages/projectpage/components/CommentSection"
 import Separator from "@pages/projectpage/components/Separator"
 import SoftSelect from "@components/SoftSelect"
 import { useSupplierStore } from "@contexts/SupplierContext"
+import SparePartsList from "./components/SparePartsList"
+import NewSparePart from "@components/NewSparePart"
 
 export const ProjectEdit = observer(() => {
   const {id} = useParams()
   const projectStore = useProjectStore()
-  const [newColdRoom, setNewColdRoom] = useState(false)
   const coldRoomStore = useColdRoomStore()
   const [coldRooms, setColdRooms] = useState([])
+  const [spareParts, setSpareParts] = useState([])
   const [email, setEmail] = useState("")
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const userId = userStore.user.id
-  const [open, setOpen] = useState(false)
+  const [openSend, setOpenSend] = useState(false)
+  const [openColdRoom, setOpenColdRoom] = useState(false)
+  const [openSparePart, setOpenSparePart] = useState(false)
   const [project, setProject] = useState(null)
   const [sent, setSent] = useState(false)
   const [alreadySent, setAlreadySent] = useState(false)
@@ -64,6 +68,7 @@ export const ProjectEdit = observer(() => {
 
   useEffect(() => {
     coldRoomStore.getColdRooms()
+    coldRoomStore.getSpareParts()
   }, [])
 
   useEffect(() => {
@@ -80,20 +85,36 @@ export const ProjectEdit = observer(() => {
     }
   }, [projectStore.projectDetails])
 
-  function handleOpen() {
+  function handleOpenSend() {
     setSent(false)
-    setOpen(true)
+    setOpenSend(true)
     setSupplier(null)
     setContact(null)
   }
 
-  function handleClose() {
-    setOpen(false)
+  function handleCloseSend() {
+    setOpenSend(false)
+  }
+
+  function handleOpenColdRoom() {
+    setOpenColdRoom(true)
+  }
+
+  function handleCloseColdRoom() {
+    setOpenColdRoom(false)
+  }
+
+  function handleOpenSparePart() {
+    setOpenSparePart(true)
+  }
+
+  function handleCloseSparePart() {
+    setOpenSparePart(false)
   }
 
   function CheckAlreadySent(contactEmail) {
     const sameConsultation = projectStore.consultations.filter(consultation => consultation.email === contactEmail && consultation.project.id == id)
-    console.log(sameConsultation)
+ 
     if (sameConsultation.length > 0) {
       setAlreadySent(true)
     } else {
@@ -108,6 +129,13 @@ export const ProjectEdit = observer(() => {
     }
   },[coldRoomStore.coldRooms])
 
+  useEffect(() => {
+    return async() => {
+      let thoseSpareParts = coldRoomStore.spareParts.filter(sparePart => sparePart.project_id == id)
+      setSpareParts(thoseSpareParts)
+    }
+  },[coldRoomStore.coldRooms])
+
   function sendMail() {
     const payload = {
       project_id: id,
@@ -117,12 +145,20 @@ export const ProjectEdit = observer(() => {
     setSent(true)
   }
 
-  const modalStyle = {
+  const sendModalStyle = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width:{xs: 350, md:600}
+  };
+
+  const newElementModalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width:'90%'
   };
 
   function SupplierSelector() {
@@ -167,50 +203,68 @@ export const ProjectEdit = observer(() => {
       <>
         <Sidenav />
         <SoftButton 
-              variant="gradient" 
-              color="success" 
-              size="medium"
-              onClick={() => {handleOpen()}}
-              sx={
-                open ? {
-                  display: 'none', 
-                  bottom: 50,
-                  right: 50
-                } : {
-                  position: 'fixed',
-                  zIndex: 1,
-                  bottom: 50,
-                  right: 50
-                }
-              }
-            >
-              <SendIcon sx={{marginRight: 2}}/>
-              Envoyer
-            </SoftButton>
+          variant="gradient" 
+          color="success" 
+          size="medium"
+          onClick={() => {handleOpenSend()}}
+          sx={
+            openSend ? {
+              display: 'none', 
+              bottom: 50,
+              right: 50
+            } : {
+              position: 'fixed',
+              zIndex: 1,
+              bottom: 50,
+              right: 50
+            }
+          }
+        >
+          <SendIcon sx={{marginRight: 2}}/>
+          Envoyer
+        </SoftButton>
         <DashboardLayout>
           <Header title={project.name}/>
-          <Grid container justifyContent='center' mt={5}>
-            <SoftButton 
-              variant="gradient" 
-              color="info" 
-              size="medium" 
-              onClick={() => {setNewColdRoom(true)}}
-              sx={
-                newColdRoom ? {display: 'none'} : {}
-              }
-            >
-              + Ajouter une chambre froide
-            </SoftButton>
-          </Grid>
-          {newColdRoom ? <NewColdRoom project={project.id} setNewColdRoom={setNewColdRoom}/> : <></>}
           <Modal
-            open={open}
-            onClose={handleClose}
+            open={openColdRoom}
+            onClose={handleCloseColdRoom}
+            aria-labelledby="sending-form"
+            aria-describedby="sending-project-form"
+          >
+            <Card style={newElementModalStyle}>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseColdRoom()}}>
+                <CloseIcon />
+              </Button>
+              <SoftTypography variant="h4" textAlign='center' mt={1}>
+                Ajout d'une chambre froide
+              </SoftTypography>
+              <NewColdRoom project={project.id} handleCloseColdRoom={handleCloseColdRoom}/>
+            </Card>
+          </Modal>
+          <Modal
+            open={openSparePart}
+            onClose={handleCloseSparePart}
+            aria-labelledby="sending-form"
+            aria-describedby="sending-project-form"
+          >
+            <Card style={newElementModalStyle}>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseSparePart()}}>
+                <CloseIcon />
+              </Button>
+              <SoftTypography variant="h4" textAlign='center' mt={1}>
+                Ajout d'une pièce détachée
+              </SoftTypography>
+              <NewSparePart project={project.id} handleCloseSparePart={handleCloseSparePart}/>
+            </Card>
+          </Modal>
+          <Modal
+            open={openSend}
+            onClose={handleCloseSend}
             aria-labelledby="sending-form"
             aria-describedby="sending-project-form"
             >
-            <Card sx={modalStyle}>
-              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleClose()}}>
+            <Card sx={sendModalStyle}>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseSend()}}>
                 <CloseIcon />
               </Button>
               <SoftTypography  variant='h4' textAlign='center' mb={3}>
@@ -266,12 +320,19 @@ export const ProjectEdit = observer(() => {
             </Card>
           </Modal>
           <Grid container spacing={2} justifyContent='center' alignItems='start'>
-            <Grid item sm={12} md={4}>
-              <CommentSection comment={project.message} projectId={project.id}/>
-              <ColdRoomsList coldRooms={coldRooms}/>
+            <Grid item sm={12} container spacing={2} justifyContent='center'>
+              <Grid item sm={12} md={6}>
+                <SparePartsList spareParts={spareParts} handleOpenSparePart={handleOpenSparePart}/>
+              </Grid>
+              <Grid item sm={12} md={6}>
+                <ColdRoomsList coldRooms={coldRooms} handleOpenColdRoom={handleOpenColdRoom}/>
+              </Grid>
+              <Grid item sm={12} >
+                <CommentSection comment={project.message} projectId={project.id}/>
+              </Grid>
             </Grid>
-            <Grid item sm={12} md={8}>
-              <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails}/> 
+            <Grid item sm={12} md={10}>
+              <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails} spareParts={spareParts}/> 
             </Grid>
           </Grid>
         </DashboardLayout>

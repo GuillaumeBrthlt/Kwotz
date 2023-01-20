@@ -24,8 +24,10 @@ import {useReactToPrint} from "react-to-print";
 import { observer } from "mobx-react-lite";
 import ColdRoomDetails from "@pages/projectpage/components/ColdRoomDetails";
 import { useRef } from "react";
+import SparePartDetails from "@pages/projectpage/components/SparePartDetails";
+import SeparatorPreview from "@pages/projectpage/components/SeparatorPreview";
 
-export const Previews = observer(({profile, project, coldRooms, user, date}) => {
+export const Previews = observer(({profile, project, coldRooms, user, date, spareParts}) => {
   const componentRef = useRef()
 
   const handlePrint = useReactToPrint({
@@ -36,7 +38,7 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
     if (message) {
       return (
         <SoftBox p={3}>
-          <SoftTypography variant="h6" color="secondary" fontWeight="medium">
+          <SoftTypography variant='h5' color="primary" fontWeight="medium">
             Informations
           </SoftTypography>
           {project.message.split('\n').map(line => {
@@ -137,7 +139,7 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
                         </SoftBox>
                       </SoftBox>
                     </Grid>
-                    <Grid item xs={12} mt={3} display="flex" alignItems="flex-end">
+                    <Grid item xs={12} mt={3} display="flex" alignItems="flex-end" sx={coldRooms.length > 0 ? {} : {display:'none'}}>
                       <SoftTypography variant="h6" color="secondary" fontWeight="medium">
                         Nombre de chambres froides: 
                       </SoftTypography>
@@ -145,13 +147,28 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
                         {coldRooms.length}
                       </SoftTypography>
                     </Grid>
+                    <Grid item xs={12} display="flex" alignItems="flex-end" sx={spareParts.length > 0 ? {} : {display:'none'}}>
+                      <SoftTypography variant="h6" color="secondary" fontWeight="medium">
+                        Nombre de pièces détachées: 
+                      </SoftTypography>
+                      <SoftTypography variant="h5" fontWeight="medium" marginLeft={1}>
+                        {spareParts.length}
+                      </SoftTypography>
+                    </Grid>
                   </Grid>
                 </SoftBox>
               </SoftBox>
               {project.message ? displayMessage(project.message) : ''}
               {/* Invoice content */}
-              <SoftBox p={3}>
+              <SoftBox p={3} sx={coldRooms.length > 0 ? {} : {display:'none'}}>
                 {coldRooms.map(coldRoom => <ColdRoomDetails key={coldRoom.id} coldRoom={coldRoom}/>)}
+              </SoftBox>
+              <SoftBox p={3} sx={spareParts.length > 0 ? {} : {display:'none'}}>
+                <SoftTypography variant='h4' mt={2}>
+                  Pièces détachées
+                </SoftTypography>
+                <SeparatorPreview />
+                {spareParts.map(sparePart => <SparePartDetails key={sparePart.id} sparePart={sparePart}/>)}
               </SoftBox>
             </Card>
           </div>

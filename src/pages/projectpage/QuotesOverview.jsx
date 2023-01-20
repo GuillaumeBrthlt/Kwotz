@@ -15,7 +15,7 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Card from "@mui/material/Card";
-import { Modal, Button, Grid } from "@mui/material";
+import { Modal, Button} from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -143,12 +143,16 @@ const QuotesOverview = observer(() => {
           aria-describedby="sending-project-form"
           >
           <Card sx={modalStyle}>
+            <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleClose()}}>
+              <CloseIcon />
+            </Button>
             <Previews 
               project={consultationToPreview ? consultationToPreview.project : ''} 
               coldRooms={consultationToPreview ? consultationToPreview.cold_rooms : ''} 
               user={userStore.user} 
               profile={userProfileStore.profileDetails}
               date={consultationToPreview ? consultationToPreview.created_at : ''}
+              spareParts={consultationToPreview ? consultationToPreview.spare_parts : ''}
             />
           </Card>
         </Modal>

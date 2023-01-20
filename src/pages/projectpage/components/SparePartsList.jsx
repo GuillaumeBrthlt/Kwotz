@@ -13,11 +13,11 @@ import SoftButton from "@components/SoftButton";
 import DataTable from "@components/Tables/DataTable";
 
 
-function ColdRoomsList ({ coldRooms, handleOpenColdRoom }) {
+function SparePartsList ({ spareParts, handleOpenSparePart }) {
   const coldRoomStore = useColdRoomStore()
 
   function handleClick(id) {
-    coldRoomStore.deleteColdRoom(id)
+    coldRoomStore.deleteSparePart(id)
   }
 
   function Button({id}) {
@@ -35,10 +35,10 @@ function ColdRoomsList ({ coldRooms, handleOpenColdRoom }) {
     ],
   
     rows: 
-    coldRooms.map((coldRoom) => 
+    spareParts.map((sparePart) => 
       ({
-      name: coldRoom.name,
-      button: <Button id={coldRoom.id} />
+      name: sparePart.name,
+      button: <Button id={sparePart.id} />
       })
     ),
   };
@@ -49,12 +49,12 @@ function ColdRoomsList ({ coldRooms, handleOpenColdRoom }) {
         <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
           <SoftBox lineHeight={1}>
             <SoftTypography variant="h5" fontWeight="medium">
-              Chambres froides
+              Pièces détachées
             </SoftTypography>
           </SoftBox>
           <Stack spacing={2} direction="row">
-            <SoftButton color="success" size="medium" onClick={handleOpenColdRoom}>
-              nouvelle chanbre froide
+            <SoftButton color="success" size="medium" onClick={handleOpenSparePart}>
+              nouvelle pièce détachée
             </SoftButton>
           </Stack>
         </SoftBox>
@@ -70,4 +70,4 @@ function ColdRoomsList ({ coldRooms, handleOpenColdRoom }) {
   );
 }
 
-export default ColdRoomsList;
+export default SparePartsList;

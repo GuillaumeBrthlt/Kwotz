@@ -77,7 +77,7 @@ export default function ColdRoomDetails({ coldRoom }) {
         Denrées stockées: {coldRoom.product_types}
       </SoftTypography>
       <SoftTypography variant='body2' sx={!coldRoom.entries_quantity ? {display: 'none'} : {}}>
-        Entrée des denrées: {coldRoom.entries_quantity} kg / {Frequency()}
+        Entrée des denrées: {coldRoom.entries_quantity} kg /{Frequency()} {coldRoom.entry_temperature ? `à ${coldRoom.entry_temperature}°C` : ''}
       </SoftTypography>
       <Grid sx={coldRoom.heat_sources || coldRoom.heat_sources_power ? {} : {display: 'none'}}>
         <SoftTypography variant='h5' color="primary" mt={2}>

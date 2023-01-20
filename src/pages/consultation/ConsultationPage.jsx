@@ -30,6 +30,7 @@ import SoftBadgeDot from '@components/SoftBadgeDot'
 import SoftInput from '@components/SoftInput'
 import { useDropzone } from 'react-dropzone'
 import "./ConsultationPage.css"
+import {Modal} from '@mui/material'
 
 const  ConsultationPage = observer(() => {
   const { id } = useParams()
@@ -38,6 +39,7 @@ const  ConsultationPage = observer(() => {
   const [verified, setVerified] = useState(false)
   const [responseComment, setResponseComment] = useState("");
   const [sent, setSent] = useState(false)
+  const [openSend, setOpenSend] = useState(false)
 
   useEffect(() => {
     projectStore.getConsultation(id)
@@ -83,6 +85,23 @@ const  ConsultationPage = observer(() => {
       </Grid>
     )
   }
+
+  function handleOpenSend() {
+    setSent(false)
+    setOpenSend(true)
+  }
+
+  function handleCloseSend() {
+    setOpenSend(false)
+  }
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width:{xs: 350, md:"80%"}
+  };
   
   return (
     <>
@@ -90,16 +109,41 @@ const  ConsultationPage = observer(() => {
         <IdentityCheck setVerified={setVerified} verifemail={projectStore.consultation.email} />
       </Grid>
       <Grid padding={5} sx={verified ? {} : {display: 'none'}} maxWidth='1200px' marginX='auto'>
+        <SoftButton 
+          color="success" 
+          size="medium"
+          onClick={() => {handleOpenSend()}}
+          sx={
+            openSend ? {
+              display: 'none', 
+              bottom: 50,
+              right: 50
+            } : {
+              position: 'fixed',
+              zIndex: 1,
+              bottom: 50,
+              right: 50
+            }
+          }
+        >
+          Envoyer mon devis
+        </SoftButton>
         <Previews 
           profile={projectStore.consultation.user_profile} 
           user={projectStore.consultation.user} 
           project={projectStore.consultation.project} 
           coldRooms={projectStore.consultation.cold_rooms}
           date={projectStore.consultation.created_at}
+          spareParts={projectStore.consultation.spare_parts}
         />
       </Grid>
-      <Grid padding={5} sx={verified ? {} : {display: 'none'}} maxWidth='1200px' marginX='auto'>
-        <Card>
+      <Modal
+        open={openSend}
+        onClose={handleCloseSend}
+        aria-labelledby="sending-form"
+        aria-describedby="sending-project-form"
+      >
+        <Card style={modalStyle}>
           <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
             <SoftBox lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
@@ -154,7 +198,7 @@ const  ConsultationPage = observer(() => {
             </SoftButton>
           </SoftBox>
         </Card>
-      </Grid>
+      </Modal>
     </>
   )
 })

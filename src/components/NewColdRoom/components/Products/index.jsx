@@ -30,11 +30,12 @@ import FormField from "@components/NewColdRoom/components/FormField";
 
 function Products({ formData }) {
   const { formField, values, errors, touched } = formData;
-  const { product_types, entries_frequency, entries_quantity} = formField
+  const { product_types, entries_frequency, entries_quantity, entry_temperature} = formField
   const { 
     product_types: product_typesV, 
     entries_frequency: entries_frequencyV, 
     entries_quantity: entries_quantityV, 
+    entry_temperature: entry_temperatureV,
   } = values;
 
   return (
@@ -57,7 +58,7 @@ function Products({ formData }) {
       <SoftBox mt={2}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-            <SoftBox mb={3}>
+            <SoftBox >
               <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                 <SoftTypography
                   component="label"
@@ -86,6 +87,15 @@ function Products({ formData }) {
               label="Quantité par entrée (kg)" 
               placeholder="ex: 1500 (facultatif)" 
               value={entries_quantityV}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormField 
+              name={entry_temperature.name}
+              type={entry_temperature.type}
+              label="Température d'entrée des denrées" 
+              placeholder="ex: 20 (facultatif)" 
+              value={entry_temperatureV}
             />
           </Grid>
         </Grid>

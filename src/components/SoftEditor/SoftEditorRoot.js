@@ -28,6 +28,10 @@ export default styled("div")(({ theme }) => {
       borderRadius: `${borderRadius.md} ${borderRadius.md} 0 0`,
     },
 
+    "& .ql-toolbar:first-child": {
+      display: "none"
+    },
+
     "& .ql-container": {
       borderRadius: `0 0 ${borderRadius.md} ${borderRadius.md}`,
     },

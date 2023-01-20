@@ -39,6 +39,8 @@ import { useUserStore } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
 import { useUserProfileStore } from "@contexts/UserProfileContext";
 import { Previews } from "@pages/projectpage/components/previews";
+import CloseIcon from '@mui/icons-material/Close';
+import {Button} from "@mui/material";
 
 const QuoteRequestOverview = observer(() => {
   const projectStore = useProjectStore()
@@ -169,12 +171,16 @@ const QuoteRequestOverview = observer(() => {
           aria-describedby="sending-project-form"
           >
           <Card sx={modalStyle}>
+            <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleClose()}}>
+              <CloseIcon />
+            </Button>
             <Previews 
               project={consultationToPreview ? consultationToPreview.project : ''} 
               coldRooms={consultationToPreview ? consultationToPreview.cold_rooms : ''} 
               user={userStore.user} 
               profile={userProfileStore.profileDetails}
               date={consultationToPreview ? consultationToPreview.created_at : ''}
+              spareParts={consultationToPreview ? consultationToPreview.spare_parts : ''}
             />
           </Card>
         </Modal>

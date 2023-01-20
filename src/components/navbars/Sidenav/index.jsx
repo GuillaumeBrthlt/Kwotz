@@ -197,13 +197,13 @@ function Sidenav({ color, brand, brandName, ...rest }) {
       collapse: [
         {
           name: "Mon Profil",
-          key: "profile",
-          route: "/profile",
+          key: "myprofile",
+          route: "/profile/myprofile",
         },
         {
           name: "Mon compte",
-          key: "login",
-          route: "/profile/account/edit"
+          key: "account",
+          route: "/profile/account"
         },
       ]
     },

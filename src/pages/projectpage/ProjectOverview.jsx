@@ -125,7 +125,6 @@ const ProjectOverview = observer(() => {
 
   function CheckAlreadySent(email) {
     const sameConsultation = projectStore.consultations.filter(consultation => consultation.email === email && consultation.project.id === projectToSend)
-    console.log(sameConsultation)
     if (sameConsultation.length > 0) {
       setAlreadySent(true)
     } else {
@@ -167,24 +166,16 @@ const ProjectOverview = observer(() => {
     const link = `/projects/view/${id}`
     const editLink = `/projects/edit/${id}`
     return (
-      <>
+      <SoftTypography variant="body2">
         <Link to={link}>
-          <SoftButton variant="gradient" color="info" size="small">
-            <VisibilityIcon />
-          </SoftButton>
+          <VisibilityIcon color="dark"/>
         </Link>
         <Link to={editLink}>
-          <SoftButton variant="gradient" color="dark" size="small" sx={{marginLeft: 2}}>
-            <EditIcon />
-          </SoftButton>
+          <EditIcon color="dark" sx={{marginLeft: 2}}/>
         </Link>
-        <SoftButton color='success' size='small' sx={{marginLeft: 2}} onClick={() => {setProjectToSend(id); handleOpen()}}>
-          <SendIcon />
-        </SoftButton>
-        <SoftButton color='error' size='small' sx={{marginLeft: 2}} onClick={() => {if(window.confirm("Etes-vous sûr de vouloir archiver ce projet ? vous ne pourrez plus l'envoyer ou le supprimer")){ArchiveProject(id)}}}>
-          <DeleteIcon />
-        </SoftButton>
-      </>  
+        <SendIcon onClick={() => {setProjectToSend(id); handleOpen()}} sx={{marginLeft: 2, cursor:"pointer"}} color="success"/>
+        <DeleteIcon color='error' sx={{marginLeft: 2, cursor:"pointer"}} onClick={() => {if(window.confirm("Etes-vous sûr de vouloir archiver ce projet ? vous ne pourrez plus l'envoyer ou le supprimer")){ArchiveProject(id)}}}/>
+      </SoftTypography>  
     )
   } 
 

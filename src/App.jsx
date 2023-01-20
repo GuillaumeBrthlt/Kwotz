@@ -103,11 +103,11 @@ function AppRoutes() {
       <Route path="/projects/consultations" element={<PrivateRoute component={<QuoteRequestOverview/>}/>}/> 
       <Route path="/projects/quotes" element={<PrivateRoute component={<QuotesOverview/>}/>}/>    
       {/* profile pages */}
-      <Route path="/profile" element={<ProfileOverview />} />
+      <Route path="/profile/myprofile" element={<ProfileOverview />} />
       <Route path="/profile/create" element={<NewUser/>} />
       <Route path="/profile/informations/edit" element={<PrivateRoute component={<EditInformations />}/>}/>
       <Route path="/profile/shipping/edit" element={<PrivateRoute component={<EditShipping />}/>}/>
-      <Route path="/profile/account/edit" element={<PrivateRoute component={<EditPasswordPage/>}/>}/>
+      <Route path="/profile/account" element={<PrivateRoute component={<EditPasswordPage/>}/>}/>
       {/* consultations pages */}
       <Route path="/consultation/:id" element={<ConsultationPage />}/>
       <Route path="/projects/response/:consultationID" element={<PrivateRoute component={<ViewQuote />}/>}/>
