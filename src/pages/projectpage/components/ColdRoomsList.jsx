@@ -13,7 +13,7 @@ import SoftButton from "@components/SoftButton";
 import DataTable from "@components/Tables/DataTable";
 
 
-function ColdRoomsList ({ coldRooms, handleOpenColdRoom }) {
+function ColdRoomsList ({ coldRooms }) {
   const coldRoomStore = useColdRoomStore()
 
   function handleClick(id) {
@@ -23,7 +23,7 @@ function ColdRoomsList ({ coldRooms, handleOpenColdRoom }) {
   function Button({id}) {
     return (
       <SoftButton variant="text" color="error" onClick={() => handleClick(id)}>
-        <DeleteIcon>Supprimer</DeleteIcon>&nbsp;Supprimer
+        <DeleteIcon>Supprimer</DeleteIcon>
       </SoftButton>
     )
   } 
@@ -44,7 +44,7 @@ function ColdRoomsList ({ coldRooms, handleOpenColdRoom }) {
   };
 
   return (
-    <SoftBox my={3}>
+    <SoftBox my={3} sx={coldRooms.length > 0 ? {} : {display: 'none'}}>
       <Card>
         <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
           <SoftBox lineHeight={1}>
@@ -52,11 +52,6 @@ function ColdRoomsList ({ coldRooms, handleOpenColdRoom }) {
               Chambres froides
             </SoftTypography>
           </SoftBox>
-          <Stack spacing={2} direction="row">
-            <SoftButton color="success" size="medium" onClick={handleOpenColdRoom}>
-              nouvelle chanbre froide
-            </SoftButton>
-          </Stack>
         </SoftBox>
         <DataTable
           table={dataTableData}

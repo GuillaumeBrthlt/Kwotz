@@ -6,7 +6,7 @@ import SeparatorPreview from '@pages/projectpage/components/SeparatorPreview'
 export default function SparePartDetails({ sparePart }) {
 
   return (
-    <Grid>
+    <Grid mt={3}>
       <SoftTypography variant='h5' color="primary" >
       {sparePart.name}
       </SoftTypography>

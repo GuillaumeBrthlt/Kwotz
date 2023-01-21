@@ -26,6 +26,7 @@ import SoftTypography from "@components/SoftTypography";
 
 // Soft UI Dashboard PRO React base styles
 import typography from "@theme/base/typography";
+import { Grid } from "@mui/material";
 
 function Footer({ company, links }) {
   const { href, name } = company;
@@ -43,7 +44,7 @@ function Footer({ company, links }) {
     ));
 
   return (
-    <SoftBox
+    <Grid
       width="100%"
       display="flex"
       flexDirection={{ xs: "column", lg: "row" }}
@@ -87,7 +88,7 @@ function Footer({ company, links }) {
       >
         {renderLinks()}
       </SoftBox>
-    </SoftBox>
+    </Grid>
   );
 }
 

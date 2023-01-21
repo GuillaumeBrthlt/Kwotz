@@ -28,7 +28,7 @@ export const CommentSection = observer(({ comment, projectId }) => {
   }
 
   return (
-    <SoftBox>
+    <SoftBox mt={3}>
       <Card >
         <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
           <SoftBox lineHeight={1}>
@@ -36,7 +36,7 @@ export const CommentSection = observer(({ comment, projectId }) => {
               Ajouter un commentaire au projet
             </SoftTypography>
             <SoftTypography variant="button" fontWeight="regular" color="text">
-              Message à destination du fournisseur
+              Message à destination du fournisseur concerant le projet
             </SoftTypography>
           </SoftBox>
         </SoftBox>
@@ -55,7 +55,7 @@ export const CommentSection = observer(({ comment, projectId }) => {
             variant="gradient"
             onClick={() => {handleSubmit()}}
           >
-            Enregister
+            Ajouter le commentaire
           </SoftButton>
         </SoftBox> 
       </Card>

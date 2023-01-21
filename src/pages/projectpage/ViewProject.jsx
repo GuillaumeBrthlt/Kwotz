@@ -70,10 +70,10 @@ export const ProjectView = observer(() => {
         <DashboardLayout>
           <Header title={`Détails du projet: ${project.name}`}/>
           <Grid container spacing={2} justifyContent='center' alignItems='start'>
-            <Grid item sm={12} xl={6}>
+            <Grid item sm={12} >
               <QuoteResponse project={project} />
             </Grid>
-            <Grid item sm={12} xl={6}>
+            <Grid item sm={12}>
               <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails}/> 
             </Grid>
           </Grid>
