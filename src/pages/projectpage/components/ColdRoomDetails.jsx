@@ -36,10 +36,9 @@ export default function ColdRoomDetails({ coldRoom }) {
 
   return (
     <Grid>
-      <SoftTypography variant='h4' mt={2}>
+      <SoftTypography variant='h4' mt={2} mb={1}>
         {coldRoom.name}
       </SoftTypography>
-      <SeparatorPreview />
       <SoftTypography variant='h5' color="primary">
         Informations générales
       </SoftTypography>
@@ -105,6 +104,7 @@ export default function ColdRoomDetails({ coldRoom }) {
           )
         })}
       </Grid>
+      <SeparatorPreview />
     </Grid>
   )
 }

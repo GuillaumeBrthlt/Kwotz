@@ -40,6 +40,9 @@ import SoftSelect from "@components/SoftSelect"
 import { useSupplierStore } from "@contexts/SupplierContext"
 import SparePartsList from "./components/SparePartsList"
 import NewSparePart from "@components/NewSparePart"
+import OutlinedCard from "./components/cards/OutlinedCard"
+import addCR from "/assets/images/illustrations/addCR.png";
+import addSP from "/assets/images/illustrations/addSP.png";
 
 export const ProjectEdit = observer(() => {
   const {id} = useParams()
@@ -134,7 +137,7 @@ export const ProjectEdit = observer(() => {
       let thoseSpareParts = coldRoomStore.spareParts.filter(sparePart => sparePart.project_id == id)
       setSpareParts(thoseSpareParts)
     }
-  },[coldRoomStore.coldRooms])
+  },[coldRoomStore.spareParts])
 
   function sendMail() {
     const payload = {
@@ -319,19 +322,31 @@ export const ProjectEdit = observer(() => {
               </Grid>
             </Card>
           </Modal>
-          <Grid container spacing={2} justifyContent='center' alignItems='start'>
-            <Grid item sm={12} container spacing={2} justifyContent='center'>
-              <Grid item sm={12} md={6}>
-                <SparePartsList spareParts={spareParts} handleOpenSparePart={handleOpenSparePart}/>
+          <Card sx={{marginTop: 2}}>
+            <Grid container spacing={3} padding={3}>
+              <Grid item xs={12} md={6} lg={4}>
+                <OutlinedCard 
+                  image={addCR}
+                  text='Ajouter une chambre Froide'
+                  action={handleOpenColdRoom}
+                />
               </Grid>
-              <Grid item sm={12} md={6}>
-                <ColdRoomsList coldRooms={coldRooms} handleOpenColdRoom={handleOpenColdRoom}/>
-              </Grid>
-              <Grid item sm={12} >
-                <CommentSection comment={project.message} projectId={project.id}/>
+              <Grid item xs={12} md={6} lg={4}>
+              <OutlinedCard 
+                  image={addSP}
+                  text='Ajouter pièce détachée'
+                  action={handleOpenSparePart}
+                />
               </Grid>
             </Grid>
-            <Grid item sm={12} md={10}>
+            <CommentSection comment={project.message} projectId={project.id}/>
+          </Card>
+          <Grid container spacing={2} justifyContent='center' alignItems='start'>
+            <Grid item sm={12} md={4}>
+              <ColdRoomsList coldRooms={coldRooms} handleOpenColdRoom={handleOpenColdRoom}/>
+              <SparePartsList spareParts={spareParts} handleOpenSparePart={handleOpenSparePart}/>
+            </Grid>
+            <Grid item sm={12} md={8}>
               <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails} spareParts={spareParts}/> 
             </Grid>
           </Grid>
