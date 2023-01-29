@@ -43,7 +43,7 @@ function GeneralInfo({ formData }) {
 
   return (
     <SoftBox>
-      <SoftTypography variant="h5">Informations générales</SoftTypography>
+      <SoftTypography variant="h3">Informations générales</SoftTypography>
       <SoftBox mt={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
@@ -75,7 +75,7 @@ function GeneralInfo({ formData }) {
               <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                 <SoftTypography
                   component="label"
-                  variant="caption"
+                  variant="h5"
                   fontWeight="bold"
                 >
                   {condensing_unit.label}
@@ -100,7 +100,7 @@ function GeneralInfo({ formData }) {
               <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                 <SoftTypography
                   component="label"
-                  variant="caption"
+                  variant="h5"
                   fontWeight="bold"
                 >
                   Emplacement de la production

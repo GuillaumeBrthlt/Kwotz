@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 
 // Custom styles for ComplexProjectCard
-function ComplexProjectCard({ supplier, dropdown }) {
+function ComplexSupplierCard({ supplier, dropdown }) {
 
   function stringToColor(string) {
     let hash = 0;
@@ -98,7 +98,7 @@ function ComplexProjectCard({ supplier, dropdown }) {
             </SoftBox>
             <SoftBox display="flex" flexDirection="column" lineHeight={0}>
               <SoftButton color="info" size="small" component={Link} to={`/suppliers/${supplier.id}`}>
-                Détails
+                Contacts
               </SoftButton>
             </SoftBox>
         </SoftBox>
@@ -108,14 +108,14 @@ function ComplexProjectCard({ supplier, dropdown }) {
 }
 
 // Setting default values for the props of ComplexProjectCard
-ComplexProjectCard.defaultProps = {
+ComplexSupplierCard.defaultProps = {
   color: "dark",
   suppliers: [],
   dropdown: false,
 };
 
 // Typechecking props for the ProfileInfoCard
-ComplexProjectCard.propTypes = {
+ComplexSupplierCard.propTypes = {
   color: PropTypes.oneOf([
     "primary",
     "secondary",
@@ -135,4 +135,4 @@ ComplexProjectCard.propTypes = {
   ]),
 };
 
-export default ComplexProjectCard;
+export default ComplexSupplierCard;

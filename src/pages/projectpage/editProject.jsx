@@ -238,7 +238,7 @@ export const ProjectEdit = observer(() => {
               <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseColdRoom()}}>
                 <CloseIcon />
               </Button>
-              <SoftTypography variant="h4" textAlign='center' mt={1}>
+              <SoftTypography variant="h2" textAlign='center' mt={1}>
                 Ajout d'une chambre froide
               </SoftTypography>
               <NewColdRoom project={project.id} handleCloseColdRoom={handleCloseColdRoom}/>
@@ -254,7 +254,7 @@ export const ProjectEdit = observer(() => {
               <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseSparePart()}}>
                 <CloseIcon />
               </Button>
-              <SoftTypography variant="h4" textAlign='center' mt={1}>
+              <SoftTypography variant="h2" textAlign='center' mt={1}>
                 Ajout d'une pièce détachée
               </SoftTypography>
               <NewSparePart project={project.id} handleCloseSparePart={handleCloseSparePart}/>

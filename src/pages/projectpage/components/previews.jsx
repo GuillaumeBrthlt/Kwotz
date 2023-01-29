@@ -38,7 +38,7 @@ export const Previews = observer(({profile, project, coldRooms, user, date, spar
       return (
         <SoftBox p={3}>
           <SoftTypography variant='h5' color="primary" fontWeight="medium">
-            Informations
+            Commentaire sur le projet:
           </SoftTypography>
           {project.message.split('\n').map(line => {
             return (
@@ -108,12 +108,12 @@ export const Previews = observer(({profile, project, coldRooms, user, date, spar
                 </Grid>
                 <SoftBox mt={{ xs: 5, md: 5 }}>
                   <Grid container justifyContent="space-between">
-                    <Grid item xs={12} md={4}>
-                      <SoftTypography variant="h6" color="secondary" fontWeight="medium">
-                        Nom du projet
+                    <Grid item xs={12} md={4} container spacing={1} alignItems="end">
+                      <SoftTypography variant="h4" color="secondary" fontWeight="medium">
+                        Référence:
                       </SoftTypography>
-                      <SoftTypography variant="h5" fontWeight="medium">
-                        {project.name}
+                      <SoftTypography variant="h4" fontWeight="medium">
+                      &nbsp;{project.name}
                       </SoftTypography>
                     </Grid>
                     <Grid item xs={12} md={7} lg={5}>
@@ -162,7 +162,7 @@ export const Previews = observer(({profile, project, coldRooms, user, date, spar
               <SoftBox p={3} sx={coldRooms ? {} : {display:'none'}}>
                 {coldRooms ? coldRooms.map(coldRoom => <ColdRoomDetails key={coldRoom.id} coldRoom={coldRoom}/>) : ''}
               </SoftBox>
-              <SoftBox p={3} sx={spareParts ? {} : {display:'none'}}>
+              <SoftBox p={3} sx={spareParts && spareParts.length > 0 ? {} : {display:'none'}}>
                 <SoftTypography variant='h4' >
                   Pièces détachées
                 </SoftTypography>

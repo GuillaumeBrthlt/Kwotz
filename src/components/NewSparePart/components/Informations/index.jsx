@@ -38,7 +38,6 @@ function Informations({ formData }) {
 
   return (
     <SoftBox>
-      <SoftTypography variant="h5">Denrées stockées</SoftTypography>
       <SoftBox mt={3}>
         <Grid container >
           <Grid item xs={12}>

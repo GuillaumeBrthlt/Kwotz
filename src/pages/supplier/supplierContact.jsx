@@ -23,6 +23,7 @@ import DataTable from "@components/Tables/DataTable";
 import {NewContact} from "@components/NewContact"
 import Sidenav from "@components/navbars/Sidenav";
 import {Link} from "@mui/material";
+import SoftTypography from "@components/SoftTypography";
 
 
 
@@ -78,8 +79,8 @@ const SupplierContacts = observer(() => {
     contacts.map((contact) =>
       ({
       name: `${contact.first_name} ${contact.last_name}`,
-      email: <Link href={`mailto:${contact.email}`}>{contact.email}</Link>,
-      phone: <Link href={`tel:${contact.phone}`}>{contact.phone}</Link>,
+      email: <Link href={`mailto:${contact.email}`}><SoftTypography variant="button" color="text">{contact.email}</SoftTypography></Link>,
+      phone: <Link href={`tel:${contact.phone}`}><SoftTypography variant="button" color="text">{contact.phone}</SoftTypography></Link>,
       address: contact.adress,
       city: contact.city ? `${contact.city} (${contact.zipcode})` : ''
       })

@@ -62,7 +62,7 @@ function Products({ formData }) {
               <SoftBox mb={1} ml={0.5} lineHeight={0} display="inline-block">
                 <SoftTypography
                   component="label"
-                  variant="caption"
+                  variant="h5"
                   fontWeight="bold"
                 >
                   {entries_frequency.label}

@@ -34,7 +34,7 @@ import { useColdRoomStore } from "@contexts/ColdRoomContext";
 
 function NewSparePart({project, handleCloseSparePart}) {
   const { formId, formField } = form;
-  const currentValidation = validations[1];
+  const currentValidation = validations[0];
   const coldRoomStore = useColdRoomStore()
 
 
@@ -49,6 +49,7 @@ function NewSparePart({project, handleCloseSparePart}) {
         project_id: project
       },
     }
+    actions.setTouched({})
     coldRoomStore.createSparePart(payload)
     handleCloseSparePart()
   }
@@ -77,7 +78,7 @@ function NewSparePart({project, handleCloseSparePart}) {
                             color="dark"
                             type='submit'
                           >
-                            "Ajouter"
+                            Ajouter
                           </SoftButton>
                         </SoftBox>
                       </SoftBox>

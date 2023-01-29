@@ -205,8 +205,8 @@ const Dashboard = observer(() => {
       ({
       company: companyAvatar(contact),
       name: `${contact.first_name} ${contact.last_name}`,
-      email: <ExternalLink href={`mailto:${contact.email}`}>{contact.email}</ExternalLink>,
-      phone: <ExternalLink href={`tel:${contact.phone}`}>{contact.phone}</ExternalLink>,
+      email: <ExternalLink href={`mailto:${contact.email}`}><SoftTypography variant="button" color="text">{contact.email}</SoftTypography></ExternalLink>,
+      phone: <ExternalLink href={`tel:${contact.phone}`}><SoftTypography variant="button" color="text">{contact.phone}</SoftTypography></ExternalLink>,
       address: contact.adress,
       city: contact.city ? `${contact.city} (${contact.zipcode})` : ''
       })
