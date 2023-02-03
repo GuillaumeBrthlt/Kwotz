@@ -11,6 +11,7 @@ Coded by www.creative-tim.com
 
 // Soft UI Dashboard PRO React components
 import SoftButton from "@components/SoftButton";
+import SoftTypography from "@components/SoftTypography";
 import { observer } from "mobx-react-lite";
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import Header from "@components/Header";
@@ -78,8 +79,16 @@ const SupplierContacts = observer(() => {
     contacts.map((contact) =>
       ({
       name: `${contact.first_name} ${contact.last_name}`,
-      email: <Link href={`mailto:${contact.email}`}>{contact.email}</Link>,
-      phone: <Link href={`tel:${contact.phone}`}>{contact.phone}</Link>,
+      email: <Link href={`mailto:${contact.email}`}>
+        <SoftTypography variant="body2" fontWeight="bold" color="text">
+          {contact.email}
+        </SoftTypography>
+      </Link>,
+      phone: <Link href={`tel:${contact.phone}`}>
+        <SoftTypography variant="body2" fontWeight="bold" color="text">
+          {contact.phone}
+        </SoftTypography>
+      </Link>,
       address: contact.adress,
       city: contact.city ? `${contact.city} (${contact.zipcode})` : ''
       })

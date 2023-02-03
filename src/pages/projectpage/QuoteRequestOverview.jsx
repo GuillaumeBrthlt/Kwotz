@@ -102,18 +102,18 @@ const QuoteRequestOverview = observer(() => {
   function handleProjectStatus(status) {
     switch (status) {
       case true:
-        return <SoftTypography color='success' fontWeight="medium" variant="body2">devis reçu</SoftTypography>
+        return <SoftTypography color='success' fontWeight="medium" variant="body2">reçu</SoftTypography>
       case false:
-        return <SoftTypography color='error' fontWeight="medium" variant="body2">En attente de réception</SoftTypography>
+        return <SoftTypography color='error' fontWeight="medium" variant="body2">En attente</SoftTypography>
     }
   }
 
   const unarchivedConsultationsTable = {
     columns: [
-      { Header: "Date d'envoi", accessor: "created_at" },
       { Header: "nom du projet", accessor: "name" },
-      { Header: "Destinataire", accessor: "sent_to" },
       { Header: "statut", accessor: "status" },
+      { Header: "Destinataire", accessor: "sent_to" },
+      { Header: "Date d'envoi", accessor: "created_at" },
       { Header: "Actions", accessor: "action" }
     ],
   
@@ -181,6 +181,7 @@ const QuoteRequestOverview = observer(() => {
               profile={userProfileStore.profileDetails}
               date={consultationToPreview ? consultationToPreview.created_at : ''}
               spareParts={consultationToPreview ? consultationToPreview.spare_parts : ''}
+              ACs={consultationToPreview ? consultationToPreview.air_conditionnings : ''}
             />
           </Card>
         </Modal>

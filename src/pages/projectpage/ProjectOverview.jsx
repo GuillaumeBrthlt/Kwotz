@@ -195,9 +195,9 @@ const ProjectOverview = observer(() => {
   function handleProjectStatus(status) {
     switch (status) {
       case "sent":
-        return <SoftTypography color='success' fontWeight="medium" variant="body2">demande de prix envoyée</SoftTypography>
+        return <SoftTypography color='success' fontWeight="medium" variant="body2">Envoyé</SoftTypography>
       case "pending":
-        return <SoftTypography color='error' fontWeight="medium" variant="body2">En attente d'envoi</SoftTypography>
+        return <SoftTypography color='error' fontWeight="medium" variant="body2">Sauvegardé</SoftTypography>
     }
   }
 
@@ -205,7 +205,6 @@ const ProjectOverview = observer(() => {
     columns: [
       { Header: "Date de creation", accessor: "created_at" },
       { Header: "nom du projet", accessor: "name" },
-      { Header: "nombre de Chambres froides", accessor: "coldRooms" },
       { Header: "statut", accessor: "status" },
       { Header: "Actions", accessor: "action" }
     ],
@@ -214,7 +213,6 @@ const ProjectOverview = observer(() => {
     unarchivedProjects.map((project) =>
       ({
       name: project.name,
-      coldRooms: project.cold_rooms.length,
       created_at: new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
       status: handleProjectStatus(project.status),
       action: UnarchivedButtons(project.id) 

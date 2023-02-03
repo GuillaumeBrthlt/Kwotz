@@ -43,6 +43,9 @@ import NewSparePart from "@components/NewSparePart"
 import OutlinedCard from "./components/cards/OutlinedCard"
 import addCR from "/assets/images/illustrations/addCR.png";
 import addSP from "/assets/images/illustrations/addSP.png";
+import addAC from "/assets/images/illustrations/addAC.png";
+import NewAirConditionning from "@components/NewAirConditionning"
+import ACList from "./components/ACList"
 
 export const ProjectEdit = observer(() => {
   const {id} = useParams()
@@ -50,6 +53,7 @@ export const ProjectEdit = observer(() => {
   const coldRoomStore = useColdRoomStore()
   const [coldRooms, setColdRooms] = useState([])
   const [spareParts, setSpareParts] = useState([])
+  const [ACs, setACs] = useState([])
   const [email, setEmail] = useState("")
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
@@ -57,6 +61,7 @@ export const ProjectEdit = observer(() => {
   const [openSend, setOpenSend] = useState(false)
   const [openColdRoom, setOpenColdRoom] = useState(false)
   const [openSparePart, setOpenSparePart] = useState(false)
+  const [openAC, setOpenAC] = useState(false)
   const [project, setProject] = useState(null)
   const [sent, setSent] = useState(false)
   const [alreadySent, setAlreadySent] = useState(false)
@@ -72,6 +77,7 @@ export const ProjectEdit = observer(() => {
   useEffect(() => {
     coldRoomStore.getColdRooms()
     coldRoomStore.getSpareParts()
+    coldRoomStore.getAC()
   }, [])
 
   useEffect(() => {
@@ -115,6 +121,14 @@ export const ProjectEdit = observer(() => {
     setOpenSparePart(false)
   }
 
+  function handleOpenAC() {
+    setOpenAC(true)
+  }
+
+  function handleCloseAC() {
+    setOpenAC(false)
+  }
+
   function CheckAlreadySent(contactEmail) {
     const sameConsultation = projectStore.consultations.filter(consultation => consultation.email === contactEmail && consultation.project.id == id)
  
@@ -138,6 +152,13 @@ export const ProjectEdit = observer(() => {
       setSpareParts(thoseSpareParts)
     }
   },[coldRoomStore.spareParts])
+
+  useEffect(() => {
+    return async() => {
+      let thoseACs = coldRoomStore.AC.filter(AC => AC.project_id == id)
+      setACs(thoseACs)
+    }
+  },[coldRoomStore.AC])
 
   function sendMail() {
     const payload = {
@@ -245,6 +266,22 @@ export const ProjectEdit = observer(() => {
             </Card>
           </Modal>
           <Modal
+            open={openAC}
+            onClose={handleCloseAC}
+            aria-labelledby="sending-form"
+            aria-describedby="sending-project-form"
+          >
+            <Card style={newElementModalStyle}>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseAC()}}>
+                <CloseIcon />
+              </Button>
+              <SoftTypography variant="h4" textAlign='center' mt={1}>
+                Ajout d'une pièce à climatiser
+              </SoftTypography>
+              <NewAirConditionning project={project.id} handleCloseAC={handleCloseAC}/>
+            </Card>
+          </Modal>
+          <Modal
             open={openSparePart}
             onClose={handleCloseSparePart}
             aria-labelledby="sending-form"
@@ -332,10 +369,17 @@ export const ProjectEdit = observer(() => {
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={4}>
-              <OutlinedCard 
+                <OutlinedCard 
                   image={addSP}
                   text='Ajouter pièce détachée'
                   action={handleOpenSparePart}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} lg={4}>
+                <OutlinedCard 
+                  image={addAC}
+                  text='Ajouter une pièce à climatiser'
+                  action={handleOpenAC}
                 />
               </Grid>
             </Grid>
@@ -343,11 +387,12 @@ export const ProjectEdit = observer(() => {
           </Card>
           <Grid container spacing={2} justifyContent='center' alignItems='start'>
             <Grid item sm={12} md={4}>
-              <ColdRoomsList coldRooms={coldRooms} handleOpenColdRoom={handleOpenColdRoom}/>
-              <SparePartsList spareParts={spareParts} handleOpenSparePart={handleOpenSparePart}/>
+              <ColdRoomsList coldRooms={coldRooms}/>
+              <SparePartsList spareParts={spareParts}/>
+              <ACList ACs={ACs}/>
             </Grid>
             <Grid item sm={12} md={8}>
-              <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails} spareParts={spareParts}/> 
+              <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails} spareParts={spareParts} ACs={ACs}/> 
             </Grid>
           </Grid>
         </DashboardLayout>

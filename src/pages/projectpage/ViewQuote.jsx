@@ -108,7 +108,7 @@ const ViewQuote = observer(() => {
             <SoftTypography variant="h4" mb={-2} mt={3}>
               Rappel du projet:
             </SoftTypography>
-              <Previews project={projectStore.response.project} coldRooms={projectStore.response.cold_rooms} user={userStore.user} profile={userProfileStore.profileDetails}/> 
+              <Previews project={projectStore.response.project} coldRooms={projectStore.response.cold_rooms} user={userStore.user} profile={userProfileStore.profileDetails} spareParts={projectStore.response.spare_parts} ACs={projectStore.response.air_conditionnings}/> 
             </Grid>
         </SoftBox>
       :
