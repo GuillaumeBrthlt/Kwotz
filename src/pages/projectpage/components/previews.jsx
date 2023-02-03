@@ -25,8 +25,9 @@ import { observer } from "mobx-react-lite";
 import ColdRoomDetails from "@pages/projectpage/components/ColdRoomDetails";
 import { useRef } from "react";
 import SparePartDetails from "@pages/projectpage/components/SparePartDetails";
+import ACDetails from "./ACDetails";
 
-export const Previews = observer(({profile, project, coldRooms, user, date, spareParts}) => {
+export const Previews = observer(({profile, project, coldRooms, user, date, spareParts, ACs}) => {
   const componentRef = useRef()
 
   const handlePrint = useReactToPrint({
@@ -138,7 +139,7 @@ export const Previews = observer(({profile, project, coldRooms, user, date, spar
                         </SoftBox>
                       </SoftBox>
                     </Grid>
-                    <Grid item xs={12} mt={3} display="flex" alignItems="flex-end" sx={coldRooms ? {} : {display:'none'}}>
+                    <Grid item xs={12} mt={3} display="flex" alignItems="flex-end" sx={coldRooms.length > 0 ? {} : {display:'none'}}>
                       <SoftTypography variant="h6" color="secondary" fontWeight="medium">
                         Nombre de chambres froides: 
                       </SoftTypography>
@@ -146,12 +147,20 @@ export const Previews = observer(({profile, project, coldRooms, user, date, spar
                         {coldRooms ? coldRooms.length : ''}
                       </SoftTypography>
                     </Grid>
-                    <Grid item xs={12} display="flex" alignItems="flex-end" sx={spareParts ? {} : {display:'none'}}>
+                    <Grid item xs={12} display="flex" alignItems="flex-end" sx={spareParts.length > 0 ? {} : {display:'none'}}>
                       <SoftTypography variant="h6" color="secondary" fontWeight="medium">
                         Nombre de pièces détachées: 
                       </SoftTypography>
                       <SoftTypography variant="h5" fontWeight="medium" marginLeft={1}>
                         {spareParts ? spareParts.length : ''}
+                      </SoftTypography>
+                    </Grid>
+                    <Grid item xs={12} display="flex" alignItems="flex-end" sx={ACs.length > 0 ? {} : {display:'none'}}>
+                      <SoftTypography variant="h6" color="secondary" fontWeight="medium">
+                        Nombre de pièces à climatiser: 
+                      </SoftTypography>
+                      <SoftTypography variant="h5" fontWeight="medium" marginLeft={1}>
+                        {ACs ? ACs.length : ''}
                       </SoftTypography>
                     </Grid>
                   </Grid>
@@ -161,6 +170,9 @@ export const Previews = observer(({profile, project, coldRooms, user, date, spar
               {/* Invoice content */}
               <SoftBox p={3} sx={coldRooms ? {} : {display:'none'}}>
                 {coldRooms ? coldRooms.map(coldRoom => <ColdRoomDetails key={coldRoom.id} coldRoom={coldRoom}/>) : ''}
+              </SoftBox>
+              <SoftBox p={3} sx={ACs ? {} : {display:'none'}}>
+                {ACs ? ACs.map(AC => <ACDetails key={AC.id} AC={AC}/>) : ''}
               </SoftBox>
               <SoftBox p={3} sx={spareParts ? {} : {display:'none'}}>
                 <SoftTypography variant='h4' >

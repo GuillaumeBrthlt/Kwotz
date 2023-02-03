@@ -9,6 +9,7 @@ export function createColdRoomStore() {
     hasErrors: null,
     coldRooms: [],
     spareParts: [],
+    AC: [],
 
     async getColdRooms() {
       runInAction(() => {
@@ -39,6 +40,24 @@ export function createColdRoomStore() {
           runInAction(() => {
             this.loading = false
             this.spareParts = response.data
+          })
+        }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+    async getAC() {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios(`${BASE_URL}air_conditionnings`)
+        if (response.data) {
+          runInAction(() => {
+            this.loading = false
+            this.AC = response.data
           })
         }    
       } catch(error) {
@@ -96,6 +115,31 @@ export function createColdRoomStore() {
       }
     },
 
+    async createAC(payload) {
+
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      
+      try {
+        let response = await axios.post(`${BASE_URL}air_conditionnings`, payload);
+        if (response.status == 201) {
+          runInAction (() => {
+            this.loading = false
+            this.getAC()
+          })
+        } else {
+          throw new Error('informations non valides')
+        }  
+      } catch (error) {
+        runInAction (() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      }
+    },
+
     async deleteColdRoom(id) {
       
       runInAction (() => {
@@ -134,6 +178,31 @@ export function createColdRoomStore() {
           runInAction (() => {
             this.loading = false
             this.getSpareParts()
+        })
+        } else {
+          throw new Error('annonce non supprimée')
+        }  
+      } catch (error) {
+        runInAction (() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      }
+    },
+
+    async deleteAC(id) {
+      
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      
+      try {
+        let response = await axios.delete(`${BASE_URL}air_conditionnings/${id}`);
+        if (response.status == 204) {
+          runInAction (() => {
+            this.loading = false
+            this.getAC()
         })
         } else {
           throw new Error('annonce non supprimée')

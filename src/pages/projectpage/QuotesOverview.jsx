@@ -102,10 +102,10 @@ const QuotesOverview = observer(() => {
   const QuotesTable = {
     columns: [
       { Header: "lu / non lu", accessor: "read" },
-      { Header: "Date de réception", accessor: "updated_at" },
-      { Header: "Date d'envoi", accessor: "created_at" },
       { Header: "Nom du projet", accessor: "name" },
       { Header: "envoyé à", accessor: "email" },
+      { Header: "Date de réception", accessor: "updated_at" },
+      { Header: "Date d'envoi", accessor: "created_at" },
       { Header: "Actions", accessor: "actions" },
     ],
   
@@ -153,6 +153,7 @@ const QuotesOverview = observer(() => {
               profile={userProfileStore.profileDetails}
               date={consultationToPreview ? consultationToPreview.created_at : ''}
               spareParts={consultationToPreview ? consultationToPreview.spare_parts : ''}
+              ACs={consultationToPreview ? consultationToPreview.air_conditionnings : ''}
             />
           </Card>
         </Modal>

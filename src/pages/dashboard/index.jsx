@@ -66,7 +66,7 @@ const Dashboard = observer(() => {
   function handleProjectStatus(status) {
     switch (status) {
       case "sent":
-        return <SoftTypography color='success' fontWeight="medium" variant="body2">Envoyé en consultation</SoftTypography>
+        return <SoftTypography color='success' fontWeight="medium" variant="body2">Envoyé</SoftTypography>
       case "pending":
         return <SoftTypography color='error' fontWeight="medium" variant="body2">Sauvegardé</SoftTypography>
     }
@@ -77,7 +77,7 @@ const Dashboard = observer(() => {
       case true:
         return <SoftTypography color='success' fontWeight="medium" variant="body2">devis reçu</SoftTypography>
       case false:
-        return <SoftTypography color='error' fontWeight="regular" variant="body2">En attente de réception</SoftTypography>
+        return <SoftTypography color='error' fontWeight="regular" variant="body2">En attente</SoftTypography>
     }
   }
 
@@ -205,8 +205,16 @@ const Dashboard = observer(() => {
       ({
       company: companyAvatar(contact),
       name: `${contact.first_name} ${contact.last_name}`,
-      email: <ExternalLink href={`mailto:${contact.email}`}>{contact.email}</ExternalLink>,
-      phone: <ExternalLink href={`tel:${contact.phone}`}>{contact.phone}</ExternalLink>,
+      email: <ExternalLink href={`mailto:${contact.email}`}>
+        <SoftTypography variant="body2" fontWeight="bold" color="text">
+          {contact.email}
+        </ SoftTypography>
+      </ExternalLink>,
+      phone: <ExternalLink href={`tel:${contact.phone}`}>
+        <SoftTypography variant="body2" fontWeight="bold" color="text">
+          {contact.phone}
+        </ SoftTypography>
+        </ExternalLink>,
       address: contact.adress,
       city: contact.city ? `${contact.city} (${contact.zipcode})` : ''
       })
@@ -246,7 +254,7 @@ const Dashboard = observer(() => {
             <DefaultCounterCard
               count={nbrSentConsultations}
               title="Réponses attendues"
-              description="demandes de prix non répondues"
+              description="demandes de prix sans réponse"
               color="error"
             />
           </Grid>
