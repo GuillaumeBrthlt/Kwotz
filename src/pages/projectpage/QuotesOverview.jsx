@@ -103,9 +103,9 @@ const QuotesOverview = observer(() => {
     columns: [
       { Header: "lu / non lu", accessor: "read" },
       { Header: "Nom du projet", accessor: "name" },
-      { Header: "envoyé à", accessor: "email" },
-      { Header: "Date de réception", accessor: "updated_at" },
+      { Header: "Destinataire", accessor: "email" },
       { Header: "Date d'envoi", accessor: "created_at" },
+      { Header: "Date de réception", accessor: "updated_at" },
       { Header: "Actions", accessor: "actions" },
     ],
   

@@ -388,8 +388,8 @@ export const ProjectEdit = observer(() => {
           <Grid container spacing={2} justifyContent='center' alignItems='start'>
             <Grid item sm={12} md={4}>
               <ColdRoomsList coldRooms={coldRooms}/>
-              <SparePartsList spareParts={spareParts}/>
               <ACList ACs={ACs}/>
+              <SparePartsList spareParts={spareParts}/>
             </Grid>
             <Grid item sm={12} md={8}>
               <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails} spareParts={spareParts} ACs={ACs}/> 

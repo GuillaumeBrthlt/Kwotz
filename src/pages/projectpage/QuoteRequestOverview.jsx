@@ -131,10 +131,10 @@ const QuoteRequestOverview = observer(() => {
 
   const ArchivedConsultationsTable = {
     columns: [
-      { Header: "Date d'envoi", accessor: "created_at" },
       { Header: "nom du projet", accessor: "name" },
-      { Header: "Destinataire", accessor: "sent_to" },
       { Header: "statut", accessor: "status" },
+      { Header: "Destinataire", accessor: "sent_to" },
+      { Header: "Date d'envoi", accessor: "created_at" },
       { Header: "Actions", accessor: "action" }
     ],
   

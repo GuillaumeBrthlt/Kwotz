@@ -17,7 +17,7 @@ const form = {
     current_type: {
       name: "current_type",
       type:"number",
-      label:"Régime électrique",
+      label:"Alimentation électrique",
       errorMsg: "Vous devez choisir une option",
     },
     inside_unit_type: {

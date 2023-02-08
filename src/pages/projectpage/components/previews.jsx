@@ -175,7 +175,7 @@ export const Previews = observer(({profile, project, coldRooms, user, date, spar
                 {ACs ? ACs.map(AC => <ACDetails key={AC.id} AC={AC}/>) : ''}
               </SoftBox>
               <SoftBox p={3} sx={spareParts ? {} : {display:'none'}}>
-                <SoftTypography variant='h4' >
+                <SoftTypography variant='h4' sx={spareParts && spareParts.length > 0 ? {} : {display:"none"}}>
                   Pièces détachées
                 </SoftTypography>
                 {spareParts ? spareParts.map(sparePart => <SparePartDetails key={sparePart.id} sparePart={sparePart}/>) : ''}

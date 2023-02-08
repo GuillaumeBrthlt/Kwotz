@@ -22,14 +22,9 @@ import {Divider} from "@mui/material";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-import SoftInput from "@components/SoftInput"
 
 // NewProduct page components
 import FormField from "@components/NewColdRoom/components/FormField";
-import { Field, ErrorMessage } from "formik";
-import { Select } from "@mui/material";
-import {MenuItem} from "@mui/material";
-
 
 function GeneralInfo({ formData }) {
   const { formField, values, errors, touched } = formData;

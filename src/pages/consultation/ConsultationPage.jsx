@@ -135,7 +135,7 @@ const  ConsultationPage = observer(() => {
           coldRooms={projectStore.consultation.cold_rooms}
           date={projectStore.consultation.created_at}
           spareParts={projectStore.consultation.spare_parts}
-          ACs={projectStore.consultation.AC}
+          ACs={projectStore.consultation.air_conditionnings}
         />
       </Grid>
       <Modal

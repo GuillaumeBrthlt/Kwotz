@@ -54,7 +54,7 @@ function DataTable({
   const data = useMemo(() => table.rows, [table]);
 
   const tableInstance = useTable(
-    { columns, data, initialState: { pageIndex: 0, sortBy: [{id: "created_at", desc: true}] } },
+    { columns, data, initialState: { pageIndex: 0, sortBy: [{id: "created_atSort", desc: true}] } },
     useGlobalFilter,
     useSortBy,
     usePagination
