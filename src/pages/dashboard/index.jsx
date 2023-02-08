@@ -131,7 +131,7 @@ const Dashboard = observer(() => {
     ],
   
     rows: 
-    projectStore.projects.map((project) => 
+    projectStore.projects.filter(project => project.status != "archived").map((project) => 
       ({
       name: project.name,
       created_at: new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),

@@ -36,9 +36,18 @@ export default function ColdRoomDetails({ coldRoom }) {
 
   return (
     <Grid>
-      <SoftTypography variant='h4' mt={2} mb={1}>
-        {coldRoom.name}
-      </SoftTypography>
+      <Grid container mt={2} mb={1}>
+        <Grid>
+          <SoftTypography variant='h4' color="text">
+            Chambre froide:
+          </SoftTypography> 
+        </Grid>
+        <Grid>
+          <SoftTypography variant='h4' sx={{marginLeft: 1}}>
+            {coldRoom.name}
+          </SoftTypography> 
+        </Grid>
+      </Grid>
       <SoftTypography variant='h5' color="primary">
         Informations générales
       </SoftTypography>

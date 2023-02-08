@@ -15,7 +15,6 @@ Coded by www.creative-tim.com
 import PropTypes from "prop-types";
 
 import { Grid } from "@mui/material";
-import {Divider} from "@mui/material";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";

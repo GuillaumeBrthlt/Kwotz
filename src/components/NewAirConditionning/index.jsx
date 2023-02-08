@@ -66,8 +66,6 @@ function NewAirConditionning({project, handleCloseAC}) {
   const currentValidation = validations[activeStep];
   const coldRoomStore = useColdRoomStore()
 
-
-  const handleNext = () => setActiveStep(activeStep + 1);
   const handleBack = () => setActiveStep(activeStep - 1);
 
   function handleSubmit(values, actions) {

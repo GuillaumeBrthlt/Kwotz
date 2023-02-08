@@ -174,7 +174,7 @@ const ProjectOverview = observer(() => {
           <EditIcon color="dark" sx={{marginLeft: 2}}/>
         </Link>
         <SendIcon onClick={() => {setProjectToSend(id); handleOpen()}} sx={{marginLeft: 2, cursor:"pointer"}} color="success"/>
-        <DeleteIcon color='error' sx={{marginLeft: 2, cursor:"pointer"}} onClick={() => {if(window.confirm("Etes-vous sûr de vouloir archiver ce projet ? vous ne pourrez plus l'envoyer ou le supprimer")){ArchiveProject(id)}}}/>
+        <DeleteIcon color='error' sx={{marginLeft: 2, cursor:"pointer"}} onClick={() => {if(window.confirm("Etes-vous sûr de vouloir archiver ce projet ? vous ne pourrez plus l'envoyer ou le modifier")){ArchiveProject(id)}}}/>
       </SoftTypography>  
     )
   } 
@@ -201,10 +201,12 @@ const ProjectOverview = observer(() => {
     }
   }
 
+
+
   const unarchivedProjectsTable = {
     columns: [
-      { Header: "Date de creation", accessor: "created_at" },
       { Header: "nom du projet", accessor: "name" },
+      { Header: "Date de creation", accessor: "created_at"},
       { Header: "statut", accessor: "status" },
       { Header: "Actions", accessor: "action" }
     ],
@@ -222,17 +224,15 @@ const ProjectOverview = observer(() => {
 
   const ArchivedProjectsTable = {
     columns: [
-      { Header: "Date de creation", accessor: "created_at" },
       { Header: "nom du projet", accessor: "name" },
-      { Header: "nombre de Chambres froides", accessor: "coldRooms" },
-      { Header: "Actions", accessor: "action" }
+      { Header: "Date de creation", accessor: "created_at" },
+      { Header: "Actions", accessor: "action" },
     ],
   
     rows: 
     archivedProjects.map((project) =>
       ({
       name: project.name,
-      coldRooms: project.cold_rooms.length,
       created_at: new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
       action: ArchivedButtons(project.id) 
       })
