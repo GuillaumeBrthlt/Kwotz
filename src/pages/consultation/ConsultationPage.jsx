@@ -30,7 +30,8 @@ import SoftBadgeDot from '@components/SoftBadgeDot'
 import SoftInput from '@components/SoftInput'
 import { useDropzone } from 'react-dropzone'
 import "./ConsultationPage.css"
-import {Modal} from '@mui/material'
+import AnswerLayout from '@pages/consultation/components/AnswerLayout'
+import curved8 from "/assets/images/curved-images/curved8.jpg"
 
 const  ConsultationPage = observer(() => {
   const { id } = useParams()
@@ -39,7 +40,6 @@ const  ConsultationPage = observer(() => {
   const [verified, setVerified] = useState(false)
   const [responseComment, setResponseComment] = useState("");
   const [sent, setSent] = useState(false)
-  const [openSend, setOpenSend] = useState(false)
 
   useEffect(() => {
     projectStore.getConsultation(id)
@@ -77,7 +77,6 @@ const  ConsultationPage = observer(() => {
     />
   ));
 
-
   if (!projectStore.consultation) {
     return (
       <Grid display='flex' height='100vh' justifyContent='center' alignItems='center'>
@@ -85,121 +84,84 @@ const  ConsultationPage = observer(() => {
       </Grid>
     )
   }
-
-  function handleOpenSend() {
-    setSent(false)
-    setOpenSend(true)
-  }
-
-  function handleCloseSend() {
-    setOpenSend(false)
-  }
-
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width:{xs: 350, md:"80%"}
-  };
   
   return (
     <>
       <Grid sx={verified ? {display: 'none'} : {}}>
         <IdentityCheck setVerified={setVerified} verifemail={projectStore.consultation.email} />
       </Grid>
-      <Grid padding={5} sx={verified ? {} : {display: 'none'}} maxWidth='1200px' marginX='auto'>
-        <SoftButton 
-          color="success" 
-          size="medium"
-          onClick={() => {handleOpenSend()}}
-          sx={
-            openSend ? {
-              display: 'none', 
-              bottom: 50,
-              right: 50
-            } : {
-              position: 'fixed',
-              zIndex: 1,
-              bottom: 50,
-              right: 50
-            }
-          }
+      <Grid sx={verified ? {} : {display: 'none'}} marginX='auto'>
+        <AnswerLayout
+          title="Transmettre votre devis"
+          description="Vous trouverez toutes les informations de la demande de prix sur la page se trouvant sous le formulaire de réponse. Votre client sera notifié par mail lorsque votre devis aura été envoyé."
+          image={curved8}
         >
-          Envoyer mon devis
-        </SoftButton>
-        <Previews 
-          profile={projectStore.consultation.user_profile} 
-          user={projectStore.consultation.user} 
-          project={projectStore.consultation.project} 
-          coldRooms={projectStore.consultation.cold_rooms}
-          date={projectStore.consultation.created_at}
-          spareParts={projectStore.consultation.spare_parts}
-          ACs={projectStore.consultation.air_conditionnings}
-        />
-      </Grid>
-      <Modal
-        open={openSend}
-        onClose={handleCloseSend}
-        aria-labelledby="sending-form"
-        aria-describedby="sending-project-form"
-      >
-        <Card style={modalStyle}>
-          <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
-            <SoftBox lineHeight={1}>
-              <SoftTypography variant="h5" fontWeight="medium">
-                Envoyer une réponse
-              </SoftTypography>
-            </SoftBox>
-          </SoftBox>
-          <SoftBox p={3}>
-            <SoftInput
-              multiline
-              rows={5}
-              value={responseComment}
-              onChange={(e) => {setResponseComment(e.target.value)}}
-              placeholder={"Ecrivez un commentaire à joindre a vôtre devis"}
-              disabled={sent}
-            >
-            </SoftInput>
-          </SoftBox>
-          <SoftBox>
-            <SoftBox
-              display="flex"
-              flexDirection="column"
-              justifyContent="flex-end"
-              height="100%"
-              padding={3}
-            >
-              <SoftBox mb={1} ml={0.5} mt={3} lineHeight={0} display="inline-block">
-                <SoftTypography component="label" variant="caption" fontWeight="bold">
-                  Envoyez un devis
+          <Card>
+            <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
+              <SoftBox lineHeight={1}>
+                <SoftTypography variant="h5" fontWeight="medium">
+                  Envoyer une réponse
                 </SoftTypography>
               </SoftBox>
-              <section className="container">
-                <div {...getRootProps({ className: 'dropzone' })}>
-                  <input {...getInputProps()} />
-                  <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
-                    Deposer les fichiers à envoyer ici (vous pouvez en selectionner plusieurs).
-                  </SoftTypography>
-                  <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
-                    Seuls les .pdf sont acceptés
-                  </SoftTypography>
-                </div>
-                <aside>
-                <SoftTypography variant="caption" fontWeight="bold">Fichiers à envoyer</SoftTypography>
-                  <ul>{acceptedFileItems}</ul>
-                </aside>
-              </section>
             </SoftBox>
-          </SoftBox>
-          <SoftBox display="flex" justifyContent="flex-end" my={3} mx={3}>
-            <SoftButton variant="gradient" color="info" onClick={(e) => {handleSubmit()}} disabled={sent}>
-              {sent ? 'Réponse envoyée!' : 'Envoyer réponse'}
-            </SoftButton>
-          </SoftBox>
-        </Card>
-      </Modal>
+            <SoftBox p={3}>
+              <SoftInput
+                multiline
+                rows={5}
+                value={responseComment}
+                onChange={(e) => {setResponseComment(e.target.value)}}
+                placeholder={"Écrivez ici un message à joindre à votre devis (facultatif)"}
+                disabled={sent}
+              >
+              </SoftInput>
+            </SoftBox>
+            <SoftBox>
+              <SoftBox
+                display="flex"
+                flexDirection="column"
+                justifyContent="flex-end"
+                height="100%"
+                padding={3}
+              >
+                <SoftBox mb={1} ml={0.5} mt={3} lineHeight={0} display="inline-block">
+                  <SoftTypography component="label" variant="caption" fontWeight="bold">
+                    Envoyez un devis
+                  </SoftTypography>
+                </SoftBox>
+                <section className="container">
+                  <div {...getRootProps({ className: 'dropzone' })}>
+                    <input {...getInputProps()} />
+                    <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
+                      Deposer les fichiers à envoyer ici (vous pouvez en selectionner plusieurs).
+                    </SoftTypography>
+                    <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
+                      Seuls les .pdf sont acceptés
+                    </SoftTypography>
+                  </div>
+                  <aside>
+                  <SoftTypography variant="caption" fontWeight="bold">Fichiers à envoyer</SoftTypography>
+                    <ul>{acceptedFileItems}</ul>
+                  </aside>
+                </section>
+              </SoftBox>
+            </SoftBox>
+            <SoftBox display="flex" justifyContent="flex-end" my={3} mx={3}>
+              <SoftButton variant="gradient" color="info" onClick={(e) => {handleSubmit()}} disabled={sent}>
+                {sent ? 'Réponse envoyée!' : 'Envoyer réponse'}
+              </SoftButton>
+            </SoftBox>
+          </Card>
+          <Previews 
+            profile={projectStore.consultation.user_profile} 
+            user={projectStore.consultation.user} 
+            project={projectStore.consultation.project} 
+            coldRooms={projectStore.consultation.cold_rooms}
+            date={projectStore.consultation.created_at}
+            spareParts={projectStore.consultation.spare_parts}
+            ACs={projectStore.consultation.air_conditionnings}
+          />
+        </AnswerLayout>
+      </Grid>  
     </>
   )
 })

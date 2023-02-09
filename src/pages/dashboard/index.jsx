@@ -58,7 +58,7 @@ const Dashboard = observer(() => {
   }, [])
 
   useEffect(() => {
-    const answeredConsultations = projectStore.consultations.filter(consultation => consultation.response_status)
+    const answeredConsultations = projectStore.consultations.filter(consultation => consultation.response_status && consultation.project.status != "archived")
     setQuotes(answeredConsultations)
   }, [projectStore.consultations])
 
@@ -149,7 +149,7 @@ const Dashboard = observer(() => {
     ],
   
     rows: 
-    projectStore.consultations.map((consultation) => 
+    projectStore.consultations.filter(consultation => consultation.project.status != "archived").map((consultation) => 
       ({
       name: consultation.project.name,
       created_at: new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
