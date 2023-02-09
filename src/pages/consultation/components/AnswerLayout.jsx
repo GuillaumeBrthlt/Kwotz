@@ -36,12 +36,12 @@ function AnswerLayout ({ title, description, image, children }) {
     <PageLayout>
       <SoftBox
         width="calc(100% - 2rem)"
-        minHeight="50vh"
+        minHeight="10vh"
         borderRadius="lg"
         mx={2}
         my={2}
         pt={6}
-        pb={28}
+        pb={25}
         sx={{
           backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
             image &&
@@ -55,7 +55,7 @@ function AnswerLayout ({ title, description, image, children }) {
         }}
       >
         <Grid container spacing={3} justifyContent="center" sx={{ textAlign: "center" }}>
-          <Grid item xs={10} lg={4}>
+          <Grid item xs={10} lg={6}>
             <SoftBox mt={6} mb={1}>
               <SoftTypography variant="h1" color="white" fontWeight="bold">
                 {title}

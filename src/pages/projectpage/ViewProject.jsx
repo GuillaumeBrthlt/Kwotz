@@ -87,8 +87,8 @@ export const ProjectView = observer(() => {
         <Sidenav />
         <DashboardLayout>
           <Header title={`Détails du projet: ${project.name}`}/>
-          <Grid container spacing={2} justifyContent='center' alignItems='start'>
-            <Grid item sm={12} >
+          <Grid container spacing={2} justifyContent='center'>
+            <Grid item xs={12} >
               <QuoteResponse project={project} />
             </Grid>
             <Grid item sm={12}>

@@ -9,9 +9,6 @@ import SoftTypography from "@components/SoftTypography";
 import SoftButton from '@components/SoftButton';
 
 import { Link } from 'react-router-dom';
-import { Grid } from '@mui/material';
-
-import Document from '@theme/Icons/Document';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
@@ -47,7 +44,7 @@ const QuoteResponse = observer(({project}) => {
       return (
         <SoftTypography variant="body2">
           <Link to={link}>
-            <VisibilityIcon color="dark"/>
+            <SoftButton color="success" variant="gradient">Voir Devis</SoftButton>
           </Link>
         </SoftTypography>  
       )
@@ -56,10 +53,10 @@ const QuoteResponse = observer(({project}) => {
 
   const ConsultationsTable = {
     columns: [
-      { Header: "Date d'envoi", accessor: "created_at" },
+      { Header: "Actions", accessor: "action" },
       { Header: "Destinataire", accessor: "sent_to" },
       { Header: "statut", accessor: "status" },
-      { Header: "Actions", accessor: "action" }
+      { Header: "Date d'envoi", accessor: "created_at" }
     ],
   
     rows: 

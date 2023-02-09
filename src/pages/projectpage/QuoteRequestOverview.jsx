@@ -82,14 +82,14 @@ const QuoteRequestOverview = observer(() => {
       <>
         <SoftButton variant="gradient" color="info" size="small" onClick={() => {handleOpen(consultation);}}>
           <VisibilityIcon sx={{marginRight: 1}}/>
-          aperçu projet
+          projet
         </SoftButton>
         {
           response_status ?
             <Link to={`/projects/response/${consultationId}`}>
               <SoftButton variant="gradient" color="success" size="small" sx={{marginLeft: 2}}>
                 <VisibilityIcon sx={{marginRight: 1}}/>
-                Voir le devis
+                devis
               </SoftButton>
             </Link>
           :
@@ -145,7 +145,7 @@ const QuoteRequestOverview = observer(() => {
       created_at: new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
       sent_to: consultation.email,
       status: handleProjectStatus(consultation.response_status),
-      action: Buttons(consultation.project.id, consultation.response_status) 
+      action: Buttons(consultation, consultation.response_status, consultation.id) 
       })
     ),
   };
