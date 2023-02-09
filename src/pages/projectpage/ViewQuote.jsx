@@ -10,9 +10,6 @@ import Sidenav from '@components/navbars/Sidenav';
 import DashboardLayout from '@components/LayoutContainers/DashboardLayout';
 
 import { Grid } from '@mui/material';
-import { Link } from '@mui/material';
-
-import Document from '@theme/Icons/Document';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -23,6 +20,12 @@ import { useUserStore } from '@contexts/UserContext';
 import { useUserProfileStore } from '@contexts/UserProfileContext';
 import SoftButton from '@components/SoftButton';
 import { useNavigate } from 'react-router-dom';
+
+import { Viewer } from '@react-pdf-viewer/core';
+import { Worker } from '@react-pdf-viewer/core';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import '@react-pdf-viewer/core/lib/styles/index.css';
 
 const ViewQuote = observer(() => {
   const {consultationID} = useParams()
@@ -37,12 +40,15 @@ const ViewQuote = observer(() => {
    userProfileStore.getProfileDetails(userStore.user.id)
   }, [])
 
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   useEffect(() => {
     if (projectStore.consultations.length > 0) {
       projectStore.setResponse(consultationID)
     }
   }, [projectStore.consultations])
+
+
 
   return ( 
     <>
@@ -82,17 +88,26 @@ const ViewQuote = observer(() => {
                   </SoftBox>
                   {projectStore.response.document_url ? 
                   <SoftBox  pt={2} px={1}>
-                    <SoftTypography variant="h5" fontWeight="bold" mb={2}>
+                    <SoftTypography variant="h5" fontWeight="bold" mb={5}>
                       Voir pièce(s) jointe(s):
                     </SoftTypography>
-                    <Grid display='flex' flexDirection="column" rowSpacing={2} width={200}>
+                    <Grid container spacing={2} justifyContent='center'>
                       {projectStore.response.document_url.map(document => {
                         return (
-                          <SoftButton variant="outlined" color="dark" size="small" key={document}>
-                            <Link rel="noopener noreferrer" target="_blank" href={document} variant="body2">
-                              <Document /> Ouvrir
-                            </Link>
-                          </SoftButton>
+                          <Grid 
+                            item 
+                            md={10} 
+                            sx={{
+                              height: '750px',
+                            }}
+                            key={document}
+                          >
+                            <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.3.122/build/pdf.worker.min.js'>
+                              <Viewer 
+                                fileUrl={document} 
+                              />
+                            </Worker>
+                          </Grid>
                         )
                       })}
                     </Grid>

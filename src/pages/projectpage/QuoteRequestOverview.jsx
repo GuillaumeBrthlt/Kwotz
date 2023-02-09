@@ -145,7 +145,7 @@ const QuoteRequestOverview = observer(() => {
       created_at: new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
       sent_to: consultation.email,
       status: handleProjectStatus(consultation.response_status),
-      action: Buttons(consultation.project.id, consultation.response_status) 
+      action: Buttons(consultation, consultation.response_status, consultation.id) 
       })
     ),
   };
