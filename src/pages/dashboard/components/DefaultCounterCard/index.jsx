@@ -28,7 +28,7 @@ import SoftTypography from "@components/SoftTypography";
 
 function DefaultCounterCard({ color, count, title, description, prefix, suffix }) {
   return (
-    <Card sx={{height: '100%' }}>
+    <Card>
       <SoftBox p={3} textAlign="center" lineHeight={1.25}>
         <SoftTypography variant="h1" color={color} fontWeight="bold" textGradient>
           {prefix && (

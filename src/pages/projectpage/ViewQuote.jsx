@@ -23,8 +23,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { Viewer } from '@react-pdf-viewer/core';
 import { Worker } from '@react-pdf-viewer/core';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { toolbarPlugin } from '@react-pdf-viewer/toolbar';
+import { ToolbarSlot, TransformToolbarSlot } from '@react-pdf-viewer/toolbar';
+
+import '@react-pdf-viewer/toolbar/lib/styles/index.css';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 
 const ViewQuote = observer(() => {
@@ -40,7 +42,15 @@ const ViewQuote = observer(() => {
    userProfileStore.getProfileDetails(userStore.user.id)
   }, [])
 
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const toolbarPluginInstance = toolbarPlugin();
+  const { renderDefaultToolbar, Toolbar } = toolbarPluginInstance;
+
+  const transform = (slot) => ({
+      ...slot,
+      // These slots will be empty
+      Open: () => null,
+      SwitchTheme: () => null,
+  });
 
   useEffect(() => {
     if (projectStore.consultations.length > 0) {
@@ -70,10 +80,7 @@ const ViewQuote = observer(() => {
                   <SoftTypography variant="h5" fontWeight="medium" color="primary">
                     Devis reçu de la part de {projectStore.response.email}
                   </SoftTypography>
-                  <SoftBox p={1} mt={2}>
-                    <SoftTypography variant="h5" fontWeight="bold" color="dark" mb={2}>
-                      Message du fournisseur:
-                    </SoftTypography>    
+                  <SoftBox p={1} mt={2}>    
                     <SoftBox
                       bgColor="light"
                       borderRadius="lg"
@@ -81,30 +88,36 @@ const ViewQuote = observer(() => {
                       p={2}
                       lineHeight={1}
                     >
+                      <SoftTypography variant="h5" fontWeight="bold" color="dark" mb={2}>
+                        Message du fournisseur:
+                      </SoftTypography>
                       <SoftTypography variant="body2" fontWeight="regular" color="dark">
                         {projectStore.response.response_comment}
                       </SoftTypography>
                     </SoftBox>
                   </SoftBox>
                   {projectStore.response.document_url ? 
-                  <SoftBox  pt={2} px={1}>
-                    <SoftTypography variant="h5" fontWeight="bold" mb={5}>
-                      Voir pièce(s) jointe(s):
-                    </SoftTypography>
+                  <SoftBox  pt={2} px={1} mt={1} bgColor="light" borderRadius="lg" sx={{marginX: 1}}>
                     <Grid container spacing={2} justifyContent='center'>
                       {projectStore.response.document_url.map(document => {
                         return (
                           <Grid 
                             item 
+                            xs={12}
                             md={10} 
                             sx={{
-                              height: '750px',
+                              maxHeight: '800px',
+                              paddingBottom: 5,
                             }}
                             key={document}
                           >
+                            <Grid mb={1}>
+                              <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
+                            </Grid>
                             <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.3.122/build/pdf.worker.min.js'>
                               <Viewer 
                                 fileUrl={document} 
+                                plugins={[toolbarPluginInstance]}
                               />
                             </Worker>
                           </Grid>

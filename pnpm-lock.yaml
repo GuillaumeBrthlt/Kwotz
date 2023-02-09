@@ -16,6 +16,7 @@ specifiers:
   '@react-leaflet/core': 2.0.0
   '@react-pdf-viewer/core': 3.11.0
   '@react-pdf-viewer/default-layout': ^3.11.0
+  '@react-pdf-viewer/toolbar': ^3.11.0
   '@testing-library/jest-dom': 5.16.4
   '@testing-library/react': 13.3.0
   '@testing-library/user-event': 14.2.1
@@ -80,6 +81,7 @@ dependencies:
   '@react-leaflet/core': 2.0.0_zklzwh7pdkx5k4fi5tz77jtq6y
   '@react-pdf-viewer/core': 3.11.0_wc2szjqfvtdj4kobnfu3o54b6a
   '@react-pdf-viewer/default-layout': 3.11.0_wc2szjqfvtdj4kobnfu3o54b6a
+  '@react-pdf-viewer/toolbar': 3.11.0_wc2szjqfvtdj4kobnfu3o54b6a
   '@testing-library/jest-dom': 5.16.4
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 14.2.1
