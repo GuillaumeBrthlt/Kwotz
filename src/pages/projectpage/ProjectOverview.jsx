@@ -26,6 +26,7 @@ import SoftTypography from "@components/SoftTypography";
 import SoftButton from "@components/SoftButton";
 import SoftInput from "@components/SoftInput";
 import SoftSelect from "@components/SoftSelect";
+import Cube from "@theme/Icons/Cube";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
@@ -49,6 +50,7 @@ import Sidenav from "@components/navbars/Sidenav";
 import ProjectsHeader from "@pages/projectpage/components/Header/ProjectsHeader";
 import { useState } from "react";
 import { useUserStore } from "@contexts/UserContext";
+import ProjectCard from "@pages/projectpage/components/cards/projectCard";
 
 const ProjectOverview = observer(() => {
   const projectStore = useProjectStore()
@@ -307,6 +309,25 @@ const ProjectOverview = observer(() => {
         </Modal>
         <ProjectsHeader title="MES PROJETS"/>
         <SoftBox my={3}>
+          <Grid container spacing={2}>
+            {unarchivedProjects.map(project => {
+              return (
+                <Grid item xs={12} md={4} key={project.id}>
+                  <ProjectCard 
+                    title={project.name}
+                    dateTime={new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                    projectID={project.id}
+                    action={{
+                      type: "internal",
+                      route: "/somewhere",
+                      color: "success",
+                      label: "voir"
+                    }}
+                  />
+                </Grid>
+              )
+            })}
+          </Grid>
           <Card>
             <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
               <SoftBox lineHeight={1}>

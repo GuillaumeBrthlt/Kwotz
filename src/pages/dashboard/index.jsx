@@ -117,8 +117,8 @@ const Dashboard = observer(() => {
   const ProjectsTable = {
     columns: [
       { Header: "Actions", accessor: "actions" },
-      { Header: "Date de creation", accessor: "created_at" },
       { Header: "Nom du projet", accessor: "name" },
+      { Header: "Date de creation", accessor: "created_at" },
     ],
   
     rows: 
@@ -153,7 +153,7 @@ const Dashboard = observer(() => {
       { Header: "Actions", accessor: "actions" },
       { Header: "Date de réception", accessor: "updated_at" },
       { Header: "Nom du projet", accessor: "name" },
-      { Header: "envoyé à", accessor: "email" },
+      { Header: "De la part de", accessor: "email" },
     ],
   
     rows: 
@@ -230,6 +230,7 @@ const Dashboard = observer(() => {
             bgColor="light"
             variant="gradient"
             borderRadius="lg"
+            shadow="lg"
             mt={2}
             sx={{
               padding: 2
@@ -279,6 +280,7 @@ const Dashboard = observer(() => {
           bgColor="light"
           variant="gradient"
           borderRadius="lg"
+          shadow="lg"
           mt={2}
           sx={{
             padding: 2
@@ -328,6 +330,7 @@ const Dashboard = observer(() => {
           bgColor="light"
           variant="gradient"
           borderRadius="lg"
+          shadow="lg"
           mt={2}
           sx={{
             padding: 2
