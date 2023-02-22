@@ -72,7 +72,7 @@ function ProjectsHeader({ title }) {
           </Grid>
           <Grid item xs={12} md={4} display='flex' justifyContent={{xs: 'center', md:'flex-end'}}>
             <Link to="/projects/new">
-              <SoftButton variant="gradient" color="info" size="small">
+              <SoftButton variant="gradient" color="success" size="small">
                 + nouveau projet
               </SoftButton>
             </Link>

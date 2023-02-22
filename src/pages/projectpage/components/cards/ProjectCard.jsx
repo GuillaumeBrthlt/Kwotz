@@ -22,64 +22,135 @@ import PropTypes from "prop-types";
 // @mui material components
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
+import { Grid } from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import SoftButton from "@components/SoftButton";
 import Cube from "@theme/Icons/Cube";
+import { observer } from "mobx-react-lite";
+import { useProjectStore } from "@contexts/ProjectContext";
 
-function ProjectCard({title, dateTime, action }) {
+// @mui material icons
+import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
+import TimelineItem from "@pages/projectpage/components/timeline/timelineItem";
+import { useState } from "react";
+import { useEffect } from "react";
+
+const ProjectCard = observer(({ project }) => {
+  const projectStore = useProjectStore()
+
+  console.log(project)
+
+  function ArchiveProject(id) {
+    const payload = {
+      project: {
+        status: 'archived'
+      }
+    }
+    projectStore.updateProject(id, payload)
+  }
+
+  const CardButtons = () => {
+    return (
+      <SoftBox display="flex" justifyContent="space-between" alignItems="center">
+        <Grid>
+          <SoftButton
+            component={Link}
+            to={`/projects/view/${project.id}`}
+            variant="gradient"
+            color="info"
+            size="small"
+          >
+            <VisibilityIcon color="light"/>
+          </SoftButton>
+          <SoftButton
+            component={Link}
+            to={`/projects/edit/${project.id}`}
+            variant="gradient"
+            color="dark"
+            size="small"
+            sx={{marginLeft: 2}}
+          >
+            <EditIcon color="light"/>
+          </SoftButton>
+        </Grid>
+        <SoftButton
+          onClick={() => {if(window.confirm("Etes-vous sûr de vouloir archiver ce projet ? vous ne pourrez plus l'envoyer ou le modifier")){ArchiveProject(id)}}}
+          variant="gradient"
+          color="error"
+          size="small"
+        >
+          <DeleteIcon color='light'/>
+        </SoftButton>
+      </SoftBox>
+    )
+  }
 
   return (
-    <Card>
-      <SoftBox p={2}>
-        <SoftBox display="flex" alignItems="center">
-          <Cube size="48px" color="info"/>
-          <SoftBox ml={1} lineHeight={0}>
-            <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
-              {title}
-            </SoftTypography>
-            {dateTime ? (
+    <Card sx={{height: '100%'}}>
+      <SoftBox p={2} display='flex' flexDirection='column' justifyContent='space-between' height='100%'>
+        <Grid>
+          <SoftBox display="flex" alignItems="center">
+            <Cube size="35px" color="primary"/>
+            <SoftBox ml={2} lineHeight={0}>
+              <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+                {project.name}
+              </SoftTypography>
               <SoftTypography
                 variant="caption"
                 fontWeight="regular"
                 color="text"
                 textTransform="capitalize"
               >
-                {dateTime}
+                Créé le {new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' })}
               </SoftTypography>
-            ) : null}
+            </SoftBox>
           </SoftBox>
-        </SoftBox>
-        <Divider />
-        <SoftBox display="flex" justifyContent="space-between" alignItems="center">
-          {action.type === "internal" ? (
-            <SoftButton
-              component={Link}
-              to={action.route}
-              variant="gradient"
-              color={action.color}
-              size="small"
-            >
-              {action.label}
-            </SoftButton>
-          ) : (
-            <SoftButton
-              component="a"
-              href={action.route}
-              variant="gradient"
-              color={action.color}
-              size="small"
-            >
-              {action.label}
-            </SoftButton>
-          )}
-        </SoftBox>
+          <SoftBox my={2}>
+            <SoftTypography variant="body2" color="text" sx={project.cold_rooms && project.cold_rooms.length > 0 ? {} : {display: 'none'}}>
+              chambres froides: {project.cold_rooms ? project.cold_rooms.length : ''}
+            </SoftTypography>
+            <SoftTypography variant="body2" color="text" sx={project.air_conditionnings && project.air_conditionnings.length > 0 ? {} : {display: 'none'}}>
+              pièces à climatiser: {project.air_conditionnings ? project.air_conditionnings.length : ''}
+            </SoftTypography>
+            <SoftTypography variant="body2" color="text" sx={project.spare_parts && project.spare_parts.length > 0 ? {} : {display: 'none'}}>
+              pièces détachées: {project.spare_parts ? project.spare_parts.length : ''}
+            </SoftTypography>
+          </SoftBox>
+          {project.quote_requests.map(consultation => {
+            return (
+              <TimelineItem
+                color="error"
+                icon="send"
+                title="Demande de prix envoyée"
+                description={`à ${consultation.email}`}
+                dateTime={new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                lastItem
+              />
+            )
+          })}
+          <Grid sx={project.quote_requests.length > 0 ? {display: 'none'} : {}}>
+            <TimelineItem
+              color="info"
+              icon="note_add"
+              title="Création du projet"
+              dateTime={new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' })}
+              lastItem
+            />
+          </Grid>
+        </Grid>
+        <Grid>
+          <Divider />
+          {CardButtons()}
+        </Grid> 
       </SoftBox>
     </Card>
   );
-}
+})
 
 // Setting default values for the props of ProjectCard
 ProjectCard.defaultProps = {
@@ -89,24 +160,7 @@ ProjectCard.defaultProps = {
 
 // Typechecking props for the ProjectCard
 ProjectCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  dateTime: PropTypes.string,
   members: PropTypes.arrayOf(PropTypes.object),
-  action: PropTypes.shape({
-    type: PropTypes.oneOf(["enternal", "internal"]).isRequired,
-    route: PropTypes.string.isRequired,
-    color: PropTypes.oneOf([
-      "primary",
-      "secondary",
-      "info",
-      "success",
-      "warning",
-      "error",
-      "dark",
-      "light",
-    ]).isRequired,
-    label: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default ProjectCard;
