@@ -67,7 +67,6 @@ function Footer({ company, links }) {
             &nbsp;{name}&nbsp;
           </SoftTypography>
         </Link>
-        for their final project.
       </SoftBox>
       <SoftBox
         component="ul"
@@ -94,11 +93,8 @@ function Footer({ company, links }) {
 
 // Setting default values for the props of Footer
 Footer.defaultProps = {
-  company: { href: "https://github.com/GuillaumeBrthlt/kwotz-beta", name: "A great Team" },
-  links: [
-    { href: "https://github.com/GuillaumeBrthlt/kwotz-beta", name: "Repository Frontend" },
-    { href: "https://github.com/GuillaumeBrthlt/kwotz-beta-api", name: "Repository Backend" },
-  ],
+  company: { href: "https://www.myportfolio-gb.com/", name: "GB Webtech" },
+  links: [],
 };
 
 // Typechecking props for the Footer

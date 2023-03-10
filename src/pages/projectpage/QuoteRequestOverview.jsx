@@ -16,11 +16,13 @@ Coded by www.creative-tim.com
 // @mui material components
 import Card from "@mui/material/Card";
 import { Modal } from "@mui/material";
+import { Grid } from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import SoftButton from "@components/SoftButton";
+import SoftInput from "@components/SoftInput";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
@@ -41,6 +43,7 @@ import { useUserProfileStore } from "@contexts/UserProfileContext";
 import { Previews } from "@pages/projectpage/components/previews";
 import CloseIcon from '@mui/icons-material/Close';
 import {Button} from "@mui/material";
+import ConsultationCard from "@pages/projectpage/components/cards/ConsultationCard";
 
 const QuoteRequestOverview = observer(() => {
   const projectStore = useProjectStore()
@@ -108,26 +111,10 @@ const QuoteRequestOverview = observer(() => {
     }
   }
 
-  const unarchivedConsultationsTable = {
-    columns: [
-      { Header: "nom du projet", accessor: "name" },
-      { Header: "statut", accessor: "status" },
-      { Header: "Destinataire", accessor: "sent_to" },
-      { Header: "Date d'envoi", accessor: "created_at" },
-      { Header: "Actions", accessor: "action" }
-    ],
-  
-    rows: 
-    unarchivedConsultations.map((consultation) =>
-      ({
-      name: consultation.project.name,
-      created_at: new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
-      sent_to: consultation.email,
-      status: handleProjectStatus(consultation.response_status),
-      action: Buttons(consultation, consultation.response_status, consultation.id) 
-      })
-    ),
-  };
+  const FilterConsultation = (value) => {
+    let filteredConsultations = projectStore.consultations.filter(consultation => consultation.project.status != "archived" && consultation.project.name.toLowerCase().includes(value.toLowerCase()))
+    setUnarchivedConsultations(filteredConsultations)
+  }
 
   const ArchivedConsultationsTable = {
     columns: [
@@ -187,26 +174,27 @@ const QuoteRequestOverview = observer(() => {
         </Modal>
         <QuoteRequestsHeader title="MES DEMANDES DE PRIX"/>
         <SoftBox my={3}>
-          <Card>
-            <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
-              <SoftBox lineHeight={1}>
-                <SoftTypography variant="h5" fontWeight="medium">
-                  Mes demandes de prix
-                </SoftTypography>
-                <SoftTypography variant="button" fontWeight="regular" color="text">
-                  Liste complète des projets qui n'ont pas été archivés
-                </SoftTypography>
-              </SoftBox>
-            </SoftBox>
-            <DataTable
-              table={unarchivedConsultationsTable}
-              entriesPerPage={{
-                defaultValue: 5,
-                entries: [5, 10, 25],
-              }}
-              canSearch
-            />
-          </Card>
+          <Grid container spacing={3} mb={6} mt={2} justifyContent="center">
+            <Grid item xs={12} md={5}>
+              <SoftInput 
+                width='100%'
+                placeholder='Rechercher par nom de projet...'
+                onChange={(e) => FilterConsultation(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={3} rowSpacing={5} mb={5}>
+            {unarchivedConsultations.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map(consultation => {
+              return (
+                <Grid item xs={12} md={4} key={consultation.id}>
+                  <ConsultationCard 
+                    consultation={consultation}
+                    handleOpen={handleOpen}
+                  />
+                </Grid>
+              )
+            })}
+          </Grid>
         </SoftBox>
         <SoftBox my={3}>
           <Card>

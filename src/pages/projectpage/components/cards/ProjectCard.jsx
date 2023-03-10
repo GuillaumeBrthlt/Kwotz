@@ -37,13 +37,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import TimelineItem from "@pages/projectpage/components/timeline/timelineItem";
-import { useState } from "react";
-import { useEffect } from "react";
 
 const ProjectCard = observer(({ project }) => {
   const projectStore = useProjectStore()
-
-  console.log(project)
 
   function ArchiveProject(id) {
     const payload = {
@@ -90,6 +86,12 @@ const ProjectCard = observer(({ project }) => {
     )
   }
 
+  const consultations = project.quote_requests
+
+  const responded_consultations = consultations.filter(consultation => consultation.response_status)
+
+  const last = responded_consultations.sort((a, b) => new Date(b.received_at) - new Date(a.received_at))[0]
+
   return (
     <Card sx={{height: '100%'}}>
       <SoftBox p={2} display='flex' flexDirection='column' justifyContent='space-between' height='100%'>
@@ -121,23 +123,26 @@ const ProjectCard = observer(({ project }) => {
               pièces détachées: {project.spare_parts ? project.spare_parts.length : ''}
             </SoftTypography>
           </SoftBox>
-          {project.quote_requests.map(consultation => {
-            return (
-              <TimelineItem
-                color="error"
-                icon="send"
-                title="Demande de prix envoyée"
-                description={`à ${consultation.email}`}
-                dateTime={new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' })}
-                lastItem
-              />
-            )
-          })}
+          <Grid sx={responded_consultations.length > 0 ? {} : {display: 'none'}}>
+            <TimelineItem
+              color="success"
+              icon="check"
+              title={`${responded_consultations.length} devis reçus`}
+            />
+          </Grid>
+          <Grid sx={consultations.length > 0 ? {} : {display: 'none'}}>
+            <TimelineItem
+              color="error"
+              icon="send"
+              title={`${consultations.length} demandes de prix envoyées`}
+              lastItem
+            />
+          </Grid>
           <Grid sx={project.quote_requests.length > 0 ? {display: 'none'} : {}}>
             <TimelineItem
               color="info"
               icon="note_add"
-              title="Création du projet"
+              title="Projet créé"
               dateTime={new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' })}
               lastItem
             />

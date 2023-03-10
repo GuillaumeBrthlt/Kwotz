@@ -15,20 +15,15 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Card from "@mui/material/Card";
-import { Modal, Button} from "@mui/material";
+import { Modal, Button, Grid } from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
-import SoftTypography from "@components/SoftTypography";
-import SoftButton from "@components/SoftButton";
+import SoftInput from "@components/SoftInput";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import DataTable from "@components/Tables/DataTable";
 
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import MarkunreadIcon from '@mui/icons-material/Markunread';
 import CloseIcon from '@mui/icons-material/Close';
 
 // import dataTableData from "@pages/dashboard/data/dataTableData";
@@ -39,9 +34,9 @@ import Sidenav from "@components/navbars/Sidenav";
 import QuoteRequestsHeader from "@pages/projectpage/components/Header/QuoteRequestsHeader";
 import { useState } from "react";
 import { useUserStore } from "@contexts/UserContext";
-import { Link } from "react-router-dom";
 import { Previews } from "@pages/projectpage/components/previews";
 import { useUserProfileStore } from "@contexts/UserProfileContext";
+import ConsultationCard from "./components/cards/ConsultationCard";
 
 const QuotesOverview = observer(() => {
   const projectStore = useProjectStore()
@@ -73,55 +68,7 @@ const QuotesOverview = observer(() => {
     setOpenPreview(false)
   }
 
-  function UnreadConsultation(read) {
-    switch (read) {
-      case true:
-        return <DraftsIcon color="dark" fontSize="medium"/>
-      case false:
-        return <MarkunreadIcon color="success" fontSize="medium"/>
-    }
-  }
-
-  function Buttons(consultation, consultationId) {
-    return (
-      <>
-        <SoftButton variant="gradient" color="info" size="small" onClick={() => {handleOpen(consultation);}}>
-          <VisibilityIcon sx={{marginRight: 1}}/>
-          projet
-        </SoftButton>
-        <Link to={`/projects/response/${consultationId}`}>
-          <SoftButton variant="gradient" color="success" size="small" sx={{marginLeft: 2}}>
-            <VisibilityIcon sx={{marginRight: 1}}/>
-            devis
-          </SoftButton>
-        </Link>
-      </>  
-    )
-  } 
-
-  const QuotesTable = {
-    columns: [
-      { Header: "lu / non lu", accessor: "read" },
-      { Header: "Nom du projet", accessor: "name" },
-      { Header: "Destinataire", accessor: "email" },
-      { Header: "Date d'envoi", accessor: "created_at" },
-      { Header: "Date de réception", accessor: "updated_at" },
-      { Header: "Actions", accessor: "actions" },
-    ],
   
-    rows: 
-    quotes.map((consultation) => 
-      ({
-      read: UnreadConsultation(consultation.read),
-      updated_at: new Date(consultation.received_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
-      name: consultation.project.name,
-      created_at: new Date(consultation.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
-      email: consultation.email,
-      actions: Buttons(consultation, consultation.id)
-      })
-    ),
-  };
-
   const modalStyle = {
     position: 'absolute',
     top: '50%',
@@ -131,6 +78,11 @@ const QuotesOverview = observer(() => {
     height: '90vh',
     overflow: 'auto'
   };
+
+  const FilterConsultation = (value) => {
+    const filteredConsultations = projectStore.consultations.filter(consultation => consultation.response_status && consultation.project.name.toLowerCase().includes(value.toLowerCase()))
+    setQuotes(filteredConsultations)
+  }
 
   return (
     <>
@@ -157,28 +109,29 @@ const QuotesOverview = observer(() => {
             />
           </Card>
         </Modal>
-        <QuoteRequestsHeader title="MES DEMANDES DE PRIX"/>
+        <QuoteRequestsHeader title="MES DEVIS REÇUS"/>
         <SoftBox my={3}>
-          <Card>
-            <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
-              <SoftBox lineHeight={1}>
-                <SoftTypography variant="h5" fontWeight="medium">
-                  Mes devis reçus
-                </SoftTypography>
-                <SoftTypography variant="button" fontWeight="regular" color="text">
-                  Liste complète des devis reçus
-                </SoftTypography>
-              </SoftBox>
-            </SoftBox>
-            <DataTable
-              table={QuotesTable}
-              entriesPerPage={{
-                defaultValue: 5,
-                entries: [5, 10, 25],
-              }}
-              canSearch
-            />
-          </Card>
+          <Grid container spacing={3} mb={6} mt={2} justifyContent="center">
+            <Grid item xs={12} md={5}>
+              <SoftInput 
+                width='100%'
+                placeholder='Rechercher par nom de projet...'
+                onChange={(e) => FilterConsultation(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={3} rowSpacing={5} mb={2}>
+            {quotes.sort((a, b) => new Date(b.received_at) - new Date(a.received_at)).map(quote => {
+              return (
+                <Grid item xs={12} md={4} key={quote.id}>
+                  <ConsultationCard 
+                    consultation={quote}
+                    handleOpen={handleOpen}
+                  />
+                </Grid>
+              )
+            })}
+          </Grid>
         </SoftBox>
       </DashboardLayout>
     </>

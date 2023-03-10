@@ -15,15 +15,17 @@ import SoftTypography from "@components/SoftTypography";
 import { observer } from "mobx-react-lite";
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import Header from "@components/Header";
-import { Grid, Modal } from "@mui/material";
+import { Card, Divider, Grid, Modal } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSupplierStore } from "@contexts/SupplierContext";
 import { useUserStore } from "@contexts/UserContext";
-import DataTable from "@components/Tables/DataTable";
 import {NewContact} from "@components/NewContact"
 import Sidenav from "@components/navbars/Sidenav";
-import {Link} from "@mui/material";
+import { EditSupplier } from "./EditSupplier";
+import SoftInput from "@components/SoftInput";
+import SoftBox from "@components/SoftBox";
+import ContactCard from "@components/ContactCard";
 
 
 
@@ -66,34 +68,10 @@ const SupplierContacts = observer(() => {
     height:'auto'
   };
 
-  const ContactsTable = {
-    columns: [
-      { Header: "nom", accessor: "name" },
-      { Header: "email", accessor: "email" },
-      { Header: "téléphone", accessor: "phone" },
-      { Header: "Adresse", accessor: "address" },
-      { Header: "Ville", accessor: "city" },
-    ],
-  
-    rows: 
-    contacts.map((contact) =>
-      ({
-      name: `${contact.first_name} ${contact.last_name}`,
-      email: <Link href={`mailto:${contact.email}`}>
-        <SoftTypography variant="body2" fontWeight="bold" color="text">
-          {contact.email}
-        </SoftTypography>
-      </Link>,
-      phone: <Link href={`tel:${contact.phone}`}>
-        <SoftTypography variant="body2" fontWeight="bold" color="text">
-          {contact.phone}
-        </SoftTypography>
-      </Link>,
-      address: contact.adress,
-      city: contact.city ? `${contact.city} (${contact.zipcode})` : ''
-      })
-    ),
-  };
+  function FilterContacts(value) {
+    let filteredContacts = supplierStore.contacts.filter(contact => contact.first_name.toLowerCase().includes(value.toLowerCase()) || contact.last_name.toLowerCase().includes(value.toLowerCase()))
+    setContacts(filteredContacts)
+  }
       
   return (
     <>
@@ -110,31 +88,51 @@ const SupplierContacts = observer(() => {
           </Grid>
         </Modal>
         <Header title={supplierStore.details ? supplierStore.details.alias : ''}/>
-        <Grid container justifyContent='center' mt={5}>
-            <SoftButton 
-              variant="gradient" 
-              color="info" 
-              size="medium" 
-              onClick={() => {handleOpenModal()}}
-              sx={
-                openModal ? {display: 'none'} : {}
-              }
-            >
-              + Ajouter un contact
-            </SoftButton>
-          </Grid>
           {newContact ? <NewContact supplier={supplier.id} setNewContact={setNewContact}/> : <></>}
-        
-        <Grid container my={3}>
-          <DataTable
-            table={ContactsTable}
-            entriesPerPage={{
-              defaultValue: 5,
-              entries: [5, 10, 25],
-            }}
-            canSearch
-          />
+        <Grid>
+          <EditSupplier/>
         </Grid>
+        <Card sx={{marginTop: 4}}>
+          <Grid container justifyContent='space-between' alignItems='center'>
+            <Grid item>
+              <SoftTypography mx={4} mt={2} variant="h3" color='text'>
+                Contacts
+              </SoftTypography>
+            </Grid>
+            <Grid item>
+              <SoftButton 
+                variant="gradient" 
+                color="success" 
+                size="large" 
+                onClick={() => {handleOpenModal()}}
+                sx={
+                  openModal ? {display: 'none'} : {marginX: 4, marginTop: 2}
+                }
+              >
+                + Ajouter un contact
+              </SoftButton>
+            </Grid>
+          </Grid>
+          
+          <Grid item my={2} mx={2} xs={10} md={4}>
+            <SoftInput
+              placeholder="Rechercher..."
+              onChange={(e) => FilterContacts(e.target.value)}
+            />
+          </Grid>
+          <Divider />
+          <SoftBox mt={{ xs: 1, lg: 3 }} mb={1}>
+            <Grid item container spacing={2} mb={4} px={2}>
+              {contacts.map(contact => {
+                return (
+                  <Grid item xs={12} md={4} key={contact.id}>
+                    <ContactCard contact={contact} />
+                  </Grid>
+                )
+              })}
+            </Grid>
+          </SoftBox>
+        </Card>
       </DashboardLayout>
     </>
   )

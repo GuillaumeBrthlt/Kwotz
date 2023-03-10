@@ -17,9 +17,6 @@ import { Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Stack from "@mui/material/Stack";
-import {Avatar} from "@mui/material";
-import { Link as ExternalLink } from "@mui/material"
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -31,25 +28,26 @@ import DefaultCounterCard from "@pages/dashboard/components/DefaultCounterCard";
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import DataTable from "@components/Tables/DataTable";
 
-import DraftsIcon from '@mui/icons-material/Drafts';
-import MarkunreadIcon from '@mui/icons-material/Markunread';
-
 // import dataTableData from "@pages/dashboard/data/dataTableData";
 import { observer } from "mobx-react-lite";
 import { useProjectStore } from "../../contexts/ProjectContext";
 import { useEffect } from "react";
 import Sidenav from "@components/navbars/Sidenav";
 import Header from "@components/Header";
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import { useUserStore } from "@contexts/UserContext";
 import { useSupplierStore } from "@contexts/SupplierContext";
 import { useState } from "react";
+import OutlinedCard from "./components/OutlinedCard";
+import ContactCard from "@components/ContactCard";
+import SoftInput from "@components/SoftInput";
 
 const Dashboard = observer(() => {
   const projectStore = useProjectStore()
   const userStore = useUserStore()
   const supplierStore = useSupplierStore()
   const [quotes, setQuotes] = useState([])
+  const [contacts, setContacts] = useState([])
   
   useEffect(() => {
     projectStore.getProjects()
@@ -62,37 +60,12 @@ const Dashboard = observer(() => {
     setQuotes(answeredConsultations)
   }, [projectStore.consultations])
 
+  useEffect(() => {
+    setContacts(supplierStore.contacts)
+  },[supplierStore.contacts])
 
-  function stringToColor(string) {
-    let hash = 0;
-    let i;
-  
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-  
-    let color = '#';
-  
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-    /* eslint-enable no-bitwise */
-  
-    return color;
-  }
 
   
-  function stringAvatar(alias) {
-    const aliasArray = alias.split(' ')
-    return {
-      sx: {
-        bgcolor: stringToColor(alias),
-      },
-      children: `${aliasArray.map(string => string[0]).join('')}`,
-    };
-  }
 
   function CheckQuote(consultationID) {
     return (
@@ -167,59 +140,23 @@ const Dashboard = observer(() => {
     ),
   };
 
-  function companyAvatar(contact) {
-    const company = supplierStore.suppliers.find(supplier => supplier.id == contact.supplier_id).alias
-
-    return (
-      <>
-      <Avatar {...stringAvatar(company)}/>
-      </>
-    )
-  }
-
-  const ContactsTable = {
-    columns: [
-      { Header: "Entreprise", accessor: "company" },
-      { Header: "nom", accessor: "name" },
-      { Header: "email", accessor: "email" },
-      { Header: "téléphone", accessor: "phone" },
-      { Header: "Adresse", accessor: "address" },
-      { Header: "Ville", accessor: "city" },
-    ],
-  
-    rows: 
-    supplierStore.contacts.map((contact) => 
-      ({
-      company: companyAvatar(contact),
-      name: `${contact.first_name} ${contact.last_name}`,
-      email: <ExternalLink href={`mailto:${contact.email}`}>
-        <SoftTypography variant="body2" fontWeight="bold" color="text">
-          {contact.email}
-        </ SoftTypography>
-      </ExternalLink>,
-      phone: <ExternalLink href={`tel:${contact.phone}`}>
-        <SoftTypography variant="body2" fontWeight="bold" color="text">
-          {contact.phone}
-        </ SoftTypography>
-        </ExternalLink>,
-      address: contact.adress,
-      city: contact.city ? `${contact.city} (${contact.zipcode})` : ''
-      })
-    ),
-  };
-
   const nbrSavedProjects = projectStore.projects.filter(project => project.status == "pending").length
 
   const nbrSentConsultations = projectStore.consultations.filter(consultation => consultation.response_status == false && consultation.project.status != "archived").length
 
   const nbrUnreadQuotes = projectStore.consultations.filter(consultation => consultation.response_status == true && !consultation.read).length
 
+  function FilterContacts(value) {
+    let filteredContacts = supplierStore.contacts.filter(contact => contact.first_name.toLowerCase().includes(value.toLowerCase()) || contact.last_name.toLowerCase().includes(value.toLowerCase()))
+    setContacts(filteredContacts)
+  }
+
   return (
     <>
       <Sidenav />
       <DashboardLayout>
         <Header title="MON TABLEAU DE BORD"/>
-        <Grid container mt={2} justifyContent="center">
+        <Grid container mt={4} justifyContent="center">
           <Link to="/projects/new">
             <SoftButton variant="gradient" color="success" size="medium">
               + créer un nouveau projet
@@ -231,18 +168,27 @@ const Dashboard = observer(() => {
             variant="gradient"
             borderRadius="lg"
             shadow="lg"
-            mt={2}
+            mt={4}
             sx={{
               padding: 2
             }}
           >
           <Grid container spacing={3}>   
-            <Grid item xs={12} md={3}>
-              <DefaultCounterCard
-                count={nbrUnreadQuotes}
-                title="devis non lus"
-                color="success"
-              />
+            <Grid item container xs={12} md={3} spacing={3} alignContent="space-between">
+              <Grid item xs={6} md={12} height={{xs: '100%', md: '45%'}}>
+                <DefaultCounterCard
+                  count={nbrUnreadQuotes}
+                  title="devis non lus"
+                  color="success"
+                />
+              </Grid>
+              <Grid item xs={6} md={12} height={{xs: '100%', md: '45%'}}>
+                <Link to='/projects/quotes'>
+                  <OutlinedCard 
+                    text="Mes devis"
+                  />
+                </Link>
+              </Grid>
             </Grid>
             <Grid item xs={12} md={9}>
               <SoftBox sx={{height: '100%'}}>
@@ -256,13 +202,6 @@ const Dashboard = observer(() => {
                         liste des devis que vous n'avez pas encore ouvert
                       </SoftTypography>
                     </SoftBox>
-                    <Stack spacing={2} direction="row">
-                      <Link to="/projects/quotes">
-                        <SoftButton variant="gradient" color="light" size="medium">
-                          mes devis
-                        </SoftButton>
-                      </Link>
-                    </Stack>
                   </SoftBox>
                   <DataTable
                     table={QuotesTable}
@@ -281,18 +220,27 @@ const Dashboard = observer(() => {
           variant="gradient"
           borderRadius="lg"
           shadow="lg"
-          mt={2}
+          mt={4}
           sx={{
             padding: 2
           }}
         >
           <Grid container spacing={3}>
-            <Grid item xs={12} md={3}>
-              <DefaultCounterCard
-                count={nbrSentConsultations}
-                title="Réponses attendues"
-                color="error"
-              />
+            <Grid item container xs={12} md={3} spacing={3} alignContent='space-between'>
+              <Grid item xs={6} md={12} height={{xs: '100%', md: '45%'}}>
+                <DefaultCounterCard
+                  count={nbrSentConsultations}
+                  title="Réponses attendues"
+                  color="error"
+                />
+              </Grid>
+              <Grid item xs={6} md={12} height={{xs: '100%', md: '45%'}}>
+                <Link to='/projects/consultations'>
+                  <OutlinedCard 
+                    text="Mes demandes de prix"
+                  />
+                </Link>
+              </Grid>
             </Grid>
             <Grid item xs={12} md={9}>
               <SoftBox sx={{height: '100%'}}>
@@ -306,13 +254,6 @@ const Dashboard = observer(() => {
                         Demandes de prix sans réponse fournisseur
                       </SoftTypography>
                     </SoftBox>
-                    <Stack spacing={1} direction="row">
-                      <Link to="/projects/consultations">
-                        <SoftButton variant="gradient" color="light" size="medium">
-                          mes demandes de prix
-                        </SoftButton>
-                      </Link>
-                    </Stack>
                   </SoftBox>
                   <DataTable
                     table={ConsultationsTable}
@@ -331,18 +272,27 @@ const Dashboard = observer(() => {
           variant="gradient"
           borderRadius="lg"
           shadow="lg"
-          mt={2}
+          mt={4}
           sx={{
             padding: 2
           }}
         >
           <Grid container spacing={3}> 
-            <Grid item xs={12} md={3}>
-              <DefaultCounterCard
-                count={nbrSavedProjects}
-                title="Projets sauvegardés"
-                color="warning"
-              />
+            <Grid item container xs={12} md={3} spacing={3} alignContent="space-between">
+              <Grid item xs={6} md={12} height={{xs: '100%', md: '45%'}}>
+                <DefaultCounterCard
+                  count={nbrSavedProjects}
+                  title="Projets sauvegardés"
+                  color="primary"
+                />
+              </Grid>
+              <Grid item xs={6} md={12} height={{xs: '100%', md: '45%'}}>
+                <Link to='/projects/all'>
+                  <OutlinedCard 
+                    text="Mes projets"
+                  />
+                </Link>
+              </Grid>
             </Grid>
             <Grid item xs={12} md={9}>
               <SoftBox sx={{height: '100%'}}>
@@ -356,13 +306,6 @@ const Dashboard = observer(() => {
                         liste des projets qui ont été créés mais qui n'ont encore été envoyés à aucun fournisseur
                       </SoftTypography>
                     </SoftBox>
-                    <Stack spacing={2} direction="row">
-                      <Link to="/projects/all">
-                        <SoftButton variant="gradient" color="light" size="medium">
-                          mes projets
-                        </SoftButton>
-                      </Link>
-                    </Stack>
                   </SoftBox>
                   <DataTable
                     table={ProjectsTable}
@@ -376,7 +319,7 @@ const Dashboard = observer(() => {
             </Grid>
           </Grid>
         </SoftBox>
-        <Grid container mt={2}>
+        <Grid container mt={4}>
           <Grid item xs={12} md={12} my={1}>
             <SoftBox sx={{height: '100%'}}>
               <Card sx={{height: '100%'}}>
@@ -386,25 +329,26 @@ const Dashboard = observer(() => {
                       Mon carnet d'adresses
                     </SoftTypography>
                     <SoftTypography variant="button" fontWeight="regular" color="text">
-                      liste de mes contacts
+                      Tous mes contacts
                     </SoftTypography>
                   </SoftBox>
-                  <Stack spacing={1} direction="row">
-                    <Link to="/suppliers">
-                      <SoftButton variant="gradient" color="light" size="medium">
-                        mes contacts
-                      </SoftButton>
-                    </Link>
-                  </Stack>
                 </SoftBox>
-                <DataTable
-                  table={ContactsTable}
-                  entriesPerPage={{
-                    defaultValue: 5,
-                    entries: [5, 10, 25],
-                  }}
-                  canSearch
-                />
+                <Grid item mb={2} mx={2} xs={10} md={4}>
+                  <SoftInput
+                    placeholder="Rechercher..."
+                    onChange={(e) => FilterContacts(e.target.value)}
+                  />
+                </Grid>
+                <Divider />
+                <Grid item container spacing={2} mb={4} px={2}>
+                  {contacts.map(contact => {
+                    return (
+                      <Grid item xs={12} md={4} key={contact.id}>
+                        <ContactCard contact={contact} />
+                      </Grid>
+                    )
+                  })}
+                </Grid>
               </Card>
             </SoftBox>
           </Grid>
