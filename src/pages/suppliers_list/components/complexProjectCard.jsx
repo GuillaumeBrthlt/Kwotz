@@ -50,7 +50,12 @@ function ComplexProjectCard({ supplier, dropdown }) {
   
   return (
     <Card>
-      <SoftBox p={2}>
+      <SoftBox 
+        p={2}
+        borderRadius="xl"
+        shadow="xxl"
+        bgColor='light'
+      >
         <SoftBox display="flex" alignItems="center">
           <Avatar {...stringAvatar(supplier.alias)}/>
           <SoftBox ml={2} lineHeight={0}>

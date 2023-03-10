@@ -27,13 +27,17 @@ function PlaceholderCard({ icon, title, hasBorder, outlined }) {
         textAlign="center"
         height="100%"
         p={3}
+        borderRadius="xl"
+        shadow="xxl"
+        border={`2px dashed darkgrey`}
+        bgColor='light'
       >
-        <SoftBox color="secondary" mb={0.5}>
+        <SoftBox color="text" mb={0.5}>
           <Icon fontSize="default" sx={{ fontWeight: "bold" }}>
             {icon}
           </Icon>
         </SoftBox>
-        <SoftTypography variant={title.variant} color="secondary">
+        <SoftTypography variant={title.variant} color="text">
           {title.text}
         </SoftTypography>
       </SoftBox>

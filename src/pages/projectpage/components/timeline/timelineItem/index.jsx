@@ -109,7 +109,7 @@ TimelineItem.propTypes = {
   ]),
   icon: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
-  dateTime: PropTypes.string.isRequired,
+  dateTime: PropTypes.string,
   description: PropTypes.string,
   badges: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   lastItem: PropTypes.bool,
