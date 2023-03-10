@@ -18,7 +18,7 @@ Coded by www.creative-tim.com
 // @mui material components
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
-import {Avatar, Grid} from "@mui/material";
+import {Avatar, Grid, Modal} from "@mui/material";
 import { Link as ExternalLink } from "@mui/material"
 
 // Soft UI Dashboard PRO React components
@@ -30,9 +30,14 @@ import { Mail } from "@mui/icons-material";
 import SoftButton from "@components/SoftButton";
 import { Delete } from "@mui/icons-material";
 import { Edit } from "@mui/icons-material";
+import { useUserStore } from "@contexts/UserContext";
+import { UpdateContact } from "@components/UpdateContact";
+import { useState } from "react";
 
 function ContactCard({ contact }) {
   const supplierStore = useSupplierStore()
+  const userStore = useUserStore()
+  const [openModal, setOpenModal] = useState(false)
 
   function stringToColor(string) {
     let hash = 0;
@@ -80,8 +85,43 @@ function ContactCard({ contact }) {
   return company
  }
 
+ function DeleteContact() {
+  supplierStore.deleteContact(contact.id, userStore.user.id)
+ }
+
+ function handleOpenModal() {
+  setOpenModal(true)
+}
+
+function handleCloseModal() {
+  setOpenModal(false)
+}
+
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '70%', // A good starting point
+  height:'95vh',
+  overflowY: 'scroll',
+  '@media (max-width: 600px)': {
+    width: '95%', 
+  }
+};
+
   return (
     <Card sx={{height: '100%'}}>
+      <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="sending-form"
+          aria-describedby="sending-project-form"
+        >
+          <Grid sx={modalStyle}>
+            <UpdateContact contact={contact} handleCloseModal={handleCloseModal} />
+          </Grid>
+      </Modal>
       <SoftBox 
         p={3}
         borderRadius="xl"
@@ -154,22 +194,22 @@ function ContactCard({ contact }) {
           </ExternalLink>
         </SoftBox>
         <Divider />
-        <Grid container spacing={2} justifyContent='space-between'>
-          <Grid item xs={6} md={5}>
+        <Grid container spacing={2} justifyContent="space-around">
+          <Grid item xs={6} md={2}>
             <SoftBox mb={1}>
-              <SoftButton sx={{width: '100%'}} color='dark'>
-                <Grid item xs={1} justifySelf='flex-end'>
-                  <Edit />
-                </Grid>
+              <SoftButton sx={{width: '100%'}} color='dark' onClick={() => {handleOpenModal()}}>
+                <Edit />
               </SoftButton>
             </SoftBox>
           </Grid>
-          <Grid item xs={6} md={5}>
+          <Grid item xs={6} md={2}>
             <SoftBox mb={1}>
-              <SoftButton sx={{width: '100%'}} color='error'>
-                <Grid item xs={1} justifySelf='flex-end'>
-                  <Delete />
-                </Grid>
+              <SoftButton 
+                sx={{width: '100%'}} 
+                color='error'
+                onClick={() => {if(window.confirm("Etes-vous sûr de supprimer ce contact ?")){DeleteContact()}}}
+              >
+                <Delete />
               </SoftButton>
             </SoftBox>
           </Grid>

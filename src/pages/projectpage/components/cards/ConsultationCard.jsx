@@ -122,7 +122,7 @@ const ConsultationCard = observer(({ consultation, handleOpen }) => {
             <TimelineItem
               color="success"
               icon="check"
-              title="demande de prix reçue"
+              title="devis reçu"
               dateTime={new Date(consultation.received_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' })}
               lastItem
             />

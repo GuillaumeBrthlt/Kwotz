@@ -33,7 +33,8 @@ function OutlinedCard({text, action}) {
       display="flex"
       flexDirection="column"
       justifyContent="center"
-      bgColor='light'
+      bgColor='info'
+      variant='gradient'
       alignItems="center"
       borderRadius="xl"
       shadow="xxl"
@@ -45,7 +46,7 @@ function OutlinedCard({text, action}) {
     >
       <SoftTypography
         variant="button"
-        color="dark"
+        color="white"
         fontWeight="medium"
         fontSize="large"
       >

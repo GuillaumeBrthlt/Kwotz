@@ -98,6 +98,71 @@ export function createSupplierStore() {
       }
     },
 
+    async updateSupplier(payload, id, userID) {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.put(`${BASE_URL}suppliers/${id}`, payload)
+        let data = await response.data
+        if (data) {
+          runInAction(() => {
+            this.loading = false
+            this.sent = true
+            this.getDetails(userID, id)
+          })
+        }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+    async deleteContact(id, userID) {
+
+      runInAction (() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+
+      try {
+        let response = await axios.delete(`${BASE_URL}supplier_contacts/${id}`);
+        if (response.status == 204) {
+          runInAction (() => {
+            this.loading = false
+            this.getContacts(userID)
+          })
+        } else {
+          throw new Error('annonce non supprimée')
+        }  
+      } catch (error) {
+        runInAction (() => {
+          this.loading = false
+          this.hasErrors = true
+        })
+      }
+    },
+
+    async updateContact(payload, id, userID) {
+      runInAction(() => {
+        this.loading = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.put(`${BASE_URL}supplier_contacts/${id}`, payload)
+        let data = await response.data
+        if (data) {
+          runInAction(() => {
+            this.loading = false
+            this.sent = true
+            this.getContacts(userID)
+          })
+        }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
     async createNewContact(payload, user_id, supplier_id) {
       runInAction (() => {
         this.loading = true

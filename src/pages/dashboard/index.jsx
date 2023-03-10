@@ -80,7 +80,7 @@ const Dashboard = observer(() => {
   function ModifyProject(projectID) {
     return (
       <Link to={`/projects/edit/${projectID}`}>
-        <SoftButton variant="gradient" color="info" size="medium">
+        <SoftButton color="dark" size="medium">
           Modifier
         </SoftButton>
       </Link>
