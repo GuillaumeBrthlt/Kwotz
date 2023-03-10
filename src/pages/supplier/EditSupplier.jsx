@@ -23,7 +23,6 @@ import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
-import { Switch } from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -32,16 +31,16 @@ import SoftInput from "@components/SoftInput";
 import SoftButton from "@components/SoftButton";
 
 // Soft UI Dashboard PRO React example components
-import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import Sidenav from "@components/navbars/Sidenav";
 import { useUserStore } from "@contexts/UserContext";
 import { useEffect } from "react";
+import { Modal } from "@mui/material";
 
-export const EditSupplier = observer(({ supplier }) => {
+export const EditSupplier = observer(() => {
   const [alias, setAlias] = useState("")
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
   const [zipcode, setZipcode] = useState("")
+  const [openModal, setOpenModal] = useState(false)
 
   const supplierStore = useSupplierStore()
   const userStore = useUserStore()
@@ -72,12 +71,57 @@ export const EditSupplier = observer(({ supplier }) => {
   }
 
   const handleSubmit = () => {
-    supplierStore.createSupplier(supplierData, userStore.user.id)
+    supplierStore.updateSupplier(supplierData, supplierStore.details.id, userStore.user.id)
+    handleOpenModal()
   }
+
+  function handleOpenModal() {
+    setOpenModal(true)
+  }
+
+  function handleCloseModal() {
+    setOpenModal(false)
+  }
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '70%', // A good starting point
+    height:'auto',
+    overflowY:'scroll',
+    '@media (max-width: 600px)': {
+      width: '95%', 
+    }
+  };
 
   return (
     <>
       <SoftBox mt={3} mb={4}>
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="sending-form"
+          aria-describedby="sending-project-form"
+        >
+          <Grid sx={modalStyle}>
+            <Card>
+              <SoftTypography textAlign='center' sx={{marginY: 4}}>
+                La modification à bien été prise en compte !
+              </SoftTypography>
+              <SoftButton 
+                width='50%' 
+                color='primary' 
+                variant='gradient' 
+                onClick={() => {handleCloseModal()}} 
+                sx={{mb:2, width: '50%', marginX: 'auto'}}
+              >
+                Fermer
+              </SoftButton>
+            </Card>
+          </Grid>
+        </Modal>
         <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12}>
             <Card sx={{ overflow: "visible" }}>
@@ -141,8 +185,6 @@ export const EditSupplier = observer(({ supplier }) => {
                     />    
                   <SoftBox mb={1} ml={0.5} mt={3} lineHeight={0}>
                     <SoftButton
-                      component={Link}
-                      to="/suppliers"
                       variant="gradient" 
                       color="info"
                       onClick={handleSubmit}

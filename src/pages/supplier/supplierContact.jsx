@@ -64,8 +64,12 @@ const SupplierContacts = observer(() => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width:{xs: 350, md:'60%'},
-    height:'auto'
+    width: '70%', // A good starting point
+    height:'90vh',
+    overflowY:'scroll',
+    '@media (max-width: 600px)': {
+      width: '95%', 
+    }
   };
 
   function FilterContacts(value) {
