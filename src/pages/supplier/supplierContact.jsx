@@ -40,7 +40,7 @@ const SupplierContacts = observer(() => {
     if (supplierStore.suppliers) {
       supplierStore.getDetails(userStore.user.id, id)
     }
-  }, [])
+  }, [supplierStore.contacts])
 
   useEffect(() => {
     if(supplierStore.details) {
