@@ -16,9 +16,6 @@ import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useSupplierStore } from "../../contexts/SupplierContext";
 
-// react-router-dom components
-import { Link } from "react-router-dom";
-
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
