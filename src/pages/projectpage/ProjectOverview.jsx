@@ -21,7 +21,7 @@ import SoftBox from "@components/SoftBox";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import ProjectCard from "@pages/projectpage/components/cards/projectCard";
+import ProjectCard from "@pages/projectpage/components/cards/ProjectCard";
 
 // Data
 // import dataTableData from "@pages/dashboard/data/dataTableData";
@@ -32,11 +32,9 @@ import Sidenav from "@components/navbars/Sidenav";
 import ProjectsHeader from "@pages/projectpage/components/Header/ProjectsHeader";
 import { useState } from "react";
 import SoftInput from "@components/SoftInput";
-import SoftButton from "@components/SoftButton";
 
 const ProjectOverview = observer(() => {
   const projectStore = useProjectStore()
-  const [search, setSearch] = useState('')
   const [unarchivedProjects, setUnarchivedProjects] = useState([])
   
   useEffect(() => {
@@ -51,7 +49,6 @@ const ProjectOverview = observer(() => {
   }, [projectStore.projects])
 
   const FilterProject = (value) => {
-    console.log(search)
     let filteredProjects = projectStore.projects.filter((project) => project.status !== "archived" && project.name.toLowerCase().includes(value.toLowerCase()))
     setUnarchivedProjects(filteredProjects)
   }
