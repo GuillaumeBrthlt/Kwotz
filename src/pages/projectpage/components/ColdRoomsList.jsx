@@ -22,7 +22,7 @@ function ColdRoomsList ({ coldRooms }) {
   function Button({id}) {
     return (
       <SoftButton variant="text" color="error" onClick={() => handleClick(id)}>
-        <DeleteIcon>Supprimer</DeleteIcon>&nbsp;Supprimer
+        <DeleteIcon>Supprimer</DeleteIcon>
       </SoftButton>
     )
   } 
@@ -43,7 +43,7 @@ function ColdRoomsList ({ coldRooms }) {
   };
 
   return (
-    <SoftBox my={3}>
+    <SoftBox my={3} sx={coldRooms.length > 0 ? {} : {display: 'none'}}>
       <Card>
         <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
           <SoftBox lineHeight={1}>

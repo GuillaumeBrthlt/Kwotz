@@ -30,6 +30,9 @@ import ProjectOverview from "@pages/projectpage/ProjectOverview"
 import { ProjectView } from "@pages/projectpage/ViewProject"
 import { Suppliers } from "@pages/suppliers_list/suppliersList";
 import SupplierContacts from "@pages/supplier/supplierContact";
+import QuoteRequestOverview from "@pages/projectpage/QuoteRequestOverview";
+import ViewQuote from "@pages/projectpage/ViewQuote";
+import QuotesOverview from "@pages/projectpage/QuotesOverview";
 
 
 export const App = observer(() => {
@@ -93,18 +96,21 @@ function AppRoutes() {
       {/* Dashboard */}
       <Route path="/dashboard" element={<PrivateRoute component={<Dashboard />}/>}/>
       {/* projects pages */}
-      <Route path="/projects" element={<PrivateRoute component={<ProjectOverview />}/>}/>
+      <Route path="/projects/all" element={<PrivateRoute component={<ProjectOverview />}/>}/>
       <Route path="/projects/new" element={<PrivateRoute component={<NewProject />}/>}/>
       <Route path="/projects/edit/:id" element={<PrivateRoute component={<ProjectEdit />}/>}/>
-      <Route path="/projects/view/:id" element={<PrivateRoute component={<ProjectView />}/>}/>      
+      <Route path="/projects/view/:id" element={<PrivateRoute component={<ProjectView />}/>}/>  
+      <Route path="/projects/consultations" element={<PrivateRoute component={<QuoteRequestOverview/>}/>}/> 
+      <Route path="/projects/quotes" element={<PrivateRoute component={<QuotesOverview/>}/>}/>    
       {/* profile pages */}
-      <Route path="/profile" element={<ProfileOverview />} />
+      <Route path="/profile/myprofile" element={<ProfileOverview />} />
       <Route path="/profile/create" element={<NewUser/>} />
       <Route path="/profile/informations/edit" element={<PrivateRoute component={<EditInformations />}/>}/>
       <Route path="/profile/shipping/edit" element={<PrivateRoute component={<EditShipping />}/>}/>
-      <Route path="/profile/account/edit" element={<PrivateRoute component={<EditPasswordPage/>}/>}/>
+      <Route path="/profile/account" element={<PrivateRoute component={<EditPasswordPage/>}/>}/>
       {/* consultations pages */}
       <Route path="/consultation/:id" element={<ConsultationPage />}/>
+      <Route path="/projects/response/:consultationID" element={<PrivateRoute component={<ViewQuote />}/>}/>
       {/* suppliers pages */}
       <Route path="/suppliers" element={<PrivateRoute component={<Suppliers/>}/>}/>
       <Route path="/suppliers/new" element={<PrivateRoute component={<NewSupplier />}/>}/>

@@ -34,6 +34,7 @@ import SoftButton from "@components/SoftButton";
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
 import Sidenav from "@components/navbars/Sidenav";
+import { useUserStore } from "@contexts/UserContext";
 
 export const NewSupplier = observer(() => {
   const [alias, setAlias] = useState(null)
@@ -43,6 +44,7 @@ export const NewSupplier = observer(() => {
   const [favorite, setFavorite] = useState(false)
 
   const supplierStore = useSupplierStore()
+  const userStore = useUserStore()
 
     const supplierData = {
       "supplier": {
@@ -61,7 +63,7 @@ export const NewSupplier = observer(() => {
   }
 
   const handleSubmit = () => {
-    supplierStore.createSupplier(supplierData)
+    supplierStore.createSupplier(supplierData, userStore.user.id)
   }
 
   return (

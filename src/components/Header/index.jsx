@@ -34,7 +34,7 @@ function Header({ title }) {
         display="flex"
         alignItems="center"
         position="relative"
-        minHeight="10rem"
+        minHeight="5rem"
         borderRadius="xl"
         sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>

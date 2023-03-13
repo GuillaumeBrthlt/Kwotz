@@ -13,20 +13,15 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// react-router-dom components
-import { Link } from "react-router-dom";
-
 // @mui material components
-import Card from "@mui/material/Card";
+import { Grid } from "@mui/material";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
-import SoftTypography from "@components/SoftTypography";
-import SoftButton from "@components/SoftButton";
 
 // Soft UI Dashboard PRO React example components
 import DashboardLayout from "@components/LayoutContainers/DashboardLayout";
-import DataTable from "@components/Tables/DataTable";
+import ProjectCard from "@pages/projectpage/components/cards/projectCard";
 
 // Data
 // import dataTableData from "@pages/dashboard/data/dataTableData";
@@ -34,93 +29,60 @@ import { observer } from "mobx-react-lite";
 import { useProjectStore } from "@contexts/ProjectContext";
 import { useEffect } from "react";
 import Sidenav from "@components/navbars/Sidenav";
-import Header from "@pages/projectpage/components/Header";
+import ProjectsHeader from "@pages/projectpage/components/Header/ProjectsHeader";
+import { useState } from "react";
+import SoftInput from "@components/SoftInput";
+import SoftButton from "@components/SoftButton";
 
 const ProjectOverview = observer(() => {
   const projectStore = useProjectStore()
+  const [search, setSearch] = useState('')
+  const [unarchivedProjects, setUnarchivedProjects] = useState([])
   
   useEffect(() => {
     projectStore.getProjects()
   }, [])
- 
 
-  function Button(id) {
-    const link = `/projects/edit/${id}`
-    return (
-      <Link to={link}>
-        <SoftButton variant="gradient" color="dark" size="small">
-          Modifier
-        </SoftButton>
-      </Link>
-    )
-  } 
-
-  function ButtonProject(id) {
-    const link = `/projects/view/${id}`
-    return (
-      <Link to={link}>
-        <SoftButton variant="gradient" color="info" size="small">
-          Voir projet
-        </SoftButton>
-      </Link>
-    )
-  } 
-
-  function handleStatus(status) {
-    switch (status) {
-      case "sent":
-        return <SoftTypography color='success' fontWeight="medium" variant="body2">Envoyé en consultation</SoftTypography>
-        case "pending":
-          return <SoftTypography color='error' fontWeight="medium" variant="body2">Sauvegardé</SoftTypography>
+  useEffect(() => {
+    if (projectStore.projects) {
+      const unarchived = projectStore.projects.filter((project) => project.status !== "archived")
+      setUnarchivedProjects(unarchived)
     }
+  }, [projectStore.projects])
+
+  const FilterProject = (value) => {
+    console.log(search)
+    let filteredProjects = projectStore.projects.filter((project) => project.status !== "archived" && project.name.toLowerCase().includes(value.toLowerCase()))
+    setUnarchivedProjects(filteredProjects)
   }
-  
-  const dataTableData = {
-    columns: [
-      { Header: "name", accessor: "name" },
-      { Header: "nombre de Chambres froides", accessor: "coldRooms" },
-      { Header: "Date de creation", accessor: "created_at" },
-      { Header: "Statut", accessor: "status" },
-      { Header: "Actions", accessor: "action" },
-    ],
-  
-    rows: 
-    projectStore.projects.map((project) =>
-      ({
-      name: project.name,
-      coldRooms: project.cold_rooms.length,
-      created_at: new Date(project.created_at).toLocaleString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' }),
-      status: handleStatus(project.status),
-      action: project.status == "sent" ? ButtonProject(project.id) : Button(project.id)
-      })
-    ),
-  };
+
 
   return (
     <>
       <Sidenav />
       <DashboardLayout>
-        <Header title="MES PROJETS"/>
+        <ProjectsHeader title="MES PROJETS"/>
         <SoftBox my={3}>
-          <Card>
-            <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
-              <SoftBox lineHeight={1}>
-                <SoftTypography variant="h5" fontWeight="medium">
-                  Mes Projets
-                </SoftTypography>
-                <SoftTypography variant="button" fontWeight="regular" color="text">
-                  Retrouvez sur cette page l'ensemble de vos projets
-                </SoftTypography>
-              </SoftBox>
-            </SoftBox>
-            <DataTable
-              table={dataTableData}
-              entriesPerPage={{
-                defaultValue: 5,
-                entries: [5, 10, 25],
-              }}
-            />
-          </Card>
+          <Grid container spacing={3} mb={6} mt={2} justifyContent="center">
+            <Grid item xs={12} md={5}>
+              <SoftInput 
+                width='100%'
+                placeholder='Rechercher...'
+                onChange={(e) => FilterProject(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={3} rowSpacing={5} mb={2}>
+            {unarchivedProjects.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map(project => {
+              return (
+                <Grid item xs={12} md={4} key={project.id}>
+                  <ProjectCard 
+                    project={project}
+                  />
+                </Grid>
+              )
+            })}
+          </Grid>
         </SoftBox>
       </DashboardLayout>
     </>

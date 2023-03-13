@@ -34,33 +34,50 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useUserStore } from "@contexts/UserContext"
 import { useUserProfileStore } from "@contexts/UserProfileContext"
 import Sidenav from "@components/navbars/Sidenav"
-import CommentSection from "@pages/projectpage/components/CommentSection"
+import {CommentSection} from "@pages/projectpage/components/CommentSection"
 import Separator from "@pages/projectpage/components/Separator"
 import SoftSelect from "@components/SoftSelect"
 import { useSupplierStore } from "@contexts/SupplierContext"
+import SparePartsList from "./components/SparePartsList"
+import NewSparePart from "@components/NewSparePart"
+import OutlinedCard from "./components/cards/OutlinedCard"
+import addCR from "/assets/images/illustrations/addCR.png";
+import addSP from "/assets/images/illustrations/addSP.png";
+import addAC from "/assets/images/illustrations/addAC.png";
+import NewAirConditionning from "@components/NewAirConditionning"
+import ACList from "./components/ACList"
 
 export const ProjectEdit = observer(() => {
   const {id} = useParams()
   const projectStore = useProjectStore()
-  const [newColdRoom, setNewColdRoom] = useState(false)
   const coldRoomStore = useColdRoomStore()
   const [coldRooms, setColdRooms] = useState([])
-  const [email, setEmail] = useState(null)
+  const [spareParts, setSpareParts] = useState([])
+  const [ACs, setACs] = useState([])
+  const [email, setEmail] = useState("")
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const userId = userStore.user.id
-  const [open, setOpen] = useState(false)
+  const [openSend, setOpenSend] = useState(false)
+  const [openColdRoom, setOpenColdRoom] = useState(false)
+  const [openSparePart, setOpenSparePart] = useState(false)
+  const [openAC, setOpenAC] = useState(false)
   const [project, setProject] = useState(null)
   const [sent, setSent] = useState(false)
+  const [alreadySent, setAlreadySent] = useState(false)
   const [supplier, setSupplier] = useState(null)
+  const [contact, setContact] = useState(null)
   const supplierStore = useSupplierStore()
 
   useEffect(() => {
     projectStore.getDetails(id)
+    projectStore.getConsultations(userId)
   }, [id])
 
   useEffect(() => {
     coldRoomStore.getColdRooms()
+    coldRoomStore.getSpareParts()
+    coldRoomStore.getAC()
   }, [])
 
   useEffect(() => {
@@ -77,13 +94,49 @@ export const ProjectEdit = observer(() => {
     }
   }, [projectStore.projectDetails])
 
-  function handleOpen() {
+  function handleOpenSend() {
     setSent(false)
-    setOpen(true)
+    setOpenSend(true)
+    setSupplier(null)
+    setContact(null)
   }
 
-  function handleClose() {
-    setOpen(false)
+  function handleCloseSend() {
+    setOpenSend(false)
+  }
+
+  function handleOpenColdRoom() {
+    setOpenColdRoom(true)
+  }
+
+  function handleCloseColdRoom() {
+    setOpenColdRoom(false)
+  }
+
+  function handleOpenSparePart() {
+    setOpenSparePart(true)
+  }
+
+  function handleCloseSparePart() {
+    setOpenSparePart(false)
+  }
+
+  function handleOpenAC() {
+    setOpenAC(true)
+  }
+
+  function handleCloseAC() {
+    setOpenAC(false)
+  }
+
+  function CheckAlreadySent(contactEmail) {
+    const sameConsultation = projectStore.consultations.filter(consultation => consultation.email === contactEmail && consultation.project.id == id)
+ 
+    if (sameConsultation.length > 0) {
+      setAlreadySent(true)
+    } else {
+      setAlreadySent(false)
+    }
   }
 
   useEffect(() => {
@@ -92,6 +145,20 @@ export const ProjectEdit = observer(() => {
       setColdRooms(thoseColdRooms)
     }
   },[coldRoomStore.coldRooms])
+
+  useEffect(() => {
+    return async() => {
+      let thoseSpareParts = coldRoomStore.spareParts.filter(sparePart => sparePart.project_id == id)
+      setSpareParts(thoseSpareParts)
+    }
+  },[coldRoomStore.spareParts])
+
+  useEffect(() => {
+    return async() => {
+      let thoseACs = coldRoomStore.AC.filter(AC => AC.project_id == id)
+      setACs(thoseACs)
+    }
+  },[coldRoomStore.AC])
 
   function sendMail() {
     const payload = {
@@ -102,7 +169,7 @@ export const ProjectEdit = observer(() => {
     setSent(true)
   }
 
-  const modalStyle = {
+  const sendModalStyle = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -110,13 +177,24 @@ export const ProjectEdit = observer(() => {
     width:{xs: 350, md:600}
   };
 
+  const newElementModalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width:'90%'
+  };
+
   function SupplierSelector() {
+    const supplierOptions = supplierStore.suppliers.map(supplier => (
+      {value: supplier, label: supplier.alias}
+    ))
+
     return(
-      <SoftSelect 
-        options={supplierStore.suppliers.map(supplier => (
-          {value: supplier, label: supplier.alias}
-        ))} 
-        onChange={(e) => setSupplier(e.value)}
+      <SoftSelect
+        options={supplierOptions} 
+        value={supplier ? {label: supplier.alias} : null}
+        onChange={selectedSupplier => {setSupplier(selectedSupplier.value)}}
       />
     )
   }
@@ -129,70 +207,104 @@ export const ProjectEdit = observer(() => {
     }
 
     if (supplier) {
+      const contactOptions = supplier.supplier_contacts.map(contact => (
+        {value: contact, label: displayContact(contact)}
+      ))
+
       return(
         <SoftSelect 
-          options={supplier.supplier_contacts.map(contact => (
-            {value: contact.email, label: displayContact(contact)}
-          ))}
-          onChange={(e) => setEmail(e.value)}
+          options={contactOptions}
+          value={contact ? {label: displayContact(contact)} : null}
+          onChange={selectedContact => {setContact(selectedContact.value); setEmail(selectedContact.value.email); CheckAlreadySent(selectedContact.value.email)}}
         />
       )
     }
   }
 
-  
-
   if (project) {
-
 
     return (
       <>
         <Sidenav />
         <SoftButton 
-              variant="gradient" 
-              color="success" 
-              size="medium"
-              onClick={() => {handleOpen()}}
-              sx={
-                open ? {
-                  display: 'none', 
-                  bottom: 50,
-                  right: 50
-                } : {
-                  position: 'fixed',
-                  zIndex: 1,
-                  bottom: 50,
-                  right: 50
-                }
-              }
-            >
-              <SendIcon sx={{marginRight: 2}}/>
-              Envoyer
-            </SoftButton>
+          variant="gradient" 
+          color="success" 
+          size="medium"
+          onClick={() => {handleOpenSend()}}
+          sx={
+            openSend ? {
+              display: 'none', 
+              bottom: 50,
+              right: 50
+            } : {
+              position: 'fixed',
+              zIndex: 1,
+              bottom: 50,
+              right: 50
+            }
+          }
+        >
+          <SendIcon sx={{marginRight: 2}}/>
+          Envoyer
+        </SoftButton>
         <DashboardLayout>
           <Header title={project.name}/>
-          <Grid container justifyContent='center' mt={5}>
-            <SoftButton 
-              variant="gradient" 
-              color="info" 
-              size="medium" 
-              onClick={() => {setNewColdRoom(true)}}
-              sx={
-                newColdRoom ? {display: 'none'} : {}
-              }
-            >
-              + Ajouter une chambre froide
-            </SoftButton>
-          </Grid>
-          {newColdRoom ? <NewColdRoom project={project.id} setNewColdRoom={setNewColdRoom}/> : <></>}
           <Modal
-            open={open}
-            onClose={handleClose}
+            open={openColdRoom}
+            onClose={handleCloseColdRoom}
+            aria-labelledby="sending-form"
+            aria-describedby="sending-project-form"
+          >
+            <Card style={newElementModalStyle}>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseColdRoom()}}>
+                <CloseIcon />
+              </Button>
+              <SoftTypography variant="h4" textAlign='center' mt={1}>
+                Ajout d'une chambre froide
+              </SoftTypography>
+              <NewColdRoom project={project.id} handleCloseColdRoom={handleCloseColdRoom}/>
+            </Card>
+          </Modal>
+          <Modal
+            open={openAC}
+            onClose={handleCloseAC}
+            aria-labelledby="sending-form"
+            aria-describedby="sending-project-form"
+          >
+            <Card style={newElementModalStyle}>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseAC()}}>
+                <CloseIcon />
+              </Button>
+              <SoftTypography variant="h4" textAlign='center' mt={1}>
+                Ajout d'une pièce à climatiser
+              </SoftTypography>
+              <NewAirConditionning project={project.id} handleCloseAC={handleCloseAC}/>
+            </Card>
+          </Modal>
+          <Modal
+            open={openSparePart}
+            onClose={handleCloseSparePart}
+            aria-labelledby="sending-form"
+            aria-describedby="sending-project-form"
+          >
+            <Card style={newElementModalStyle}>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseSparePart()}}>
+                <CloseIcon />
+              </Button>
+              <SoftTypography variant="h4" textAlign='center' mt={1}>
+                Ajout d'une pièce détachée
+              </SoftTypography>
+              <NewSparePart project={project.id} handleCloseSparePart={handleCloseSparePart}/>
+            </Card>
+          </Modal>
+          <Modal
+            open={openSend}
+            onClose={handleCloseSend}
             aria-labelledby="sending-form"
             aria-describedby="sending-project-form"
             >
-            <Card sx={modalStyle}>
-              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleClose()}}>
+            <Card sx={sendModalStyle}>
+              <Button color="secondary" sx={{marginLeft: 'auto'}} size='large' onClick={() => {handleCloseSend()}}>
                 <CloseIcon />
               </Button>
               <SoftTypography  variant='h4' textAlign='center' mb={3}>
@@ -230,7 +342,7 @@ export const ProjectEdit = observer(() => {
                   <SoftInput 
                     placeholder="email du contact"
                     value={email}
-                    onChange={e=> setEmail(e.target.value)}
+                    onChange={(e) => {setEmail(e.target.value); CheckAlreadySent(e.target.value)}}
                   />
                 </Grid>
                 <Grid item>
@@ -238,21 +350,49 @@ export const ProjectEdit = observer(() => {
                     variant="gradient" 
                     color="success" 
                     size="medium"
+                    disabled={alreadySent}
                     onClick={() => {sendMail()}}
                   >
-                    Envoyer
+                    {alreadySent ? "Déjà envoyée à ce contact" : "Envoyer"}
                   </SoftButton>
                 </Grid>
               </Grid>
             </Card>
           </Modal>
+          <Card sx={{marginTop: 2}}>
+            <Grid container spacing={3} padding={3}>
+              <Grid item xs={12} md={6} lg={4}>
+                <OutlinedCard 
+                  image={addCR}
+                  text='Ajouter une chambre Froide'
+                  action={handleOpenColdRoom}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} lg={4}>
+                <OutlinedCard 
+                  image={addSP}
+                  text='Ajouter pièce détachée'
+                  action={handleOpenSparePart}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} lg={4}>
+                <OutlinedCard 
+                  image={addAC}
+                  text='Ajouter une pièce à climatiser'
+                  action={handleOpenAC}
+                />
+              </Grid>
+            </Grid>
+            <CommentSection comment={project.message} projectId={project.id}/>
+          </Card>
           <Grid container spacing={2} justifyContent='center' alignItems='start'>
             <Grid item sm={12} md={4}>
-              <CommentSection comment={project.message} projectId={project.id}/>
               <ColdRoomsList coldRooms={coldRooms}/>
+              <ACList ACs={ACs}/>
+              <SparePartsList spareParts={spareParts}/>
             </Grid>
             <Grid item sm={12} md={8}>
-              <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails}/> 
+              <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails} spareParts={spareParts} ACs={ACs}/> 
             </Grid>
           </Grid>
         </DashboardLayout>

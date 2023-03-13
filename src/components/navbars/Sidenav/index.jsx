@@ -155,11 +155,31 @@ function Sidenav({ color, brand, brandName, ...rest }) {
     }, 
     {
       type: "collapse",
-      name: "Mes projets",
+      name: "Projets",
       key: "projects",
       icon: <Document size="12px" />,
-      route: "/projects",
-      noCollapse: true,
+      collapse: [
+        {
+          name: "Créer un projet",
+          key: "new",
+          route: "/projects/new",
+        },
+        {
+          name: "Mes projets",
+          key: "all",
+          route: "/projects/all",
+        },
+        {
+          name: "Mes demandes de prix",
+          key: "consultations",
+          route: "/projects/consultations"
+        },
+        {
+          name: "Mes devis reçus",
+          key: "quotes",
+          route: "/projects/quotes"
+        },
+      ]
     }, 
     {
       type: "collapse",
@@ -177,13 +197,13 @@ function Sidenav({ color, brand, brandName, ...rest }) {
       collapse: [
         {
           name: "Mon Profil",
-          key: "profile",
-          route: "/profile",
+          key: "myprofile",
+          route: "/profile/myprofile",
         },
         {
           name: "Mon compte",
-          key: "login",
-          route: "/profile/account/edit"
+          key: "account",
+          route: "/profile/account"
         },
       ]
     },

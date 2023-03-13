@@ -32,6 +32,8 @@ export const ProjectView = observer(() => {
   const projectStore = useProjectStore()
   const coldRoomStore = useColdRoomStore()
   const [coldRooms, setColdRooms] = useState([])
+  const [spareParts, setSpareParts] = useState([])
+  const [ACs, setACs] = useState([])
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const userId = userStore.user.id
@@ -43,6 +45,8 @@ export const ProjectView = observer(() => {
 
   useEffect(() => {
     coldRoomStore.getColdRooms()
+    coldRoomStore.getSpareParts()
+    coldRoomStore.getAC()
   }, [])
 
   useEffect(() => {
@@ -62,19 +66,33 @@ export const ProjectView = observer(() => {
     }
   },[coldRoomStore.coldRooms])
 
+  useEffect(() => {
+    return async() => {
+      let thoseSpareParts = coldRoomStore.spareParts.filter(sparePart => sparePart.project_id == id)
+      setSpareParts(thoseSpareParts)
+    }
+  },[coldRoomStore.spareParts])
+
+  useEffect(() => {
+    return async() => {
+      let thoseACs = coldRoomStore.AC.filter(AC => AC.project_id == id)
+      setACs(thoseACs)
+    }
+  },[coldRoomStore.AC])
+
   if (project) {
 
     return (
       <>
         <Sidenav />
         <DashboardLayout>
-          <Header title={project.name}/>
-          <Grid container spacing={2} justifyContent='center' alignItems='start'>
-            <Grid item sm={12} md={4}>
+          <Header title={`Détails du projet: ${project.name}`}/>
+          <Grid container spacing={2} justifyContent='center'>
+            <Grid item xs={12} >
               <QuoteResponse project={project} />
             </Grid>
-            <Grid item sm={12} md={8}>
-              <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails}/> 
+            <Grid item sm={12}>
+              <Previews project={project} coldRooms={coldRooms} user={userStore.user} profile={userProfileStore.profileDetails} spareParts={spareParts} ACs={ACs}/> 
             </Grid>
           </Grid>
         </DashboardLayout>

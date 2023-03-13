@@ -36,10 +36,18 @@ export default function ColdRoomDetails({ coldRoom }) {
 
   return (
     <Grid>
-      <SoftTypography variant='h4' mt={2}>
-        {coldRoom.name}
-      </SoftTypography>
-      <SeparatorPreview />
+      <Grid container mt={2} mb={1}>
+        <Grid>
+          <SoftTypography variant='h4' color="text">
+            Chambre froide:
+          </SoftTypography> 
+        </Grid>
+        <Grid>
+          <SoftTypography variant='h4' sx={{marginLeft: 1}}>
+            {coldRoom.name}
+          </SoftTypography> 
+        </Grid>
+      </Grid>
       <SoftTypography variant='h5' color="primary">
         Informations générales
       </SoftTypography>
@@ -77,7 +85,7 @@ export default function ColdRoomDetails({ coldRoom }) {
         Denrées stockées: {coldRoom.product_types}
       </SoftTypography>
       <SoftTypography variant='body2' sx={!coldRoom.entries_quantity ? {display: 'none'} : {}}>
-        Entrée des denrées: {coldRoom.entries_quantity} kg / {Frequency()}
+        Entrée des denrées: {coldRoom.entries_quantity} kg /{Frequency()} {coldRoom.entry_temperature ? `à ${coldRoom.entry_temperature}°C` : ''}
       </SoftTypography>
       <Grid sx={coldRoom.heat_sources || coldRoom.heat_sources_power ? {} : {display: 'none'}}>
         <SoftTypography variant='h5' color="primary" mt={2}>
@@ -105,6 +113,7 @@ export default function ColdRoomDetails({ coldRoom }) {
           )
         })}
       </Grid>
+      <SeparatorPreview />
     </Grid>
   )
 }

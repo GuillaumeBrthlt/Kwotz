@@ -24,8 +24,10 @@ import {useReactToPrint} from "react-to-print";
 import { observer } from "mobx-react-lite";
 import ColdRoomDetails from "@pages/projectpage/components/ColdRoomDetails";
 import { useRef } from "react";
+import SparePartDetails from "@pages/projectpage/components/SparePartDetails";
+import ACDetails from "./ACDetails";
 
-export const Previews = observer(({profile, project, coldRooms, user, date}) => {
+export const Previews = observer(({profile, project, coldRooms, user, date, spareParts, ACs}) => {
   const componentRef = useRef()
 
   const handlePrint = useReactToPrint({
@@ -36,7 +38,7 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
     if (message) {
       return (
         <SoftBox p={3}>
-          <SoftTypography variant="h6" color="secondary" fontWeight="medium">
+          <SoftTypography variant='h5' color="primary" fontWeight="medium">
             Informations
           </SoftTypography>
           {project.message.split('\n').map(line => {
@@ -127,7 +129,7 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
                       >
                         <SoftBox >
                           <SoftTypography variant="h6" color="secondary" fontWeight="medium">
-                            consultation du:
+                            demande de prix du:
                           </SoftTypography>
                         </SoftBox>
                         <SoftBox marginLeft={{xs: 0, md:1}}>
@@ -137,12 +139,28 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
                         </SoftBox>
                       </SoftBox>
                     </Grid>
-                    <Grid item xs={12} mt={3} display="flex" alignItems="flex-end">
+                    <Grid item xs={12} mt={3} display="flex" alignItems="flex-end" sx={coldRooms.length > 0 ? {} : {display:'none'}}>
                       <SoftTypography variant="h6" color="secondary" fontWeight="medium">
                         Nombre de chambres froides: 
                       </SoftTypography>
                       <SoftTypography variant="h5" fontWeight="medium" marginLeft={1}>
-                        {coldRooms.length}
+                        {coldRooms ? coldRooms.length : ''}
+                      </SoftTypography>
+                    </Grid>
+                    <Grid item xs={12} display="flex" alignItems="flex-end" sx={spareParts.length > 0 ? {} : {display:'none'}}>
+                      <SoftTypography variant="h6" color="secondary" fontWeight="medium">
+                        Nombre de pièces détachées: 
+                      </SoftTypography>
+                      <SoftTypography variant="h5" fontWeight="medium" marginLeft={1}>
+                        {spareParts ? spareParts.length : ''}
+                      </SoftTypography>
+                    </Grid>
+                    <Grid item xs={12} display="flex" alignItems="flex-end" sx={ACs.length > 0 ? {} : {display:'none'}}>
+                      <SoftTypography variant="h6" color="secondary" fontWeight="medium">
+                        Nombre de pièces à climatiser: 
+                      </SoftTypography>
+                      <SoftTypography variant="h5" fontWeight="medium" marginLeft={1}>
+                        {ACs ? ACs.length : ''}
                       </SoftTypography>
                     </Grid>
                   </Grid>
@@ -150,8 +168,17 @@ export const Previews = observer(({profile, project, coldRooms, user, date}) => 
               </SoftBox>
               {project.message ? displayMessage(project.message) : ''}
               {/* Invoice content */}
-              <SoftBox p={3}>
-                {coldRooms.map(coldRoom => <ColdRoomDetails key={coldRoom.id} coldRoom={coldRoom}/>)}
+              <SoftBox p={3} sx={coldRooms ? {} : {display:'none'}}>
+                {coldRooms ? coldRooms.map(coldRoom => <ColdRoomDetails key={coldRoom.id} coldRoom={coldRoom}/>) : ''}
+              </SoftBox>
+              <SoftBox p={3} sx={ACs ? {} : {display:'none'}}>
+                {ACs ? ACs.map(AC => <ACDetails key={AC.id} AC={AC}/>) : ''}
+              </SoftBox>
+              <SoftBox p={3} sx={spareParts ? {} : {display:'none'}}>
+                <SoftTypography variant='h4' sx={spareParts && spareParts.length > 0 ? {} : {display:"none"}}>
+                  Pièces détachées
+                </SoftTypography>
+                {spareParts ? spareParts.map(sparePart => <SparePartDetails key={sparePart.id} sparePart={sparePart}/>) : ''}
               </SoftBox>
             </Card>
           </div>

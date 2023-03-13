@@ -26,6 +26,7 @@ import SoftTypography from "@components/SoftTypography";
 
 // Soft UI Dashboard PRO React base styles
 import typography from "@theme/base/typography";
+import { Grid } from "@mui/material";
 
 function Footer({ company, links }) {
   const { href, name } = company;
@@ -43,7 +44,7 @@ function Footer({ company, links }) {
     ));
 
   return (
-    <SoftBox
+    <Grid
       width="100%"
       display="flex"
       flexDirection={{ xs: "column", lg: "row" }}
@@ -66,7 +67,6 @@ function Footer({ company, links }) {
             &nbsp;{name}&nbsp;
           </SoftTypography>
         </Link>
-        for their final project.
       </SoftBox>
       <SoftBox
         component="ul"
@@ -87,17 +87,14 @@ function Footer({ company, links }) {
       >
         {renderLinks()}
       </SoftBox>
-    </SoftBox>
+    </Grid>
   );
 }
 
 // Setting default values for the props of Footer
 Footer.defaultProps = {
-  company: { href: "https://github.com/GuillaumeBrthlt/kwotz-beta", name: "A great Team" },
-  links: [
-    { href: "https://github.com/GuillaumeBrthlt/kwotz-beta", name: "Repository Frontend" },
-    { href: "https://github.com/GuillaumeBrthlt/kwotz-beta-api", name: "Repository Backend" },
-  ],
+  company: { href: "https://www.myportfolio-gb.com/", name: "GB Webtech" },
+  links: [],
 };
 
 // Typechecking props for the Footer

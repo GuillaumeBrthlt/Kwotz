@@ -54,7 +54,7 @@ function DataTable({
   const data = useMemo(() => table.rows, [table]);
 
   const tableInstance = useTable(
-    { columns, data, initialState: { pageIndex: 0 } },
+    { columns, data, initialState: { pageIndex: 0, sortBy: [{id: "created_atSort", desc: true}] } },
     useGlobalFilter,
     useSortBy,
     usePagination
@@ -108,6 +108,11 @@ function DataTable({
 
   // Search input value state
   const [search, setSearch] = useState(globalFilter);
+
+  // Search input state handle
+  const onSearchChange = (value) => {
+    setGlobalFilter(value || undefined);
+  };
 
   // A function that sets the sorted value for the table
   const setSortedValue = (column) => {
@@ -166,7 +171,7 @@ function DataTable({
                 }}
               />
             </SoftBox>
-          )}
+          )} 
         </SoftBox>
       ) : null}
       <Table {...getTableProps()}>

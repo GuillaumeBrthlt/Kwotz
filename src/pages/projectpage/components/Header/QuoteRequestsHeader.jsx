@@ -21,13 +21,11 @@ import Grid from "@mui/material/Grid";
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
-import SoftButton from "@components/SoftButton";
-import { Link } from "react-router-dom";
 
 // Images
 import curved0 from "/assets/images/curved-images/curved0.jpg";
 
-function Header({ title }) {
+function QuoteRequestsHeader({ title }) {
 
   return (
     <Grid>
@@ -36,7 +34,7 @@ function Header({ title }) {
         display="flex"
         alignItems="center"
         position="relative"
-        minHeight="10rem"
+        minHeight="5rem"
         borderRadius="xl"
         sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
@@ -70,13 +68,6 @@ function Header({ title }) {
               </SoftTypography>
             </SoftBox>
           </Grid>
-          <Grid item xs={12} md={4} display='flex' justifyContent={{xs: 'center', md:'flex-end'}}>
-            <Link to="/projects/new">
-              <SoftButton variant="gradient" color="info" size="small">
-                + nouveau projet
-              </SoftButton>
-            </Link>
-          </Grid>
         </Grid>
       </Card>
     </SoftBox>
@@ -84,4 +75,4 @@ function Header({ title }) {
   );
 }
 
-export default Header;
+export default QuoteRequestsHeader;

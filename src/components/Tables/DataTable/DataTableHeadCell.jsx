@@ -16,8 +16,6 @@ Coded by www.creative-tim.com
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
-// @mui material components
-import Icon from "@mui/material/Icon";
 
 // Soft UI Dashboard PRO React components
 import SoftBox from "@components/SoftBox";
@@ -63,22 +61,6 @@ function DataTableHeadCell({ width, children, sorted, align, ...rest }) {
               fontSize: size.lg,
             })}
           >
-            <SoftBox
-              position="absolute"
-              top={-6}
-              color={sorted === "asce" ? "text" : "secondary"}
-              opacity={sorted === "asce" ? 1 : 0.5}
-            >
-              <Icon>arrow_drop_up</Icon>
-            </SoftBox>
-            <SoftBox
-              position="absolute"
-              top={0}
-              color={sorted === "desc" ? "text" : "secondary"}
-              opacity={sorted === "desc" ? 1 : 0.5}
-            >
-              <Icon>arrow_drop_down</Icon>
-            </SoftBox>
           </SoftBox>
         )}
       </SoftBox>
