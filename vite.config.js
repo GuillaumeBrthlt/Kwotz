@@ -22,7 +22,9 @@ export default defineConfig({
       includeAssets: ['favicon.png', 'apple-touch-icon.png', 'masked-icon.svg'],
       registerType: 'autoUpdate',
       devOptions: {
-        enabled: true
+        enabled: process.env.SW_DEV === 'true',
+        type: 'module',
+        navigateFallback: 'index.html',
       },
       injectRegister: "auto",
       workbox: {
