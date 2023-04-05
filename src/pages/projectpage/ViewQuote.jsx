@@ -8,8 +8,12 @@ import SoftBox from "@components/SoftBox";
 import SoftTypography from "@components/SoftTypography";
 import Sidenav from '@components/navbars/Sidenav';
 import DashboardLayout from '@components/LayoutContainers/DashboardLayout';
+import breakpoints from "@theme/base/breakpoints";
 
 import { Grid } from '@mui/material';
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -21,13 +25,12 @@ import { useUserProfileStore } from '@contexts/UserProfileContext';
 import SoftButton from '@components/SoftButton';
 import { useNavigate } from 'react-router-dom';
 
-import { Viewer } from '@react-pdf-viewer/core';
 import { Worker } from '@react-pdf-viewer/core';
-import { toolbarPlugin } from '@react-pdf-viewer/toolbar';
-import { ToolbarSlot, TransformToolbarSlot } from '@react-pdf-viewer/toolbar';
 
 import '@react-pdf-viewer/toolbar/lib/styles/index.css';
 import '@react-pdf-viewer/core/lib/styles/index.css';
+import PdfViewer from './components/PdfViewer';
+import { useState } from 'react';
 
 const ViewQuote = observer(() => {
   const {consultationID} = useParams()
@@ -35,6 +38,26 @@ const ViewQuote = observer(() => {
   const userStore = useUserStore()
   const userProfileStore = useUserProfileStore()
   const navigate = useNavigate()
+  const [pdf, setPdf] = useState(0)
+  const [tabsOrientation, setTabsOrientation] = useState("horizontal");
+
+  const handleSetDocument = (event, newDocument) => setPdf(newDocument);
+
+  useEffect(() => {
+    function handleTabsOrientation() {
+      return window.innerWidth < breakpoints.values.md
+        ? setTabsOrientation("vertical")
+        : setTabsOrientation("horizontal");
+    }
+
+    window.addEventListener("resize", handleTabsOrientation);
+
+    handleTabsOrientation();
+
+    return () => window.removeEventListener("resize", handleTabsOrientation);
+  }, [tabsOrientation]);
+
+
 
   useEffect(() => {
    projectStore.getConsultation(consultationID)
@@ -42,15 +65,6 @@ const ViewQuote = observer(() => {
    userProfileStore.getProfileDetails(userStore.user.id)
   }, [])
 
-  const toolbarPluginInstance = toolbarPlugin();
-  const { renderDefaultToolbar, Toolbar } = toolbarPluginInstance;
-
-  const transform = (slot) => ({
-      ...slot,
-      // These slots will be empty
-      Open: () => null,
-      SwitchTheme: () => null,
-  });
 
   useEffect(() => {
     if (projectStore.consultations.length > 0) {
@@ -73,64 +87,62 @@ const ViewQuote = observer(() => {
                 <ArrowBackIcon sx={{marginRight: 1}}/>
                 Retour
               </SoftButton>
+              <SoftTypography variant="h3" fontWeight="bold" color="text" sx={{marginTop: 4}}>
+                DEVIS DE: {projectStore.response.email}
+              </SoftTypography>
             </Grid>
-            <SoftBox p={3}>
-              <SoftBox lineHeight={1}>        
-                <Grid>
-                  <SoftTypography variant="h5" fontWeight="medium" color="primary">
-                    Devis reçu de la part de {projectStore.response.email}
-                  </SoftTypography>
-                  <SoftBox p={1} mt={2}>    
-                    <SoftBox
-                      bgColor="light"
-                      borderRadius="lg"
-                      shadow="lg"
-                      p={2}
-                      lineHeight={1}
-                    >
-                      <SoftTypography variant="h5" fontWeight="bold" color="dark" mb={2}>
-                        Message du fournisseur:
-                      </SoftTypography>
-                      <SoftTypography variant="body2" fontWeight="regular" color="dark">
-                        {projectStore.response.response_comment}
-                      </SoftTypography>
-                    </SoftBox>
-                  </SoftBox>
-                  {projectStore.response.document_url ? 
-                  <SoftBox  pt={2} px={1} mt={1} bgColor="light" borderRadius="lg" sx={{marginX: 1}}>
-                    <Grid container spacing={2} justifyContent='center'>
-                      {projectStore.response.document_url.map(document => {
+            <Grid container mt={2}>
+              <Grid item xs={12} md={8} container alignContent="center" justifyContent="center">
+                {projectStore.response.document_url ? 
+                <>
+                  <AppBar position='static' sx={{margin: 2}}>
+                    <Tabs orientation={tabsOrientation} value={pdf} onChange={handleSetDocument}>
+                      {projectStore.response.document_url.map((document, index) => {
                         return (
-                          <Grid 
-                            item 
-                            xs={12}
-                            md={10} 
-                            sx={{
-                              maxHeight: '800px',
-                              paddingBottom: 5,
-                            }}
-                            key={document}
-                          >
-                            <Grid mb={1}>
-                              <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
+                          <Tab label={`document ${index + 1}`} key={index}/>
+                        )})
+                      }
+                    </Tabs>
+                  </AppBar>
+                    <Grid container spacing={2} justifyContent='center'>
+                      {projectStore.response.document_url.map((document, index) => {
+                        if (pdf  === index) {
+                          return (
+                            <Grid 
+                              item 
+                              xs={12}
+                              sx={{
+                                height: {xs: '500px', md: '800px'},
+                                paddingBottom: 5,
+                              }}
+                              key={document}
+                            >
+                              <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.3.122/build/pdf.worker.min.js'>
+                                <PdfViewer fileUrl={document} />
+                              </Worker>
                             </Grid>
-                            <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.3.122/build/pdf.worker.min.js'>
-                              <Viewer 
-                                fileUrl={document} 
-                                plugins={[toolbarPluginInstance]}
-                              />
-                            </Worker>
-                          </Grid>
-                        )
+                          )
+                        }  
                       })}
-                    </Grid>
-                  </SoftBox>
-                  :
-                    <></>
-                  }
+                  </Grid>
+                </>
+              :
+                <></>
+              }
+              </Grid>
+              <Grid item xs={12} md={4} container flexDirection="column" justifyContent="center" p={4}>
+                <Grid item>
+                  <SoftTypography variant="h4" fontWeight="bold" color="primary" mb={2}>
+                    Message du fournisseur:
+                  </SoftTypography>
                 </Grid>
-              </SoftBox>
-            </SoftBox>
+                <Grid item>
+                  <SoftTypography variant="body" fontWeight="regular" color="dark">
+                    {projectStore.response.response_comment}
+                  </SoftTypography>
+                </Grid>
+              </Grid>
+            </Grid>
           </Card>
           <Grid item sm={12} xl={6}>
             <SoftTypography variant="h4" mb={-2} mt={3}>

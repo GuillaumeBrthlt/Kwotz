@@ -33,6 +33,10 @@ import "./ConsultationPage.css"
 import AnswerLayout from '@pages/consultation/components/AnswerLayout'
 import curved8 from "/assets/images/curved-images/curved8.jpg"
 
+import { Worker } from '@react-pdf-viewer/core';
+
+import PdfViewer from '@pages/projectpage/components/PdfViewer'
+
 const  ConsultationPage = observer(() => {
   const { id } = useParams()
   const projectStore = useProjectStore()
@@ -44,6 +48,12 @@ const  ConsultationPage = observer(() => {
   useEffect(() => {
     projectStore.getConsultation(id)
   }, [id])
+
+  useEffect(() => {
+    if (projectStore.consultation) {
+      setResponseComment(projectStore.consultation.response_comment)
+    }
+  },[projectStore.consultation])
 
   const handleSubmit = ()  =>{
     const data = new FormData()
@@ -84,6 +94,8 @@ const  ConsultationPage = observer(() => {
       </Grid>
     )
   }
+
+  console.log(projectStore.consultation)
   
   return (
     <>
@@ -93,63 +105,63 @@ const  ConsultationPage = observer(() => {
       <Grid sx={verified ? {} : {display: 'none'}} marginX='auto'>
         <AnswerLayout
           title="Transmettre votre devis"
-          description="Vous trouverez toutes les informations de la demande de prix sur la page se trouvant sous le formulaire de réponse. Votre client sera notifié par mail lorsque votre devis aura été envoyé."
+          description="Vous trouverez toutes les informations de la demande de prix sur la page se trouvant sous le formulaire de réponse. Votre client sera notifié par e-mail lorsque votre devis aura été envoyé."
           image={curved8}
         >
           <Card>
             <SoftBox display="flex" justifyContent="space-between" alignItems="flex-start" p={3}>
               <SoftBox lineHeight={1}>
                 <SoftTypography variant="h5" fontWeight="medium">
-                  Envoyer une réponse
+                  Votre réponse
                 </SoftTypography>
               </SoftBox>
             </SoftBox>
-            <SoftBox p={3}>
-              <SoftInput
-                multiline
-                rows={5}
-                value={responseComment}
-                onChange={(e) => {setResponseComment(e.target.value)}}
-                placeholder={"Écrivez ici un message à joindre à votre devis (facultatif)"}
-                disabled={sent}
-              >
-              </SoftInput>
-            </SoftBox>
-            <SoftBox>
-              <SoftBox
-                display="flex"
-                flexDirection="column"
-                justifyContent="flex-end"
-                height="100%"
-                padding={3}
-              >
-                <SoftBox mb={1} ml={0.5} mt={3} lineHeight={0} display="inline-block">
-                  <SoftTypography component="label" variant="caption" fontWeight="bold">
-                    Envoyez un devis
-                  </SoftTypography>
+                <SoftBox p={3}>
+                  <SoftInput
+                    multiline
+                    rows={5}
+                    value={responseComment}
+                    onChange={(e) => {setResponseComment(e.target.value)}}
+                    placeholder={"Écrivez ici un message à joindre à votre devis (facultatif)"}
+                    disabled={sent}
+                  >
+                  </SoftInput>
                 </SoftBox>
-                <section className="container">
-                  <div {...getRootProps({ className: 'dropzone' })}>
-                    <input {...getInputProps()} />
-                    <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
-                      Deposer les fichiers à envoyer ici (vous pouvez en selectionner plusieurs).
-                    </SoftTypography>
-                    <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
-                      Seuls les .pdf sont acceptés
-                    </SoftTypography>
-                  </div>
-                  <aside>
-                  <SoftTypography variant="caption" fontWeight="bold">Fichiers à envoyer</SoftTypography>
-                    <ul>{acceptedFileItems}</ul>
-                  </aside>
-                </section>
-              </SoftBox>
-            </SoftBox>
-            <SoftBox display="flex" justifyContent="flex-end" my={3} mx={3}>
-              <SoftButton variant="gradient" color="info" onClick={(e) => {handleSubmit()}} disabled={sent}>
-                {sent ? 'Réponse envoyée!' : 'Envoyer réponse'}
-              </SoftButton>
-            </SoftBox>
+                <SoftBox>
+                  <SoftBox
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="flex-end"
+                    height="100%"
+                    padding={3}
+                  >
+                    <SoftBox mb={1} ml={0.5} mt={3} lineHeight={0} display="inline-block">
+                      <SoftTypography component="label" variant="caption" fontWeight="bold">
+                        Envoyez un devis
+                      </SoftTypography>
+                    </SoftBox>
+                    <section className="container">
+                      <div {...getRootProps({ className: 'dropzone' })}>
+                        <input {...getInputProps()} />
+                        <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
+                          Deposer les fichiers à envoyer ici (vous pouvez en selectionner plusieurs).
+                        </SoftTypography>
+                        <SoftTypography variant="body2" fontWeight="light" opacity={0.5}>
+                          Seuls les .pdf sont acceptés
+                        </SoftTypography>
+                      </div>
+                      <aside>
+                      <SoftTypography variant="caption" fontWeight="bold">Fichiers à envoyer</SoftTypography>
+                        <ul>{acceptedFileItems}</ul>
+                      </aside>
+                    </section>
+                  </SoftBox>
+                </SoftBox>
+                <SoftBox display="flex" justifyContent="flex-end" my={3} mx={3}>
+                  <SoftButton variant="gradient" color="info" onClick={(e) => {handleSubmit()}} disabled={sent}>
+                    {projectStore.consultation.response_status ? 'Modifier' : 'Envoyer'}
+                  </SoftButton>
+                </SoftBox>
           </Card>
           <Previews 
             profile={projectStore.consultation.user_profile} 
