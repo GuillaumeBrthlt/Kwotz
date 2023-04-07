@@ -17,7 +17,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-import { Grid } from '@mui/material'
+import { Grid, Link } from '@mui/material'
 import { Previews } from '@pages/projectpage/components/previews'
 import { BarLoader } from 'react-spinners'
 import { observer } from 'mobx-react-lite'
@@ -33,9 +33,6 @@ import "./ConsultationPage.css"
 import AnswerLayout from '@pages/consultation/components/AnswerLayout'
 import curved8 from "/assets/images/curved-images/curved8.jpg"
 
-import { Worker } from '@react-pdf-viewer/core';
-
-import PdfViewer from '@pages/projectpage/components/PdfViewer'
 
 const  ConsultationPage = observer(() => {
   const { id } = useParams()
@@ -123,9 +120,24 @@ const  ConsultationPage = observer(() => {
                     value={responseComment}
                     onChange={(e) => {setResponseComment(e.target.value)}}
                     placeholder={"Écrivez ici un message à joindre à votre devis (facultatif)"}
-                    disabled={sent}
                   >
                   </SoftInput>
+                </SoftBox>
+                <SoftBox p={3} sx={projectStore.consultation.response_status ? {} : {display: 'none'}}>
+                  <SoftTypography variant="h5" fontWeight="medium">
+                    Les documents que vous avez déjà transmis:
+                  </SoftTypography>
+                </SoftBox>
+                <SoftBox paddingX={6} sx={projectStore.consultation.response_status ? {} : {display: 'none'}}>
+                  <ul>
+                    {projectStore.consultation.document_url.map((document, index) => {
+                      return (
+                        <li>
+                          <Link href={document} target="_blank" rel="noopener noreferrer">{`document ${index + 1}`}</Link>
+                        </li>
+                      )
+                    })}
+                  </ul>
                 </SoftBox>
                 <SoftBox>
                   <SoftBox
@@ -136,7 +148,7 @@ const  ConsultationPage = observer(() => {
                     padding={3}
                   >
                     <SoftBox mb={1} ml={0.5} mt={3} lineHeight={0} display="inline-block">
-                      <SoftTypography component="label" variant="caption" fontWeight="bold">
+                      <SoftTypography component="label" variant="h5" >
                         Envoyez un devis
                       </SoftTypography>
                     </SoftBox>
@@ -151,14 +163,18 @@ const  ConsultationPage = observer(() => {
                         </SoftTypography>
                       </div>
                       <aside>
-                      <SoftTypography variant="caption" fontWeight="bold">Fichiers à envoyer</SoftTypography>
+                      <SoftTypography variant="h5">Fichiers à envoyer:</SoftTypography>
                         <ul>{acceptedFileItems}</ul>
                       </aside>
                     </section>
                   </SoftBox>
                 </SoftBox>
                 <SoftBox display="flex" justifyContent="flex-end" my={3} mx={3}>
-                  <SoftButton variant="gradient" color="info" onClick={(e) => {handleSubmit()}} disabled={sent}>
+                  <SoftButton 
+                    variant="gradient" 
+                    color="info" 
+                    onClick={() => {if(window.confirm("Attention, si vous aviez déjà transmis une réponse elle sera écrasée et remplacée la nouvelle réponse")){handleSubmit()}}}
+                  >
                     {projectStore.consultation.response_status ? 'Modifier' : 'Envoyer'}
                   </SoftButton>
                 </SoftBox>
